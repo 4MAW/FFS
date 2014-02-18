@@ -12,7 +12,7 @@ module.exports.pagesize = config.pagesize; // To make pagesize constant availabl
 
 var mongoose = require( 'mongoose' );
 mongoose.connect( config.databaseURL );
-mongoose.set( 'debug', true );
+//mongoose.set( 'debug', true );
 var Schema = mongoose.Schema;
 
 var path = require( 'path' );
