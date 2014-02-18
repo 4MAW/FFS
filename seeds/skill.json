@@ -1,0 +1,19 @@
+[
+{
+	"id": "00000001",
+	"name": "Direct Attack",
+	"definition": "attack.js",
+	"passive": false
+},
+{
+	"id": "00000002",
+	"name": "Threaten",
+	"definition": "threaten.js",
+	"passive": false
+},
+{
+	"id": "00000003",
+	"name": "Wait",
+	"definition": "wait.js",
+	"passive": false
+} ]

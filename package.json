@@ -1,0 +1,28 @@
+{
+	"author": "",
+	"dependencies":
+	{
+		"colors": "~0.6.2",
+		"express": "~3.4.8",
+		"q": "~1.0.0",
+		"mongoose": "~3.8.5",
+		"newrelic": "~1.3.0",
+		"socket.io": "~0.9.16"
+	},
+	"description": "Final Fantasy Showdown Backend",
+	"engines":
+	{
+		"node": "0.10.x"
+	},
+	"scripts":
+	{
+		"debug": "node debug app.js",
+		"start": "node app.js",
+		"db": "mongod"
+	},
+	"license": "",
+	"name": "ffsb",
+	"private": true,
+	"repository": "",
+	"version": "0.0.0"
+}

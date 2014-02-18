@@ -1,0 +1,71 @@
+// Dependencies.
+
+if ( typeof process.env.NODE_ENV !== "undefined" && process.env.NODE_ENV === 'production' )
+{
+	require( 'newrelic' );
+	log.status( 'New Relic loaded' );
+}
+
+var socket = require( 'socket.io' ),
+	express = require( 'express' ),
+	http = require( 'http' ),
+	url = require( 'url' ),
+	colors = require( 'colors' ),
+	fs = require( 'fs' ),
+	Q = require( 'q' ),
+	model = require( './models/model.js' ),
+	controller = require( './controllers/controller.js' ),
+	log = require( './vendor/log.js' ),
+	Constants = require( './vendor/constants.js' ),
+	config = require( './config.js' ),
+	port = config.port,
+	app = express(),
+	server = http.createServer( app ),
+	io = socket.listen( server );
+
+// Add hooks to socket.
+
+io.sockets.on( 'connection', function ( client )
+{
+	client.emit( 'messages', Constants.WELCOME_TO_SOCKET_MSG );
+} );
+
+// Wait for model initialization before continuing.
+
+model.ready.then( function ()
+{
+	// App Middlewares.
+
+	app.use( express.json() );
+	app.use( express.urlencoded() );
+
+	// Routes.
+
+	app.get( '/skill', controller.Skill.get() );
+	app.get( '/skill/:id', controller.Skill.getBy( 'id', 'id' ) );
+
+	app.get( '/', function ( req, res )
+	{
+		res.send( 200 );
+	} );
+
+	// Server startup and shutdown.
+
+	server.listen( port, function ()
+	{
+		log.success( 'Listening on port ' + ( '' + port ).underline, 'START' );
+	} );
+
+	// This handler is triggered when you use Control-C on the terminal.
+	process.on( 'SIGINT', function ()
+	{
+		console.log(); // Just to break line.
+		log.status( 'Shutting down', 'EXIT' );
+		process.exit();
+	} );
+
+} ).fail( function ( err )
+{
+	log.error( err, 'INIT' );
+	process.exit( -1 );
+} );
