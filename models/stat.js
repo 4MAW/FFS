@@ -20,24 +20,8 @@ module.exports = {
 				unique: true,
 				dropDups: true
 			}
-		},
-		/*
-		type:
-		{
-			type: require( 'mongoose' ).Schema.Types.ObjectId,
-			ref: 'SkillType'
-		},
-		*/
-		definition:
-		{
-			type: String
-		},
-		passive:
-		{
-			type: Boolean
 		}
 	},
-	//join: 'type',
 	statics:
 	{},
 	set:
@@ -47,7 +31,6 @@ module.exports = {
 		{
 			transform: function ( doc, ret, options )
 			{
-				delete ret.definition;
 				delete ret._id;
 				delete ret.__v;
 			}
