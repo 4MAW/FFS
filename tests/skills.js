@@ -176,31 +176,19 @@ describe( 'Skills', function ()
 
 	describe( 'Singular retrieval', function ()
 	{
-
-		// GET /skill/{valid-id} -> { valid-skill }
-		it( "API should return desired skill if it exists", function ( done )
-		{
-			var chosen_skill = Mocks.skills[ 0 ];
-			request( baseURL + '/skill/' + chosen_skill.id, function ( err, resp )
+		var options = {
+			uri: baseURL + '/skill/:id',
+			uriReplace:
 			{
-				assert.ifError( err );
-				assert.equal( resp.statusCode, 200 );
-				compare.sameSkill( JSON.parse( resp.body ), chosen_skill );
-				done();
-			} );
-		} );
+				':id': 'id'
+			},
+			id: 'id',
+			sources: Mocks.skills,
+			compare: compare.sameSkill,
+			nonExistingID: Mocks.NON_EXISTING_ID
+		};
 
-		// GET /skill/{non-existing-id} -> 404
-		it( "API should return an error 404 if desired skill does not exist", function ( done )
-		{
-			request( baseURL + '/skill/' + Mocks.NON_EXISTING_ID, function ( err, resp )
-			{
-				assert.ifError( err );
-				assert.equal( resp.statusCode, 404 );
-				done();
-			} );
-		} );
-
+		Crud.singularRetrieval( options );
 	} );
 
 } );
