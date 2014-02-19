@@ -22,10 +22,10 @@ model.ready.then( function ()
 
 	for ( var _d in dependencies )
 	{
-		var content = require( dependencies[ _d ] );
+		var content = fs.readFileSync( dependencies[ _d ] ).toString();
 		var filename = path.basename( dependencies[ _d ], '.json' );
 		filename = filename.charAt( 0 ).toUpperCase() + filename.slice( 1 );
-		seeds[ filename ] = content;
+		seeds[ filename ] = JSON.parse( content );
 		promises[ filename ] = Q.defer();
 	}
 
@@ -33,21 +33,66 @@ model.ready.then( function ()
 	{
 		return function ( err )
 		{
-			var local_promises = [];
-			if ( err )
+
+			var requirements_ready = Q.defer();
+
+			if ( model[ collection ].requirements !== undefined )
 			{
-				log.error( err, collection + ' SEEDING' );
+				var required_promises = [];
+				for ( var _r in model[ collection ].requirements )
+					required_promises.push( promises[ model[ collection ].requirements[ _r ] ].promise );
+				requirements_ready_promise = Q.all( required_promises );
 			}
 			else
 			{
-				for ( var _i in seeds[ collection ] )
-				{
-					var new_item = new model[ collection ]( seeds[ collection ][ _i ] );
-					var new_item_promise = Q.npost( new_item, "save" );
-					local_promises.push( new_item_promise );
-				}
+				requirements_ready.resolve();
+				requirements_ready_promise = requirements_ready.promise;
 			}
-			Q.all( local_promises ).then( promises[ collection ].resolve ).fail( promises[ collection ].reject );
+
+			requirements_ready_promise.then( function ()
+			{
+
+				var local_promises = [];
+				if ( err )
+				{
+					log.error( err, collection + ' SEEDING' );
+				}
+				else
+				{
+					var processed = [];
+
+					for ( var _i in seeds[ collection ] )
+					{
+						var processed_defer = Q.defer();
+						processed.push( processed_defer.promise );
+						if ( model[  collection ].process === undefined )
+							processed_defer.resolve();
+						else
+							model[  collection ].process( seeds[ collection ][ _i ] ).then( processed_defer.resolve );
+					}
+
+					var insert = function ( item )
+					{
+						var new_item = new model[ collection ]( item );
+						var new_item_promise = Q.npost( new_item, "save" );
+						local_promises.push( new_item_promise );
+					};
+
+					Q.all( processed ).then( function ()
+					{
+						for ( var _i in seeds[ collection ] )
+							insert( seeds[ collection ][ _i ] );
+
+						Q.all( local_promises ).then( function ()
+						{
+							log.success( 'Collection seeded to database!', collection );
+							promises[ collection ].resolve();
+						} ).fail( promises[ collection ].reject );
+					} );
+				}
+
+			} ); // Requirements.
+
 		};
 	};
 
