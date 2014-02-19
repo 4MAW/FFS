@@ -1,0 +1,28 @@
+[
+{
+	"id": "00000001",
+	"name": "Wooden Sword",
+	"type":
+	{
+		"id": "00000001",
+		"name:": "Sword"
+	},
+	"stats": [
+	{
+		"value": 10,
+		"stat":
+		{
+			"id": "00000003",
+			"name": "Strength"
+		}
+	} ],
+	"skills": [
+	{
+		"probability": 0.05,
+		"skill":
+		{
+			"id": "00000003",
+			"name": "Wait"
+		}
+	} ]
+} ]
