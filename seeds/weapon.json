@@ -5,7 +5,7 @@
 	"type":
 	{
 		"id": "00000001",
-		"name:": "Sword"
+		"name": "Sword"
 	},
 	"stats": [
 	{
@@ -22,7 +22,8 @@
 		"skill":
 		{
 			"id": "00000003",
-			"name": "Wait"
+			"name": "Wait",
+			"passive": false
 		}
 	} ]
 } ]
