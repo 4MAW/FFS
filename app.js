@@ -41,8 +41,13 @@ model.ready.then( function ()
 
 	// Routes.
 
+	// Skills.
 	app.get( '/skill', controller.Skill.get() );
 	app.get( '/skill/:id', controller.Skill.getBy( 'id', 'id' ) );
+
+	// Weapons.
+	app.get( '/weapon', controller.Weapon.get() );
+	app.get( '/weapon/:id', controller.Weapon.getBy( 'id', 'id' ) );
 
 	app.get( '/', function ( req, res )
 	{
