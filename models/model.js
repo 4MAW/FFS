@@ -55,6 +55,7 @@ for ( var _d in dependencies )
 
 	module.exports[ filename ].join = model_content.join;
 	module.exports[ filename ].pagesize = module.exports.pagesize;
+	module.exports[ filename ].requirements = model_content.requirements;
 
 	if ( typeof model_content.initialization === 'function' )
 		model_content.initialization( filename + " - Loaded", "MODEL" ).then( defers[ _d ].resolve ).fail( defers[ _d ].reject );
