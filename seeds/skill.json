@@ -16,4 +16,340 @@
 	"name": "Wait",
 	"definition": "wait.js",
 	"passive": false
+},
+{
+	"id": "00000004",
+	"name": "Skill #4",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000005",
+	"name": "Skill #5",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000006",
+	"name": "Skill #6",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000007",
+	"name": "Skill #7",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000008",
+	"name": "Skill #8",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000009",
+	"name": "Skill #9",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000010",
+	"name": "Skill #10",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000011",
+	"name": "Skill #11",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000012",
+	"name": "Skill #12",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000013",
+	"name": "Skill #13",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000014",
+	"name": "Skill #14",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000015",
+	"name": "Skill #15",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000016",
+	"name": "Skill #16",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000017",
+	"name": "Skill #17",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000018",
+	"name": "Skill #18",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000019",
+	"name": "Skill #19",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000020",
+	"name": "Skill #20",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000021",
+	"name": "Skill #21",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000022",
+	"name": "Skill #22",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000023",
+	"name": "Skill #23",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000024",
+	"name": "Skill #24",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000025",
+	"name": "Skill #25",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000026",
+	"name": "Skill #26",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000027",
+	"name": "Skill #27",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000028",
+	"name": "Skill #28",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000029",
+	"name": "Skill #29",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000030",
+	"name": "Skill #30",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000031",
+	"name": "Skill #31",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000032",
+	"name": "Skill #32",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000033",
+	"name": "Skill #33",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000034",
+	"name": "Skill #34",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000035",
+	"name": "Skill #35",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000036",
+	"name": "Skill #36",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000037",
+	"name": "Skill #37",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000038",
+	"name": "Skill #38",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000039",
+	"name": "Skill #39",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000040",
+	"name": "Skill #40",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000041",
+	"name": "Skill #41",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000042",
+	"name": "Skill #42",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000043",
+	"name": "Skill #43",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000044",
+	"name": "Skill #44",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000045",
+	"name": "Skill #45",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000046",
+	"name": "Skill #46",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000047",
+	"name": "Skill #47",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000048",
+	"name": "Skill #48",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000049",
+	"name": "Skill #49",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000050",
+	"name": "Skill #50",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000051",
+	"name": "Skill #51",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000052",
+	"name": "Skill #52",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000053",
+	"name": "Skill #53",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000054",
+	"name": "Skill #54",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000055",
+	"name": "Skill #55",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000056",
+	"name": "Skill #56",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000057",
+	"name": "Skill #57",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000058",
+	"name": "Skill #58",
+	"definition": "wait.js",
+	"passive": false
+},
+{
+	"id": "00000059",
+	"name": "Skill #59",
+	"definition": "wait.js",
+	"passive": false
 } ]
