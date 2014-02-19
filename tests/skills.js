@@ -24,7 +24,8 @@ describe( 'Skills', function ()
 			uri: baseURL + '/skill',
 			pagesize: config.pagesize,
 			compare: compare.sameSkill,
-			compareDifferent: compare.differentSkill
+			compareDifferent: compare.differentSkill,
+			checkPageTwo: true
 		};
 
 		Crud.blockRetrieval( options );

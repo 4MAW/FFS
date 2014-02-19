@@ -114,35 +114,40 @@ function block_retrieval( options )
 		} );
 	} );
 
-	// GET /path { page: 2 } -> [...] (different results than GET /path )
-	it( "API should return different results when asking for page 2 than when asking for default page", function ( done )
+	if ( options.checkPageTwo )
 	{
-		request( options.uri, function ( err, desired_response )
-		{
-			assert.ifError( err );
-			assert.equal( desired_response.statusCode, 200 );
-			var desired_array = JSON.parse( desired_response.body );
-			assert.ok( desired_array.length <= options.pagesize );
 
-			request(
-			{
-				uri: options.uri,
-				headers:
-				{
-					page: 2
-				}
-			}, function ( err, actual_response )
+		// GET /path { page: 2 } -> [...] (different results than GET /path )
+		it( "API should return different results when asking for page 2 than when asking for default page", function ( done )
+		{
+			request( options.uri, function ( err, desired_response )
 			{
 				assert.ifError( err );
-				assert.equal( actual_response.statusCode, 200 );
-				var actual_array = JSON.parse( actual_response.body );
-				assert.strictEqual( actual_array.length, desired_array.length );
-				for ( var i = 0; i < actual_array.length; i++ )
-					options.compareDifferent( actual_array[ i ], desired_array[ i ] );
-				done();
+				assert.equal( desired_response.statusCode, 200 );
+				var desired_array = JSON.parse( desired_response.body );
+				assert.ok( desired_array.length <= options.pagesize );
+
+				request(
+				{
+					uri: options.uri,
+					headers:
+					{
+						page: 2
+					}
+				}, function ( err, actual_response )
+				{
+					assert.ifError( err );
+					assert.equal( actual_response.statusCode, 200 );
+					var actual_array = JSON.parse( actual_response.body );
+					assert.strictEqual( actual_array.length, desired_array.length );
+					for ( var i = 0; i < actual_array.length; i++ )
+						options.compareDifferent( actual_array[ i ], desired_array[ i ] );
+					done();
+				} );
 			} );
 		} );
-	} );
+
+	}
 
 	// GET /path { page: 999 } -> [] (empty page)
 	it( "API should respond with an empty page when asking for a very big page", function ( done )
