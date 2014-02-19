@@ -178,7 +178,7 @@ module.exports = {
 			} ]
 		}
 	},
-	join: 'stats.stat skills.skill stats.stat',
+	join: 'type skills.skill stats.stat',
 	requirements: [ 'Stat', 'Skill', 'WeaponType' ],
 	statics:
 	{
