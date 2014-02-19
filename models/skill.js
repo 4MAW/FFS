@@ -21,11 +21,13 @@ module.exports = {
 				dropDups: true
 			}
 		},
+		/*
 		type:
 		{
 			type: require( 'mongoose' ).Schema.Types.ObjectId,
 			ref: 'SkillType'
 		},
+		*/
 		definition:
 		{
 			type: String
@@ -43,7 +45,12 @@ module.exports = {
 		// To prevent returning values used only in the backend, like the list of published issues.
 		'toJSON':
 		{
-			transform: function ( doc, ret, options ) {}
+			transform: function ( doc, ret, options )
+			{
+				delete ret.definition;
+				delete ret._id;
+				delete ret.__v;
+			}
 		}
 	}
 };
