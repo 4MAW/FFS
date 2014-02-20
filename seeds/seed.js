@@ -45,7 +45,7 @@ model.ready.then( function ()
 					return function ()
 					{
 						log.success( '«' + phase + '» phase succeed', collection );
-					}
+					};
 				};
 
 				var perform_phase = function ( phase, phase_ready_defer )
@@ -56,7 +56,7 @@ model.ready.then( function ()
 							callbacks_in_this_phase_run.push( phase.callback( seeds[ collection ][ _i ] ) ); //Run the callback for this phase.
 						Q.all( callbacks_in_this_phase_run ).then( phase_ready_defer.resolve );
 					};
-				}
+				};
 
 				for ( var _phase in model[ collection ].phases )
 				{
