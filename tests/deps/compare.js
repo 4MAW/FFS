@@ -109,11 +109,33 @@ function same_skill_prob( actual, expected )
 }
 
 /**
+ * Asserts whether both SkillAmount are equal or not.
+ * @param  {SkillAmount} actual   Actual skill with a minimum amount of pieces required to be enabled.
+ * @param  {SkillAmount} expected Expected skill with a minimum amount of pieces required to be enabled.
+ */
+function same_skill_amount( actual, expected )
+{
+	assert.strictEqual( actual.amount, expected.amount );
+	same_skill( actual, expected );
+}
+
+/**
  * Asserts whether both basic armor sets are equal or not.
  * @param  {BasicArmorSet} actual   Actual basic armor set.
  * @param  {BasicArmorSet} expected Expected basic armor set.
  */
 function same_basic_armor_set( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+}
+
+/**
+ * Asserts whether both basic armor pieces are equal or not.
+ * @param  {BasicArmorPiece} actual   Actual basic armor piece.
+ * @param  {BasicArmorPiece} expected Expected basic armor piece.
+ */
+function same_basic_armor_piece( actual, expected )
 {
 	assert.strictEqual( actual.id, expected.id );
 	assert.strictEqual( actual.name, expected.name );
@@ -132,8 +154,8 @@ function same_armor_slot( actual, expected )
 
 /**
  * Asserts whether both armor pieces are equal or not.
- * @param  {Skill} actual   Actual armor piece.
- * @param  {Skill} expected Expected armor piece.
+ * @param  {ArmorPiece} actual   Actual armor piece.
+ * @param  {ArmorPiece} expected Expected armor piece.
  */
 function same_armor_piece( actual, expected )
 {
@@ -149,13 +171,42 @@ function same_armor_piece( actual, expected )
 
 /**
  * Asserts whether both armor pieces are different or not.
- * @param  {Skill} actual   Actual armor piece.
- * @param  {Skill} expected Expected armor piece.
+ * @param  {ArmorPiece} actual   Actual armor piece.
+ * @param  {ArmorPiece} expected Expected armor piece.
  */
 function different_armor_piece( actual, expected )
 {
 	assert.ok( !( actual.id === expected.id && actual.name === expected.name ) );
 }
+
+/**
+ * Asserts whether both armor sets are equal or not.
+ * @param  {ArmorSet} actual   Actual armor set.
+ * @param  {ArmorSet} expected Expected armor set.
+ */
+function same_armor_set( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.skills.length, expected.skills.length );
+	for ( var i in actual.skills )
+		same_skill_amount( actual.skills[ i ], expected.skills[ i ] );
+	assert.strictEqual( actual.components.length, expected.components.length );
+	for ( var j in actual.components )
+		same_basic_armor_piece( actual.components[ j ], expected.components[ j ] );
+	same_armor_type( actual.type, expected.type );
+}
+
+/**
+ * Asserts whether both armor sets are different or not.
+ * @param  {ArmorSet} actual   Actual armor set.
+ * @param  {ArmorSet} expected Expected armor set.
+ */
+function different_armor_set( actual, expected )
+{
+	assert.ok( !( actual.id === expected.id && actual.name === expected.name ) );
+}
+
 
 module.exports = {
 	sameSkill: same_skill,
@@ -163,5 +214,7 @@ module.exports = {
 	sameWeapon: same_weapon,
 	differentWeapon: different_weapon,
 	sameArmorPiece: same_armor_piece,
-	differentArmorPiece: different_armor_piece
+	differentArmorPiece: different_armor_piece,
+	sameArmorSet: same_armor_set,
+	differentArmorSet: different_armor_set
 };

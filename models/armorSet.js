@@ -185,11 +185,10 @@ module.exports = {
 			{
 				for ( var i in ret.components )
 				{
-					delete ret.components[ i ].set;
-					delete ret.components[ i ].type;
-					delete ret.components[ i ].stats;
-					delete ret.components[ i ]._id;
-					delete ret.components[ i ].__v;
+					ret.components[ i ] = {
+						id: ret.components[ i ].id,
+						name: ret.components[ i ].name
+					};
 				}
 				delete ret._id;
 				delete ret.__v;

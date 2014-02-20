@@ -53,6 +53,10 @@ model.ready.then( function ()
 	app.get( '/armor/piece', controller.ArmorPiece.get() );
 	app.get( '/armor/piece/:id', controller.ArmorPiece.getBy( 'id', 'id' ) );
 
+	// ArmorSet.
+	app.get( '/armor', controller.ArmorSet.get() );
+	app.get( '/armor/:id', controller.ArmorSet.getBy( 'id', 'id' ) );
+
 	app.get( '/', function ( req, res )
 	{
 		res.send( 200 );

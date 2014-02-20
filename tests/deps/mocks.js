@@ -32,5 +32,6 @@ module.exports = {
 	NON_EXISTING_ID: NON_EXISTING_ID,
 	skills: seeds[ 'Skill' ],
 	weapons: seeds[ 'Weapon' ],
-	armorPieces: seeds[ 'ArmorPiece' ]
+	armorPieces: seeds[ 'ArmorPiece' ],
+	armorSets: seeds[ 'ArmorSet' ]
 };
