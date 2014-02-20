@@ -64,6 +64,17 @@ function same_type( actual, expected )
 }
 
 /**
+ * Asserts whether both armor types are equal or not.
+ * @param  {ArmorType} actual   Actual armor type.
+ * @param  {ArmorType} expected Expected armor type.
+ */
+function same_armor_type( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+}
+
+/**
  * Asserts whether both valued stats are equal or not.
  * @param  {ValuedStat} actual   Actual valued stat.
  * @param  {ValuedStat} expected Expected valued stat.
@@ -97,9 +108,60 @@ function same_skill_prob( actual, expected )
 	same_skill( actual, expected );
 }
 
+/**
+ * Asserts whether both basic armor sets are equal or not.
+ * @param  {BasicArmorSet} actual   Actual basic armor set.
+ * @param  {BasicArmorSet} expected Expected basic armor set.
+ */
+function same_basic_armor_set( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+}
+
+/**
+ * Asserts whether both armor slots are equal or not.
+ * @param  {ArmorSlot} actual   Actual armor slot.
+ * @param  {ArmorSlot} expected Expected armor slot.
+ */
+function same_armor_slot( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+}
+
+/**
+ * Asserts whether both armor pieces are equal or not.
+ * @param  {Skill} actual   Actual armor piece.
+ * @param  {Skill} expected Expected armor piece.
+ */
+function same_armor_piece( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.stats.length, expected.stats.length );
+	for ( var i in actual.stats )
+		same_valued_stat( actual.stats[ i ], expected.stats[ i ] );
+	same_armor_type( actual.type, expected.type );
+	same_basic_armor_set( actual.armorSet, expected.armorSet );
+	same_armor_slot( actual.slot, expected.slot );
+}
+
+/**
+ * Asserts whether both armor pieces are different or not.
+ * @param  {Skill} actual   Actual armor piece.
+ * @param  {Skill} expected Expected armor piece.
+ */
+function different_armor_piece( actual, expected )
+{
+	assert.ok( !( actual.id === expected.id && actual.name === expected.name ) );
+}
+
 module.exports = {
 	sameSkill: same_skill,
 	differentSkill: different_skill,
 	sameWeapon: same_weapon,
-	differentWeapon: different_weapon
+	differentWeapon: different_weapon,
+	sameArmorPiece: same_armor_piece,
+	differentArmorPiece: different_armor_piece
 };

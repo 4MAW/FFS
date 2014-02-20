@@ -31,5 +31,6 @@ for ( var _d in dependencies )
 module.exports = {
 	NON_EXISTING_ID: NON_EXISTING_ID,
 	skills: seeds[ 'Skill' ],
-	weapons: seeds[ 'Weapon' ]
+	weapons: seeds[ 'Weapon' ],
+	armorPieces: seeds[ 'ArmorPiece' ]
 };
