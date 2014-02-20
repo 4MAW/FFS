@@ -180,7 +180,7 @@ module.exports = {
 			} ]
 		}
 	},
-	//join: 'type skills.skill stats.stat',
+	join: 'type skills.skill stats.stat',
 	phases: [
 	{
 		name: 'init',
