@@ -49,6 +49,10 @@ model.ready.then( function ()
 	app.get( '/weapon', controller.Weapon.get() );
 	app.get( '/weapon/:id', controller.Weapon.getBy( 'id', 'id' ) );
 
+	// ArmorPiece.
+	app.get( '/armor/piece', controller.ArmorPiece.get() );
+	app.get( '/armor/piece/:id', controller.ArmorPiece.getBy( 'id', 'id' ) );
+
 	app.get( '/', function ( req, res )
 	{
 		res.send( 200 );
