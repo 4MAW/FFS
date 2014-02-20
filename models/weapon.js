@@ -2,12 +2,12 @@
 
 var Q = require( 'q' );
 
-// Static methods.
+// Initialization methods.
 
 /**
- * Modified given item so that any reference to an external collection is replaced by the proper ObjectID.
- * @param  {Skill} item Basic Skill object (just attributes, without methods).
- * @return {promise}          Promise about updating given object.
+ * Modifies given item so that any reference to an external collection is replaced by the proper ObjectID.
+ * @param  {Weapon} item Basic Weapon object (just attributes, without methods).
+ * @return {promise}     Promise about updating given object.
  */
 function process_item( item )
 {
@@ -111,6 +111,8 @@ function process_item( item )
 	return Q.all( [ type_found_promise, all_stats_found_promise, all_skills_found_promise ] );
 }
 
+// Static methods.
+
 // Model definition.
 
 module.exports = {
@@ -178,12 +180,13 @@ module.exports = {
 			} ]
 		}
 	},
-	join: 'type skills.skill stats.stat',
-	requirements: [ 'Stat', 'Skill', 'WeaponType' ],
-	statics:
+	//join: 'type skills.skill stats.stat',
+	phases: [
 	{
-		process: process_item
-	},
+		name: 'init',
+		requirements: [ 'Stat', 'Skill', 'WeaponType' ],
+		callback: process_item
+	} ],
 	set:
 	{
 		// To prevent returning values used only in the backend, like the list of published issues.
