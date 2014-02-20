@@ -53,7 +53,7 @@ for ( var _d in dependencies )
 
 	module.exports[ filename ] = mongoose.model( filename, sch );
 
-	module.exports[ filename ].join = model_content.join;
+	module.exports[ filename ].join = ( model_content.join !== undefined ) ? model_content.join : '';
 	module.exports[ filename ].pagesize = module.exports.pagesize;
 	module.exports[ filename ].phases = model_content.phases;
 	module.exports[ filename ].manualSeeding = model_content.manualSeeding;
