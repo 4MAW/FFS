@@ -57,6 +57,10 @@ model.ready.then( function ()
 	app.get( '/armor', controller.ArmorSet.get() );
 	app.get( '/armor/:id', controller.ArmorSet.getBy( 'id', 'id' ) );
 
+	// Classes.
+	app.get( '/class', controller.Class.get() );
+	app.get( '/class/:id', controller.Class.getBy( 'id', 'id' ) );
+
 	app.get( '/', function ( req, res )
 	{
 		res.send( 200 );

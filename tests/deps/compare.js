@@ -33,7 +33,7 @@ function same_weapon( actual, expected )
 {
 	assert.strictEqual( actual.id, expected.id );
 	assert.strictEqual( actual.name, expected.name );
-	same_type( actual.type, expected.type );
+	same_weapon_type( actual.type, expected.type );
 	assert.strictEqual( actual.stats.length, expected.stats.length );
 	for ( var i in actual.stats )
 		same_valued_stat( actual.stats[ i ], expected.stats[ i ] );
@@ -57,7 +57,7 @@ function different_weapon( actual, expected )
  * @param  {WeaponType} actual   Actual weapon type.
  * @param  {WeaponType} expected Expected weapon type.
  */
-function same_type( actual, expected )
+function same_weapon_type( actual, expected )
 {
 	assert.strictEqual( actual.id, expected.id );
 	assert.strictEqual( actual.name, expected.name );
@@ -153,6 +153,17 @@ function same_armor_slot( actual, expected )
 }
 
 /**
+ * Asserts whether both weapon slots are equal or not.
+ * @param  {WeaponSlot} actual   Actual weapon slot.
+ * @param  {WeaponSlot} expected Expected weapon slot.
+ */
+function same_weapon_slot( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+}
+
+/**
  * Asserts whether both armor pieces are equal or not.
  * @param  {ArmorPiece} actual   Actual armor piece.
  * @param  {ArmorPiece} expected Expected armor piece.
@@ -207,6 +218,36 @@ function different_armor_set( actual, expected )
 	assert.ok( !( actual.id === expected.id && actual.name === expected.name ) );
 }
 
+/**
+ * Asserts whether both classes are equal or not.
+ * @param  {Class} actual   Actual class.
+ * @param  {Class} expected Expected class.
+ */
+function same_class( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.description, expected.description );
+	assert.strictEqual( actual.allowedArmors.length, expected.allowedArmors.length );
+	for ( var i in actual.allowedArmors )
+		same_armor_type( actual.allowedArmors[ i ], expected.allowedArmors[ i ] );
+	assert.strictEqual( actual.allowedWeapons.length, expected.allowedWeapons.length );
+	for ( var j in actual.allowedWeapons )
+	{
+		same_weapon_slot( actual.allowedWeapons[ j ].slot, expected.allowedWeapons[ j ].slot );
+		same_weapon_type( actual.allowedWeapons[ j ].type, expected.allowedWeapons[ j ].type );
+	}
+}
+
+/**
+ * Asserts whether both classes are different or not.
+ * @param  {Class} actual   Actual class.
+ * @param  {Class} expected Expected class.
+ */
+function different_class( actual, expected )
+{
+	assert.ok( !( actual.id === expected.id && actual.name === expected.name && actual.description === expected.description ) );
+}
 
 module.exports = {
 	sameSkill: same_skill,
@@ -216,5 +257,7 @@ module.exports = {
 	sameArmorPiece: same_armor_piece,
 	differentArmorPiece: different_armor_piece,
 	sameArmorSet: same_armor_set,
-	differentArmorSet: different_armor_set
+	differentArmorSet: different_armor_set,
+	sameClass: same_class,
+	differentClass: different_class
 };
