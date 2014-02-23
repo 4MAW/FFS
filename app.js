@@ -21,14 +21,8 @@ var socket = require( 'socket.io' ),
 	port = config.port,
 	app = express(),
 	server = http.createServer( app ),
-	io = socket.listen( server );
-
-// Add hooks to socket.
-
-io.sockets.on( 'connection', function ( client )
-{
-	client.emit( 'messages', Constants.WELCOME_TO_SOCKET_MSG );
-} );
+	io = socket.listen( server ),
+	battleHandler = new require( './vendor/battleHandler.js' )( io.sockets );
 
 // Wait for model initialization before continuing.
 
@@ -57,9 +51,19 @@ model.ready.then( function ()
 	app.get( '/armor', controller.ArmorSet.get() );
 	app.get( '/armor/:id', controller.ArmorSet.getBy( 'id', 'id' ) );
 
+	// Accessories.
+	app.get( '/accessory', controller.Accessory.get() );
+	app.get( '/accessory/:id', controller.Accessory.getBy( 'id', 'id' ) );
+
 	// Classes.
 	app.get( '/class', controller.Class.get() );
 	app.get( '/class/:id', controller.Class.getBy( 'id', 'id' ) );
+
+	// Characters.
+	app.get( '/character/:id', controller.Character.getBy( 'id', 'id' ) );
+
+	// Teams.
+	app.get( '/team/:id', controller.Team.getBy( 'id', 'id' ) );
 
 	app.get( '/', function ( req, res )
 	{
