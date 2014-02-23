@@ -118,9 +118,44 @@ function process_item( item )
 
 	all_armor_types_found_promise = Q.all( armor_type_promises );
 
+	// Find all skills.
+
+	var all_skills_found_promise;
+
+	var find_skill_and_resolve_promise = function ( item, _skill, skill_defer )
+	{
+		model.Skill.find(
+		{
+			id: item.skills[ _skill ].id
+		},
+		{
+			_id: 1
+		}, function ( err, docs )
+		{
+			if ( err ) skill_defer.reject( err );
+			else if ( docs.length < 1 ) skill_defer.reject( 404 );
+			else
+			{
+				var doc = docs[ 0 ];
+				item.skills[ _skill ] = doc._id;
+				skill_defer.resolve();
+			}
+		} );
+	};
+
+	var skill_promises = [];
+	for ( var _skill in item.skills )
+	{
+		var skill_defer = Q.defer();
+		skill_promises.push( skill_defer.promise );
+		find_skill_and_resolve_promise( item, _skill, skill_defer );
+	}
+
+	all_skills_found_promise = Q.all( skill_promises );
+
 	// Find everything.
 
-	return Q.all( [ all_weapon_slots_found_promise, all_weapon_types_found_promise, all_armor_types_found_promise ] );
+	return Q.all( [ all_weapon_slots_found_promise, all_weapon_types_found_promise, all_armor_types_found_promise, all_skills_found_promise ] );
 }
 
 // Static methods.
@@ -175,13 +210,21 @@ module.exports = {
 				type: require( 'mongoose' ).Schema.Types.ObjectId,
 				ref: 'ArmorType'
 			} ]
+		},
+		skills:
+		{
+			type: [
+			{
+				type: require( 'mongoose' ).Schema.Types.ObjectId,
+				ref: 'Skill'
+			} ]
 		}
 	},
-	join: 'allowedArmors allowedWeapons.slot allowedWeapons.type',
+	join: 'allowedArmors allowedWeapons.slot allowedWeapons.type skills',
 	phases: [
 	{
 		name: 'init',
-		requirements: [ 'Stat', 'Skill', 'WeaponType' ],
+		requirements: [ 'ArmorType', 'Skill', 'WeaponType', 'WeaponSlot' ],
 		callback: process_item
 	} ],
 	set:
@@ -191,7 +234,6 @@ module.exports = {
 		{
 			transform: function ( doc, ret, options )
 			{
-				delete ret.definition;
 				delete ret._id;
 				delete ret.__v;
 			}
