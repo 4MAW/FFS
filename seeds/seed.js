@@ -27,6 +27,8 @@ model.ready.then( function ()
 		filename = filename.charAt( 0 ).toUpperCase() + filename.slice( 1 );
 		seeds[ filename ] = JSON.parse( content );
 		promises[ filename ] = Q.defer();
+		for ( var _p in model[ filename ].phases )
+			promises[ filename + '.' + model[ filename ].phases[ _p ].name ] = Q.defer();
 	}
 
 	var seed_model = function ( collection )
@@ -60,29 +62,18 @@ model.ready.then( function ()
 
 				for ( var _phase in model[ collection ].phases )
 				{
-					var phase_ready_defer = Q.defer(); // A promise about one phase.
 					var phase = model[ collection ].phases[ _phase ]; // Just a nice alias.
-
-					if ( promises[ collection + '.' + phase.name ] !== undefined )
-					{
-						phase_ready_defer.promise.then( promises[ collection + '.' + phase.name ].resolve );
-						promises[ collection + '.' + phase.name ] = phase_ready_defer;
-					}
-					else
-					{
-						promises[ collection + '.' + phase.name ] = phase_ready_defer; // To allow a phase to be a dependency of other model.
-					}
+					var phase_ready_defer = promises[ collection + '.' + phase.name ]; // A promise about one phase.
 
 					phases_ready.push( phase_ready_defer.promise );
 
 					var required_promises = []; // To wait for dependencies before initializing this phase.
 					for ( var _r in phase.requirements )
 					{
-						log.info( '«' + phase.requirements[ _r ] + '» phase required to initialize collection ', collection );
-						if ( promises[ phase.requirements[ _r ] ] === undefined )
-							promises[ phase.requirements[ _r ] ] = Q.defer();
+						log.info( '«' + phase.requirements[ _r ] + '» phase required to initialize collection ', collection + ':' + phase.name );
 						required_promises.push( promises[ phase.requirements[ _r ] ].promise ); // Query and add any promise required to the list.
 					}
+
 					// When all dependencies are met just resolve the promise about this phase.
 					Q.all( required_promises ).then( perform_phase( phase, phase_ready_defer ) );
 
