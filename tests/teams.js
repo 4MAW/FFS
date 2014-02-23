@@ -18,6 +18,19 @@ var baseURL = config.baseURL + ':' + config.port;
 describe( 'Teams', function ()
 {
 
+	describe( 'Block retrieval', function ()
+	{
+		var options = {
+			uri: baseURL + '/team',
+			pagesize: config.pagesize,
+			compare: compare.sameTeam,
+			compareDifferent: compare.differentTeam,
+			checkPageTwo: false
+		};
+
+		Crud.blockRetrieval( options );
+	} );
+
 	describe( 'Singular retrieval', function ()
 	{
 		var options = {

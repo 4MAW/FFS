@@ -21,7 +21,10 @@ var socket = require( 'socket.io' ),
 	port = config.port,
 	app = express(),
 	server = http.createServer( app ),
-	io = socket.listen( server ),
+	io = socket.listen( server,
+	{
+		'sync disconnect on unload': true
+	} ),
 	battleHandler = new require( './vendor/battleHandler.js' )( io.sockets );
 
 // Wait for model initialization before continuing.
@@ -63,6 +66,7 @@ model.ready.then( function ()
 	app.get( '/character/:id', controller.Character.getBy( 'id', 'id' ) );
 
 	// Teams.
+	app.get( '/team', controller.Team.get() );
 	app.get( '/team/:id', controller.Team.getBy( 'id', 'id' ) );
 
 	app.get( '/', function ( req, res )
