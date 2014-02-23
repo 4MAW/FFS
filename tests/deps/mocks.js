@@ -34,5 +34,8 @@ module.exports = {
 	weapons: seeds[ 'Weapon' ],
 	armorPieces: seeds[ 'ArmorPiece' ],
 	armorSets: seeds[ 'ArmorSet' ],
-	classes: seeds[ 'Class' ]
+	classes: seeds[ 'Class' ],
+	accessories: seeds[ 'Accessory' ],
+	characters: seeds[ 'Character' ],
+	teams: seeds[ 'Team' ]
 };
