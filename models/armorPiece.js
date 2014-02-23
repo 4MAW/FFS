@@ -232,7 +232,7 @@ module.exports = {
 	phases: [
 	{
 		name: 'init',
-		requirements: [ 'Stat', 'ArmorType' ],
+		requirements: [ 'Stat', 'ArmorType', 'ArmorSlot' ],
 		callback: process_item
 	},
 	{
