@@ -14,7 +14,7 @@ module.exports = {
 	DECISION_MADE_EVENT: "decision_make",
 	DECISIONS_PHASE_START_EVENT: "decisions_phase_start",
 	DECISIONS_PHASE_END_EVENT: "decisions_phase_end",
-	ROUND_RESULTS_EVENT: "round_resulsts_event",
+	ROUND_RESULTS_EVENT: "round_results_event",
 	LOSE_EVENT: "you_lose",
 	WIN_EVENT: "you_win",
 	PLAYER_RIVAL: "he",
