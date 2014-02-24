@@ -71,5 +71,14 @@
 		"name": "Wait",
 		"definition": "wait.js",
 		"passive": false
+	} ],
+	"stats": [
+	{
+		"value": 20,
+		"stat":
+		{
+			"id": "00000005",
+			"name": "Defense"
+		}
 	} ]
 } ]

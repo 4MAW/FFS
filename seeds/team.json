@@ -79,6 +79,2232 @@
 				"name": "Wait",
 				"definition": "wait.js",
 				"passive": false
+			} ],
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ]
+		},
+		"weapons": [
+		{
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Right hand"
+			},
+			"weapon":
+			{
+				"id": "00000001",
+				"name": "Wooden Sword",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				},
+				"stats": [
+				{
+					"value": 10,
+					"stat":
+					{
+						"id": "00000003",
+						"name": "Strength"
+					}
+				} ],
+				"skills": [
+				{
+					"probability": 0.05,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		} ],
+		"armor":
+		{
+			"id": "00000002",
+			"name": "Wooden Armor",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000004",
+				"name": "Armor"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"boots":
+		{
+			"id": "00000004",
+			"name": "Wooden Boots",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 6,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000003",
+				"name": "Boots"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"helmet":
+		{
+			"id": "00000001",
+			"name": "Wooden Helmet",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 10,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Helmet"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"gauntlets":
+		{
+			"id": "00000003",
+			"name": "Wooden Gauntlets",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 15,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000002",
+				"name": "Gauntlets"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"accessories": [
+		{
+			"id": "00000001",
+			"name": "Wooden Ring",
+			"skills": [
+			{
+				"probability": 0.5,
+				"skill":
+				{
+					"id": "00000003",
+					"name": "Wait",
+					"passive": false
+				}
+			} ]
+		} ]
+	},
+	{
+		"id": "00000002",
+		"name": "Warra",
+		"class":
+		{
+			"id": "00000001",
+			"name": "Warrior",
+			"description": "A mighty warrior",
+			"allowedWeapons": [
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000003",
+					"name": "Axe"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000003",
+					"name": "Both hands"
+				},
+				"type":
+				{
+					"id": "00000005",
+					"name": "Claymore"
+				}
+			} ],
+			"allowedArmors": [
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			{
+				"id": "00000002",
+				"name": "Iron"
+			},
+			{
+				"id": "00000004",
+				"name": "Mithril"
+			} ],
+			"skills": [
+			{
+				"id": "00000001",
+				"name": "Direct Attack",
+				"definition": "attack.js",
+				"passive": false
+			},
+			{
+				"id": "00000002",
+				"name": "Threaten",
+				"definition": "threaten.js",
+				"passive": false
+			},
+			{
+				"id": "00000003",
+				"name": "Wait",
+				"definition": "wait.js",
+				"passive": false
+			} ],
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ]
+		},
+		"weapons": [
+		{
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Right hand"
+			},
+			"weapon":
+			{
+				"id": "00000001",
+				"name": "Wooden Sword",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				},
+				"stats": [
+				{
+					"value": 10,
+					"stat":
+					{
+						"id": "00000003",
+						"name": "Strength"
+					}
+				} ],
+				"skills": [
+				{
+					"probability": 0.05,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		} ],
+		"armor":
+		{
+			"id": "00000002",
+			"name": "Wooden Armor",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000004",
+				"name": "Armor"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"boots":
+		{
+			"id": "00000004",
+			"name": "Wooden Boots",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 6,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000003",
+				"name": "Boots"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"helmet":
+		{
+			"id": "00000001",
+			"name": "Wooden Helmet",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 10,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Helmet"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"gauntlets":
+		{
+			"id": "00000003",
+			"name": "Wooden Gauntlets",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 15,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000002",
+				"name": "Gauntlets"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"accessories": [
+		{
+			"id": "00000001",
+			"name": "Wooden Ring",
+			"skills": [
+			{
+				"probability": 0.5,
+				"skill":
+				{
+					"id": "00000003",
+					"name": "Wait",
+					"passive": false
+				}
+			} ]
+		} ]
+	},
+	{
+		"id": "00000003",
+		"name": "Caballero arbóreo",
+		"class":
+		{
+			"id": "00000001",
+			"name": "Warrior",
+			"description": "A mighty warrior",
+			"allowedWeapons": [
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000003",
+					"name": "Axe"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000003",
+					"name": "Both hands"
+				},
+				"type":
+				{
+					"id": "00000005",
+					"name": "Claymore"
+				}
+			} ],
+			"allowedArmors": [
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			{
+				"id": "00000002",
+				"name": "Iron"
+			},
+			{
+				"id": "00000004",
+				"name": "Mithril"
+			} ],
+			"skills": [
+			{
+				"id": "00000001",
+				"name": "Direct Attack",
+				"definition": "attack.js",
+				"passive": false
+			},
+			{
+				"id": "00000002",
+				"name": "Threaten",
+				"definition": "threaten.js",
+				"passive": false
+			},
+			{
+				"id": "00000003",
+				"name": "Wait",
+				"definition": "wait.js",
+				"passive": false
+			} ],
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ]
+		},
+		"weapons": [
+		{
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Right hand"
+			},
+			"weapon":
+			{
+				"id": "00000001",
+				"name": "Wooden Sword",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				},
+				"stats": [
+				{
+					"value": 10,
+					"stat":
+					{
+						"id": "00000003",
+						"name": "Strength"
+					}
+				} ],
+				"skills": [
+				{
+					"probability": 0.05,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		} ],
+		"armor":
+		{
+			"id": "00000002",
+			"name": "Wooden Armor",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000004",
+				"name": "Armor"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"boots":
+		{
+			"id": "00000004",
+			"name": "Wooden Boots",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 6,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000003",
+				"name": "Boots"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"helmet":
+		{
+			"id": "00000001",
+			"name": "Wooden Helmet",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 10,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Helmet"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"gauntlets":
+		{
+			"id": "00000003",
+			"name": "Wooden Gauntlets",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 15,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000002",
+				"name": "Gauntlets"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"accessories": [
+		{
+			"id": "00000001",
+			"name": "Wooden Ring",
+			"skills": [
+			{
+				"probability": 0.5,
+				"skill":
+				{
+					"id": "00000003",
+					"name": "Wait",
+					"passive": false
+				}
+			} ]
+		} ]
+	},
+	{
+		"id": "00000004",
+		"name": "Mr. Proper",
+		"class":
+		{
+			"id": "00000001",
+			"name": "Warrior",
+			"description": "A mighty warrior",
+			"allowedWeapons": [
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000003",
+					"name": "Axe"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000003",
+					"name": "Both hands"
+				},
+				"type":
+				{
+					"id": "00000005",
+					"name": "Claymore"
+				}
+			} ],
+			"allowedArmors": [
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			{
+				"id": "00000002",
+				"name": "Iron"
+			},
+			{
+				"id": "00000004",
+				"name": "Mithril"
+			} ],
+			"skills": [
+			{
+				"id": "00000001",
+				"name": "Direct Attack",
+				"definition": "attack.js",
+				"passive": false
+			},
+			{
+				"id": "00000002",
+				"name": "Threaten",
+				"definition": "threaten.js",
+				"passive": false
+			},
+			{
+				"id": "00000003",
+				"name": "Wait",
+				"definition": "wait.js",
+				"passive": false
+			} ],
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ]
+		},
+		"weapons": [
+		{
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Right hand"
+			},
+			"weapon":
+			{
+				"id": "00000001",
+				"name": "Wooden Sword",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				},
+				"stats": [
+				{
+					"value": 10,
+					"stat":
+					{
+						"id": "00000003",
+						"name": "Strength"
+					}
+				} ],
+				"skills": [
+				{
+					"probability": 0.05,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		} ],
+		"armor":
+		{
+			"id": "00000002",
+			"name": "Wooden Armor",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000004",
+				"name": "Armor"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"boots":
+		{
+			"id": "00000004",
+			"name": "Wooden Boots",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 6,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000003",
+				"name": "Boots"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"helmet":
+		{
+			"id": "00000001",
+			"name": "Wooden Helmet",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 10,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Helmet"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"gauntlets":
+		{
+			"id": "00000003",
+			"name": "Wooden Gauntlets",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 15,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000002",
+				"name": "Gauntlets"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"accessories": [
+		{
+			"id": "00000001",
+			"name": "Wooden Ring",
+			"skills": [
+			{
+				"probability": 0.5,
+				"skill":
+				{
+					"id": "00000003",
+					"name": "Wait",
+					"passive": false
+				}
+			} ]
+		} ]
+	} ]
+},
+{
+	"id": "00000002",
+	"name": "Bad guy team",
+	"characters": [
+	{
+		"id": "00000005",
+		"name": "Eddy el Ent",
+		"class":
+		{
+			"id": "00000001",
+			"name": "Warrior",
+			"description": "A mighty warrior",
+			"allowedWeapons": [
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000003",
+					"name": "Axe"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000003",
+					"name": "Both hands"
+				},
+				"type":
+				{
+					"id": "00000005",
+					"name": "Claymore"
+				}
+			} ],
+			"allowedArmors": [
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			{
+				"id": "00000002",
+				"name": "Iron"
+			},
+			{
+				"id": "00000004",
+				"name": "Mithril"
+			} ],
+			"skills": [
+			{
+				"id": "00000001",
+				"name": "Direct Attack",
+				"definition": "attack.js",
+				"passive": false
+			},
+			{
+				"id": "00000002",
+				"name": "Threaten",
+				"definition": "threaten.js",
+				"passive": false
+			},
+			{
+				"id": "00000003",
+				"name": "Wait",
+				"definition": "wait.js",
+				"passive": false
+			} ],
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ]
+		},
+		"weapons": [
+		{
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Right hand"
+			},
+			"weapon":
+			{
+				"id": "00000001",
+				"name": "Wooden Sword",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				},
+				"stats": [
+				{
+					"value": 10,
+					"stat":
+					{
+						"id": "00000003",
+						"name": "Strength"
+					}
+				} ],
+				"skills": [
+				{
+					"probability": 0.05,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		} ],
+		"armor":
+		{
+			"id": "00000002",
+			"name": "Wooden Armor",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000004",
+				"name": "Armor"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"boots":
+		{
+			"id": "00000004",
+			"name": "Wooden Boots",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 6,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000003",
+				"name": "Boots"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"helmet":
+		{
+			"id": "00000001",
+			"name": "Wooden Helmet",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 10,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Helmet"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"gauntlets":
+		{
+			"id": "00000003",
+			"name": "Wooden Gauntlets",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 15,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000002",
+				"name": "Gauntlets"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"accessories": [
+		{
+			"id": "00000001",
+			"name": "Wooden Ring",
+			"skills": [
+			{
+				"probability": 0.5,
+				"skill":
+				{
+					"id": "00000003",
+					"name": "Wait",
+					"passive": false
+				}
+			} ]
+		} ]
+	},
+	{
+		"id": "00000006",
+		"name": "Roblín",
+		"class":
+		{
+			"id": "00000001",
+			"name": "Warrior",
+			"description": "A mighty warrior",
+			"allowedWeapons": [
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000003",
+					"name": "Axe"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000003",
+					"name": "Both hands"
+				},
+				"type":
+				{
+					"id": "00000005",
+					"name": "Claymore"
+				}
+			} ],
+			"allowedArmors": [
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			{
+				"id": "00000002",
+				"name": "Iron"
+			},
+			{
+				"id": "00000004",
+				"name": "Mithril"
+			} ],
+			"skills": [
+			{
+				"id": "00000001",
+				"name": "Direct Attack",
+				"definition": "attack.js",
+				"passive": false
+			},
+			{
+				"id": "00000002",
+				"name": "Threaten",
+				"definition": "threaten.js",
+				"passive": false
+			},
+			{
+				"id": "00000003",
+				"name": "Wait",
+				"definition": "wait.js",
+				"passive": false
+			} ],
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ]
+		},
+		"weapons": [
+		{
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Right hand"
+			},
+			"weapon":
+			{
+				"id": "00000001",
+				"name": "Wooden Sword",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				},
+				"stats": [
+				{
+					"value": 10,
+					"stat":
+					{
+						"id": "00000003",
+						"name": "Strength"
+					}
+				} ],
+				"skills": [
+				{
+					"probability": 0.05,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		} ],
+		"armor":
+		{
+			"id": "00000002",
+			"name": "Wooden Armor",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000004",
+				"name": "Armor"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"boots":
+		{
+			"id": "00000004",
+			"name": "Wooden Boots",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 6,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000003",
+				"name": "Boots"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"helmet":
+		{
+			"id": "00000001",
+			"name": "Wooden Helmet",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 10,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Helmet"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"gauntlets":
+		{
+			"id": "00000003",
+			"name": "Wooden Gauntlets",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 15,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000002",
+				"name": "Gauntlets"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"accessories": [
+		{
+			"id": "00000001",
+			"name": "Wooden Ring",
+			"skills": [
+			{
+				"probability": 0.5,
+				"skill":
+				{
+					"id": "00000003",
+					"name": "Wait",
+					"passive": false
+				}
+			} ]
+		} ]
+	},
+	{
+		"id": "00000007",
+		"name": "Roblón",
+		"class":
+		{
+			"id": "00000001",
+			"name": "Warrior",
+			"description": "A mighty warrior",
+			"allowedWeapons": [
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000003",
+					"name": "Axe"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000003",
+					"name": "Both hands"
+				},
+				"type":
+				{
+					"id": "00000005",
+					"name": "Claymore"
+				}
+			} ],
+			"allowedArmors": [
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			{
+				"id": "00000002",
+				"name": "Iron"
+			},
+			{
+				"id": "00000004",
+				"name": "Mithril"
+			} ],
+			"skills": [
+			{
+				"id": "00000001",
+				"name": "Direct Attack",
+				"definition": "attack.js",
+				"passive": false
+			},
+			{
+				"id": "00000002",
+				"name": "Threaten",
+				"definition": "threaten.js",
+				"passive": false
+			},
+			{
+				"id": "00000003",
+				"name": "Wait",
+				"definition": "wait.js",
+				"passive": false
+			} ],
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ]
+		},
+		"weapons": [
+		{
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Right hand"
+			},
+			"weapon":
+			{
+				"id": "00000001",
+				"name": "Wooden Sword",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				},
+				"stats": [
+				{
+					"value": 10,
+					"stat":
+					{
+						"id": "00000003",
+						"name": "Strength"
+					}
+				} ],
+				"skills": [
+				{
+					"probability": 0.05,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		} ],
+		"armor":
+		{
+			"id": "00000002",
+			"name": "Wooden Armor",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000004",
+				"name": "Armor"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"boots":
+		{
+			"id": "00000004",
+			"name": "Wooden Boots",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 6,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000003",
+				"name": "Boots"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"helmet":
+		{
+			"id": "00000001",
+			"name": "Wooden Helmet",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 10,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000001",
+				"name": "Helmet"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"gauntlets":
+		{
+			"id": "00000003",
+			"name": "Wooden Gauntlets",
+			"type":
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			"stats": [
+			{
+				"value": 15,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
+			} ],
+			"slot":
+			{
+				"id": "00000002",
+				"name": "Gauntlets"
+			},
+			"armorSet":
+			{
+				"id": "00000001",
+				"name": "Lumberjack Uniform",
+				"type":
+				{
+					"id": "00000001",
+					"name": "Wooden"
+				},
+				"skills": [
+				{
+					"amount": 2,
+					"skill":
+					{
+						"id": "00000003",
+						"name": "Wait",
+						"passive": false
+					}
+				} ]
+			}
+		},
+		"accessories": [
+		{
+			"id": "00000001",
+			"name": "Wooden Ring",
+			"skills": [
+			{
+				"probability": 0.5,
+				"skill":
+				{
+					"id": "00000003",
+					"name": "Wait",
+					"passive": false
+				}
+			} ]
+		} ]
+	},
+	{
+		"id": "00000008",
+		"name": "Arcín",
+		"class":
+		{
+			"id": "00000001",
+			"name": "Warrior",
+			"description": "A mighty warrior",
+			"allowedWeapons": [
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000001",
+					"name": "Sword"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000001",
+					"name": "Right hand"
+				},
+				"type":
+				{
+					"id": "00000003",
+					"name": "Axe"
+				}
+			},
+			{
+				"slot":
+				{
+					"id": "00000003",
+					"name": "Both hands"
+				},
+				"type":
+				{
+					"id": "00000005",
+					"name": "Claymore"
+				}
+			} ],
+			"allowedArmors": [
+			{
+				"id": "00000001",
+				"name": "Wooden"
+			},
+			{
+				"id": "00000002",
+				"name": "Iron"
+			},
+			{
+				"id": "00000004",
+				"name": "Mithril"
+			} ],
+			"skills": [
+			{
+				"id": "00000001",
+				"name": "Direct Attack",
+				"definition": "attack.js",
+				"passive": false
+			},
+			{
+				"id": "00000002",
+				"name": "Threaten",
+				"definition": "threaten.js",
+				"passive": false
+			},
+			{
+				"id": "00000003",
+				"name": "Wait",
+				"definition": "wait.js",
+				"passive": false
+			} ],
+			"stats": [
+			{
+				"value": 20,
+				"stat":
+				{
+					"id": "00000005",
+					"name": "Defense"
+				}
 			} ]
 		},
 		"weapons": [
