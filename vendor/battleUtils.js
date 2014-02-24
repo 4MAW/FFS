@@ -6,16 +6,16 @@ function load_character_stats( character )
 	var schema_prepared = Q.defer();
 	var class_found = Q.defer();
 	var weapon_promises = [];
-	var weapons_found;
+	var weapons_found = Q.defer();
 	var equipment_promises = [];
-	var equipment_found;
+	var equipment_found = Q.defer();
 
 	character.alive = true;
 	character.stats = [];
 
 	// Load list of stats.
 
-	model.Stats.find(
+	model.Stat.find(
 	{}, function ( err, docs )
 	{
 		if ( err )
@@ -30,7 +30,7 @@ function load_character_stats( character )
 
 	// Load class.
 
-	schema_prepared.then( function ()
+	schema_prepared.promise.then( function ()
 	{
 		model.Class.find(
 		{
@@ -69,7 +69,7 @@ function load_character_stats( character )
 		} );
 	};
 
-	schema_prepared.then( function ()
+	schema_prepared.promise.then( function ()
 	{
 		for ( var w in character.weapons )
 		{
@@ -103,7 +103,7 @@ function load_character_stats( character )
 		} );
 	};
 
-	schema_prepared.then( function ()
+	schema_prepared.promise.then( function ()
 	{
 		for ( var e in equipment )
 		{

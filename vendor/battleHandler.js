@@ -50,38 +50,37 @@ module.exports = function ( endpoint )
 				else
 				{
 					client.removeAllListeners( Constants.LOGIN_EVENT );
-					client.emit( Constants.LOGIN_SUCCEED );
+					client.emit( Constants.LOGIN_SUCCEED_EVENT,
+					{
+						id: docs[ 0 ].id
+					} );
 
-					client.on( CHOOSE_TEAM_EVENT, function ( team_id )
+					client.on( Constants.CHOOSE_TEAM_EVENT, function ( team_id )
 					{
 						var player = docs[ 0 ];
 
-						if ( player.teams.indexOf( team_id ) < 0 ) client.emit( Constants.INVALID_TEAM_EVENT );
-						else
+						model.Team.find(
 						{
-
-							model.Team.find(
+							id: team_id
+						}, function ( err, docs )
+						{
+							if ( err || docs.length !== 1 || player.teams.indexOf( docs[ 0 ]._id ) < 0 ) client.emit( Constants.INVALID_TEAM_EVENT );
+							else
 							{
-								id: team_id
-							}, function ( err, docs )
-							{
-								if ( err || docs.length !== 1 ) client.emit( Constants.INVALID_TEAM_EVENT );
-								else
-								{
-									var team = docs[ 0 ];
-									var new_entry = {
-										socket: client,
-										player: player,
-										team: team
-									};
-									waiting.queue.push( new_entry );
-									client.removeAllListeners( 'disconnect' );
-									waiting.ev.emit( 'new', waiting.queue.indexOf( new_entry ) );
-								}
-							} ); // On Team.find.
-						}
+								var team = docs[ 0 ];
+								var new_entry = {
+									socket: client,
+									player: player,
+									team: team
+								};
+								waiting.queue.push( new_entry );
+								client.removeAllListeners( 'disconnect' );
+								client.emit( Constants.VALID_TEAM_EVENT );
+								waiting.ev.emit( 'new', waiting.queue.indexOf( new_entry ) );
+							}
+						} ); // On Team.find.
 					} ); // On Choose Team.
-				};
+				}
 			} ); // On Player.find.
 		} ); // On Login.
 
@@ -108,8 +107,15 @@ module.exports = function ( endpoint )
 				var new_room_id = crypt.nonce();
 				rooms[ new_room_id ] = {
 					players: [],
-					ev: new events.EventEmitter()
+					ev: new events.EventEmitter(),
+					battle:
+					{
+						winner: -1,
+						finished: false
+					}
 				};
+
+				waiting.queue[ index ].socket.removeAllListeners( 'disconnect' );
 
 				waiting.queue[ i ].socket.join( new_room_id );
 				waiting.queue[ index ].socket.join( new_room_id );
@@ -136,6 +142,18 @@ module.exports = function ( endpoint )
 	{
 		var room = rooms[ room_id ];
 
+		room.players[ 0 ].socket.on( 'disconnect', function ()
+		{
+			room.battle.finished = true;
+			room.battle.winner = 1;
+		} );
+
+		room.players[ 1 ].socket.on( 'disconnect', function ()
+		{
+			room.battle.finished = true;
+			room.battle.winner = 0;
+		} );
+
 		var team_0 = room.players[ 0 ].team;
 		var name_0 = room.players[ 0 ].player.username;
 		var team_1 = room.players[ 1 ].team;
@@ -160,7 +178,7 @@ module.exports = function ( endpoint )
 			// Add handlers.
 			room.ev.on( 'decision_phase_start', decision_phase_start );
 			// Emit start.
-			room.ev.emit( 'decision_phase_start', new_room_id );
+			room.ev.emit( 'decision_phase_start', room_id );
 		} ).fail( function ( err )
 		{
 			log.error( err, 'MATCH SOCKET' );
@@ -219,7 +237,8 @@ module.exports = function ( endpoint )
 
 		ev.on( 'all_decisions_received', function ()
 		{
-			clearTimeout( rountTimeLimit );
+			console.log( decisions );
+			clearTimeout( roundTimeLimit );
 			ev.removeAllListeners( 'all_decisions_received' );
 
 			endpoint. in ( room_id ).emit( Constants.DECISIONS_PHASE_END_EVENT );
@@ -232,36 +251,45 @@ module.exports = function ( endpoint )
 			before_order().then( compute_order ).then( after_order ).then( before_damage_phase() ).then( damage_phase() ).then( after_damage_phase() ).then( endphase_phase ).then( function ()
 			{
 
-				var loser = -1;
-				for ( var _p in players )
+				if ( room.battle.finished )
 				{
-					var characters_alive = 0;
-					for ( var _c in players[ _p ].team.characters )
-						if ( players[ _p ].team.characters[ _c ].alive )
-							characters_alive++;
-					if ( characters_alive === 0 )
-						loser = _p;
-				}
-
-				endpoint. in ( room_in ).emit( Constants.ROUND_RESULTS_EVENT, decisions_in_order );
-
-				if ( loser === -1 )
-				{
-					// Next round.
-					endpoint. in ( room_in ).emit( Constants.DECISIONS_PHASE_START_EVENT );
-					room.ev.emit( 'decision_phase_start', room_id );
+					// There is a winner by disconnection.
+					log.info( 'Winner by disconnection', 'DISCONNECT' );
+					close_room( room_id );
 				}
 				else
 				{
-					log.success( players[ ( loser === 0 ) ? 1 : 0 ].name + ' has won!', 'WINNER' );
+					var loser = -1;
+					for ( var _p in players )
+					{
+						var characters_alive = 0;
+						for ( var _c in players[ _p ].team.characters )
+							if ( players[ _p ].team.characters[ _c ].alive )
+								characters_alive++;
+						if ( characters_alive === 0 )
+							loser = _p;
+					}
 
-					// Notify winner and loser.
-					players[ loser ].socket.emit( Constants.LOSE_EVENT );
-					players[ ( loser === 0 ) ? 1 : 0 ].socket.emit( Constants.WIN_EVENT );
+					endpoint. in ( room_in ).emit( Constants.ROUND_RESULTS_EVENT, decisions_in_order );
 
-					// @TODO Stats should be saved, but we won't yet because we don't want to alter the Matchmaking algorithm... yet!
+					if ( loser === -1 )
+					{
+						// Next round.
+						endpoint. in ( room_in ).emit( Constants.DECISIONS_PHASE_START_EVENT );
+						room.ev.emit( 'decision_phase_start', room_id );
+					}
+					else
+					{
+						log.success( players[ ( loser === 0 ) ? 1 : 0 ].name + ' has won!', 'WINNER' );
 
-					close_room( room_id );
+						// Notify winner and loser.
+						players[ loser ].socket.emit( Constants.LOSE_EVENT );
+						players[ ( loser === 0 ) ? 1 : 0 ].socket.emit( Constants.WIN_EVENT );
+
+						// @TODO Stats should be saved, but we won't yet because we don't want to alter the Matchmaking algorithm... yet!
+
+						close_room( room_id );
+					}
 				}
 
 			} );
@@ -271,7 +299,8 @@ module.exports = function ( endpoint )
 		{
 			var defer = Q.defer();
 			log.info( 'before_order', 'HOOK' );
-			defer.resolve();
+			if ( room.battle.finished ) defer.resolve();
+			else defer.resolve();
 			return defer.promise;
 		};
 
@@ -280,31 +309,37 @@ module.exports = function ( endpoint )
 			var defer = Q.defer();
 			log.info( 'compute_order', 'HOOK' );
 
-			// Sort characters by speed.
-			// @TODO Use a faster algorithm.
-
-			while ( decisions_in_order.actions.length < decisions[ 0 ].length + decisions[ 1 ].length )
+			if ( room.battle.finished ) defer.resolve();
+			else
 			{
-				var local_speed = -1;
-				var local_index = {
-					_p: -1,
-					_c: -1
-				};
-				for ( var _p in decisions )
-					for ( var _c in decisions[ _p ] )
-					{
-						var speed = players[ _p ].team.characters[ _c ].stats[ Constants.SPEED_STAT_ID ];
-						if ( speed >= local_speed && decisions_in_order.actions.indexOf( decisions[ _p ][ _c ] ) === -1 )
+
+				// Sort characters by speed.
+				// @TODO Use a faster algorithm.
+
+				while ( decisions_in_order.actions.length < decisions[ 0 ].length + decisions[ 1 ].length )
+				{
+					var local_speed = -1;
+					var local_index = {
+						_p: -1,
+						_c: -1
+					};
+					for ( var _p in decisions )
+						for ( var _c in decisions[ _p ] )
 						{
-							// @TODO If speed is equal, randomly choose one.
-							local_speed = seepd;
-							local_index._c = _c;
-							local_index._p = _p;
+							var speed = players[ _p ].team.characters[ _c ].stats[ Constants.SPEED_STAT_ID ];
+							if ( speed >= local_speed && decisions_in_order.actions.indexOf( decisions[ _p ][ _c ] ) === -1 )
+							{
+								// @TODO If speed is equal, randomly choose one.
+								local_speed = seepd;
+								local_index._c = _c;
+								local_index._p = _p;
+							}
 						}
-					}
-				decisions_in_order.actions.push( decisions[ _p ][ _c ] );
-				decisions_in_order.characters.push( players[ _p ].team.characters[ _c ] );
-				decisions_in_order.player.push( _p );
+					decisions_in_order.actions.push( decisions[ local_index._p ][ local_index._c ] );
+					decisions_in_order.characters.push( players[ local_index._p ].team.characters[ local_index._c ] );
+					decisions_in_order.player.push( local_index._p );
+				}
+
 			}
 
 			defer.resolve();
@@ -316,7 +351,8 @@ module.exports = function ( endpoint )
 		{
 			var defer = Q.defer();
 			log.info( 'after_order', 'HOOK' );
-			defer.resolve();
+			if ( room.battle.finished ) defer.resolve();
+			else defer.resolve();
 			return defer.promise;
 		};
 
@@ -324,7 +360,8 @@ module.exports = function ( endpoint )
 		{
 			var defer = Q.defer();
 			log.info( 'before_damage_phase', 'HOOK' );
-			defer.resolve();
+			if ( room.battle.finished ) defer.resolve();
+			else defer.resolve();
 			return defer.promise;
 		};
 
@@ -333,39 +370,43 @@ module.exports = function ( endpoint )
 			var defer = Q.defer();
 			log.info( 'damage_phase', 'HOOK' );
 
-			for ( var _d in decisions_in_order.actions )
+			if ( room.battle.finished ) defer.resolve();
+			else
 			{
-				var d = decisions_in_order.actions[ _d ];
-				var c = decisions_in_order.characters[ _d ];
-				var p = decisions_in_order.player[ _d ];
+				for ( var _d in decisions_in_order.actions )
+				{
+					var d = decisions_in_order.actions[ _d ];
+					var c = decisions_in_order.characters[ _d ];
+					var p = decisions_in_order.player[ _d ];
 
-				/*
+					/*
 				p === 0 && d.target.player === Constants.PLAYER_RIVAL -> 1
 				p === 1 && d.target.player === Constants.PLAYER_ME -> 1
 				p === 0 && d.target.player === Constants.PLAYER_ME -> 0
 				p === 1 && d.target.player === Constants.PLAYER_RIVAL -> 0
 				*/
-				var player_target = ( ( p === 0 && d.target.player === Constants.PLAYER_RIVAL ) || ( p === 1 && d.target.player === Constants.PLAYER_ME ) ) ? 1 : 0;
+					var player_target = ( ( p === 0 && d.target.player === Constants.PLAYER_RIVAL ) || ( p === 1 && d.target.player === Constants.PLAYER_ME ) ) ? 1 : 0;
 
-				var t = players[ player_target ].team.characters[ d.target.character ];
+					var t = players[ player_target ].team.characters[ d.target.character ];
 
-				if ( !c.alive ) continue;
+					if ( !c.alive ) continue;
 
-				// @TODO Implement the real effects of the skills.
-				var damage = Math.round( Math.random() * 10 );
+					// @TODO Implement the real effects of the skills.
+					var damage = Math.round( Math.random() * 10 );
 
-				log.status( c.name + ' used ' + d.skill + ' and did ' + damage + ' damage points to ' + t.name + '!', 'DAMAGE' );
+					log.status( c.name + ' used ' + d.skill + ' and did ' + damage + ' damage points to ' + t.name + '!', 'DAMAGE' );
 
-				t.stats[ Constants.HEALTH_STAT_ID ] -= damage;
-				t.stats[ Constants.HEALTH_STAT_ID ] = Math.max( t.stats[ Constants.HEALTH_STAT_ID ], 0 );
-				if ( t.stats[ Constants.HEALTH_STAT_ID ] === 0 )
-				{
-					t.alive = false;
-					log.status( t.name + ' has fallen!', 'DAMAGE' );
+					t.stats[ Constants.HEALTH_STAT_ID ] -= damage;
+					t.stats[ Constants.HEALTH_STAT_ID ] = Math.max( t.stats[ Constants.HEALTH_STAT_ID ], 0 );
+					if ( t.stats[ Constants.HEALTH_STAT_ID ] === 0 )
+					{
+						t.alive = false;
+						log.status( t.name + ' has fallen!', 'DAMAGE' );
+					}
 				}
-			}
 
-			defer.resolve();
+				defer.resolve();
+			}
 			log.success( 'damage_phase', 'HOOK' );
 			return defer.promise;
 		};
@@ -374,7 +415,8 @@ module.exports = function ( endpoint )
 		{
 			var defer = Q.defer();
 			log.info( 'after_damage_phase', 'HOOK' );
-			defer.resolve();
+			if ( room.battle.finished ) defer.resolve();
+			else defer.resolve();
 			return defer.promise;
 		};
 
@@ -382,7 +424,8 @@ module.exports = function ( endpoint )
 		{
 			var defer = Q.defer();
 			log.info( 'endphase_phase', 'HOOK' );
-			defer.resolve();
+			if ( room.battle.finished ) defer.resolve();
+			else defer.resolve();
 			return defer.promise;
 		};
 	};

@@ -27,6 +27,8 @@ var socket = require( 'socket.io' ),
 	} ),
 	battleHandler = new require( './vendor/battleHandler.js' )( io.sockets );
 
+//io.set( 'log level', 1 ); // Reduce log level.
+
 // Wait for model initialization before continuing.
 
 model.ready.then( function ()
@@ -68,6 +70,7 @@ model.ready.then( function ()
 	// Teams.
 	app.get( '/team', controller.Team.get() );
 	app.get( '/team/:id', controller.Team.getBy( 'id', 'id' ) );
+	// @TODO Add a way to query the teams by user.
 
 	app.get( '/', function ( req, res )
 	{
