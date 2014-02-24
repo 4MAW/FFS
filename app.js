@@ -27,7 +27,7 @@ var socket = require( 'socket.io' ),
 	} ),
 	battleHandler = new require( './vendor/battleHandler.js' )( io.sockets );
 
-//io.set( 'log level', 1 ); // Reduce log level.
+io.set( 'log level', 1 ); // Reduce log level.
 
 // Wait for model initialization before continuing.
 

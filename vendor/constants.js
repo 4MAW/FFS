@@ -20,5 +20,6 @@ module.exports = {
 	PLAYER_RIVAL: "he",
 	PLAYER_SELF: "me",
 	SPEED_STAT_ID: "00000007",
-	HEALTH_STAT_ID: "00000001"
+	HEALTH_STAT_ID: "00000001",
+	CHARACTER_DIED_BEFORE_ACTION: "died_before_action"
 };

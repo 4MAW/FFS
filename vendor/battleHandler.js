@@ -62,7 +62,7 @@ module.exports = function ( endpoint )
 						model.Team.find(
 						{
 							id: team_id
-						}, function ( err, docs )
+						} ).populate( model.Team.join ).exec( function ( err, docs )
 						{
 							if ( err || docs.length !== 1 || player.teams.indexOf( docs[ 0 ]._id ) < 0 ) client.emit( Constants.INVALID_TEAM_EVENT );
 							else
@@ -70,8 +70,8 @@ module.exports = function ( endpoint )
 								var team = docs[ 0 ];
 								var new_entry = {
 									socket: client,
-									player: player,
-									team: team
+									player: JSON.parse( JSON.stringify( player ) ),
+									team: JSON.parse( JSON.stringify( team ) )
 								};
 								waiting.queue.push( new_entry );
 								client.removeAllListeners( 'disconnect' );
@@ -159,20 +159,34 @@ module.exports = function ( endpoint )
 		var team_1 = room.players[ 1 ].team;
 		var name_1 = room.players[ 1 ].player.username;
 
-		var team_0_ready = utils.loadCharactersStats( team_0.characters );
-		var team_1_ready = utils.loadCharactersStats( team_1.characters );
+		var team_0_ready = utils.loadCharactersStats( team_0.characters ).then( function ( t )
+		{
+			room.players[ 0 ].team.characters = t;
+		} );
+		var team_1_ready = utils.loadCharactersStats( team_1.characters ).then( function ( t )
+		{
+			room.players[ 1 ].team.characters = t;
+		} );
 
 		Q.all( [ team_0_ready, team_1_ready ] ).then( function ()
 		{
 			room.players[ 0 ].socket.emit( Constants.SEND_RIVAL_INFO_EVENT,
 			{
-				name: name_1,
-				team: team_1
+				rival:
+				{
+					name: name_1,
+					team: team_1
+				},
+				team: team_0
 			} );
 			room.players[ 1 ].socket.emit( Constants.SEND_RIVAL_INFO_EVENT,
 			{
-				name: name_0,
-				team: team_0
+				rival:
+				{
+					name: name_0,
+					team: team_0
+				},
+				team: team_1
 			} );
 			endpoint. in ( room_id ).emit( Constants.DECISIONS_PHASE_START_EVENT );
 			// Add handlers.
@@ -211,7 +225,7 @@ module.exports = function ( endpoint )
 		var decisions_in_order = {
 			actions: [],
 			characters: [],
-			player: []
+			players: []
 		};
 
 		var roundTimeLimit = setTimeout( function ()
@@ -237,7 +251,6 @@ module.exports = function ( endpoint )
 
 		ev.on( 'all_decisions_received', function ()
 		{
-			console.log( decisions );
 			clearTimeout( roundTimeLimit );
 			ev.removeAllListeners( 'all_decisions_received' );
 
@@ -248,7 +261,7 @@ module.exports = function ( endpoint )
 					decisions[ _d ] = [];
 
 				// We use defers so we can query the Database in the hooks if needed.
-			before_order().then( compute_order ).then( after_order ).then( before_damage_phase() ).then( damage_phase() ).then( after_damage_phase() ).then( endphase_phase ).then( function ()
+			before_order().then( compute_order ).then( after_order ).then( before_damage_phase ).then( damage_phase ).then( after_damage_phase ).then( endphase_phase ).then( function ()
 			{
 
 				if ( room.battle.finished )
@@ -259,6 +272,7 @@ module.exports = function ( endpoint )
 				}
 				else
 				{
+
 					var loser = -1;
 					for ( var _p in players )
 					{
@@ -270,21 +284,40 @@ module.exports = function ( endpoint )
 							loser = _p;
 					}
 
-					endpoint. in ( room_in ).emit( Constants.ROUND_RESULTS_EVENT, decisions_in_order );
+					for ( _p in players )
+					{
+						var decisions = {
+							actions: [],
+							characters: [],
+							players: []
+						};
+						for ( var i in decisions_in_order.players )
+						{
+							if ( decisions_in_order.actions[ i ].damage === Constants.CHARACTER_DIED_BEFORE_ACTION )
+								continue;
+							decisions.actions.push( decisions_in_order.actions[ i ] );
+							decisions.characters.push( decisions_in_order.characters[ i ] );
+							if ( decisions_in_order.players[ i ] === '' + _p )
+								decisions.players.push( Constants.PLAYER_SELF );
+							else
+								decisions.players.push( Constants.PLAYER_RIVAL );
+						}
+						players[ _p ].socket.emit( Constants.ROUND_RESULTS_EVENT, decisions );
+					}
 
 					if ( loser === -1 )
 					{
 						// Next round.
-						endpoint. in ( room_in ).emit( Constants.DECISIONS_PHASE_START_EVENT );
-						room.ev.emit( 'decision_phase_start', room_id );
+						endpoint. in ( room_id ).emit( Constants.DECISIONS_PHASE_START_EVENT );
+						ev.emit( 'decision_phase_start', room_id );
 					}
 					else
 					{
-						log.success( players[ ( loser === 0 ) ? 1 : 0 ].name + ' has won!', 'WINNER' );
+						log.success( players[ ( loser === 0 ) ? 1 : 0 ].player.name + ' has won!', 'WINNER' );
 
 						// Notify winner and loser.
 						players[ loser ].socket.emit( Constants.LOSE_EVENT );
-						players[ ( loser === 0 ) ? 1 : 0 ].socket.emit( Constants.WIN_EVENT );
+						players[ ( loser === '0' ) ? 1 : 0 ].socket.emit( Constants.WIN_EVENT );
 
 						// @TODO Stats should be saved, but we won't yet because we don't want to alter the Matchmaking algorithm... yet!
 
@@ -312,7 +345,6 @@ module.exports = function ( endpoint )
 			if ( room.battle.finished ) defer.resolve();
 			else
 			{
-
 				// Sort characters by speed.
 				// @TODO Use a faster algorithm.
 
@@ -323,21 +355,24 @@ module.exports = function ( endpoint )
 						_p: -1,
 						_c: -1
 					};
+
 					for ( var _p in decisions )
+					{
 						for ( var _c in decisions[ _p ] )
 						{
 							var speed = players[ _p ].team.characters[ _c ].stats[ Constants.SPEED_STAT_ID ];
 							if ( speed >= local_speed && decisions_in_order.actions.indexOf( decisions[ _p ][ _c ] ) === -1 )
 							{
 								// @TODO If speed is equal, randomly choose one.
-								local_speed = seepd;
+								local_speed = speed;
 								local_index._c = _c;
 								local_index._p = _p;
 							}
 						}
+					}
 					decisions_in_order.actions.push( decisions[ local_index._p ][ local_index._c ] );
 					decisions_in_order.characters.push( players[ local_index._p ].team.characters[ local_index._c ] );
-					decisions_in_order.player.push( local_index._p );
+					decisions_in_order.players.push( local_index._p );
 				}
 
 			}
@@ -377,22 +412,28 @@ module.exports = function ( endpoint )
 				{
 					var d = decisions_in_order.actions[ _d ];
 					var c = decisions_in_order.characters[ _d ];
-					var p = decisions_in_order.player[ _d ];
+					var p = decisions_in_order.players[ _d ];
 
 					/*
-				p === 0 && d.target.player === Constants.PLAYER_RIVAL -> 1
-				p === 1 && d.target.player === Constants.PLAYER_ME -> 1
-				p === 0 && d.target.player === Constants.PLAYER_ME -> 0
-				p === 1 && d.target.player === Constants.PLAYER_RIVAL -> 0
-				*/
-					var player_target = ( ( p === 0 && d.target.player === Constants.PLAYER_RIVAL ) || ( p === 1 && d.target.player === Constants.PLAYER_ME ) ) ? 1 : 0;
+					p === 0 && d.target.player === Constants.PLAYER_RIVAL -> 1
+					p === 1 && d.target.player === Constants.PLAYER_ME -> 1
+					p === 0 && d.target.player === Constants.PLAYER_ME -> 0
+					p === 1 && d.target.player === Constants.PLAYER_RIVAL -> 0
+					*/
+					var player_target = ( ( p === '0' && d.target.player === Constants.PLAYER_RIVAL ) || ( p === '1' && d.target.player === Constants.PLAYER_SELF ) ) ? 1 : 0;
 
 					var t = players[ player_target ].team.characters[ d.target.character ];
 
-					if ( !c.alive ) continue;
+					if ( !( c.alive && t.alive ) )
+					{
+						decisions_in_order.actions[ _d ].damage = Constants.CHARACTER_DIED_BEFORE_ACTION;
+						continue;
+					}
 
 					// @TODO Implement the real effects of the skills.
 					var damage = Math.round( Math.random() * 10 );
+
+					decisions_in_order.actions[ _d ].damage = damage;
 
 					log.status( c.name + ' used ' + d.skill + ' and did ' + damage + ' damage points to ' + t.name + '!', 'DAMAGE' );
 
@@ -432,7 +473,7 @@ module.exports = function ( endpoint )
 
 	var close_room = function ( room_id )
 	{
-		log.info( 'Closeing room ' + room_id, 'ROOM' );
+		log.info( 'Closing room ' + room_id, 'ROOM' );
 		var room = rooms[ room_id ];
 		endpoint. in ( room_id ).disconnect();
 		room.ev.removeAllListeners( 'decision_phase_start' );
