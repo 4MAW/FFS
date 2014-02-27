@@ -25,8 +25,16 @@ model.ready.then( function ()
 		var content = fs.readFileSync( dependencies[ _d ] ).toString();
 		var filename = path.basename( dependencies[ _d ], '.json' );
 		filename = filename.charAt( 0 ).toUpperCase() + filename.slice( 1 );
-		seeds[ filename ] = JSON.parse( content );
-		promises[ filename ] = Q.defer();
+		try
+		{
+			promises[ filename ] = Q.defer();
+			seeds[ filename ] = JSON.parse( content );
+		}
+		catch ( e )
+		{
+			promises[ filename ].reject( e );
+			log.error( e, 'PARSING ' + filename );
+		}
 		for ( var _p in model[ filename ].phases )
 			promises[ filename + '.' + model[ filename ].phases[ _p ].name ] = Q.defer();
 	}
@@ -50,13 +58,21 @@ model.ready.then( function ()
 					};
 				};
 
+				var log_phase_error = function ( phase )
+				{
+					return function ()
+					{
+						log.error( '«' + phase + '» phase failed!', collection );
+					};
+				};
+
 				var perform_phase = function ( phase, phase_ready_defer )
 				{
 					return function ()
 					{
 						for ( var _i in seeds[ collection ] )
 							callbacks_in_this_phase_run.push( phase.callback( seeds[ collection ][ _i ] ) ); //Run the callback for this phase.
-						Q.all( callbacks_in_this_phase_run ).then( phase_ready_defer.resolve );
+						Q.all( callbacks_in_this_phase_run ).then( phase_ready_defer.resolve ).fail( phase_ready_defer.reject );
 					};
 				};
 
@@ -75,9 +91,9 @@ model.ready.then( function ()
 					}
 
 					// When all dependencies are met just resolve the promise about this phase.
-					Q.all( required_promises ).then( perform_phase( phase, phase_ready_defer ) );
+					Q.all( required_promises ).then( perform_phase( phase, phase_ready_defer ) ).fail( phase_ready_defer.reject );
 
-					phase_ready_defer.promise.then( log_phase_success( phase.name ) );
+					phase_ready_defer.promise.then( log_phase_success( phase.name ) ).fail( log_phase_error( phase.name ) );
 				}
 			}
 
@@ -111,7 +127,7 @@ model.ready.then( function ()
 						log.success( 'Collection seeded to database!', collection );
 						promises[ collection ].resolve();
 					} ).fail( promises[ collection ].reject );
-				} );
+				} ).fail( promises[ collection ].reject );
 			}
 
 		};
@@ -131,7 +147,6 @@ model.ready.then( function ()
 		process.exit( 0 );
 	} ).fail( function ( err )
 	{
-		console.log( err );
 		log.error( err, 'SEED' );
 		process.exit( -1 );
 	} );
