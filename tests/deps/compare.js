@@ -138,9 +138,8 @@ function same_armor_type( actual, expected )
 {
 	assert.strictEqual( actual.id, expected.id );
 	assert.strictEqual( actual.name, expected.name );
-	assert.strictEqual( actual.phyFact, expected.phyFact );
-	assert.strictEqual( actual.magFact, expected.magFact );
-
+	assert.strictEqual( actual.phyFactor, undefined );
+	assert.strictEqual( actual.magFactor, undefined );
 }
 
 /**
