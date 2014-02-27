@@ -22,7 +22,7 @@ function process_item( item )
 
 	model.ArmorType.find(
 	{
-		id: item.type.id
+		id: item.type
 	},
 	{
 		id: 1
@@ -45,7 +45,7 @@ function process_item( item )
 
 	model.ArmorSlot.find(
 	{
-		id: item.slot.id
+		id: item.slot
 	},
 	{
 		id: 1
@@ -69,7 +69,7 @@ function process_item( item )
 	{
 		model.Stat.find(
 		{
-			id: item.stats[  _stat ].stat.id
+			id: item.stats[  _stat ].stat
 		},
 		{
 			_id: 1
@@ -138,7 +138,7 @@ function update_set( item )
 			// Then we query the ArmorSet.
 			model.ArmorSet.find(
 			{
-				id: item.armorSet.id
+				id: item.armorSet
 			},
 			{
 				id: 1

@@ -21,7 +21,7 @@ function process_item( item )
 	{
 		model.Skill.find(
 		{
-			id: item.skills[  _skill ].skill.id
+			id: item.skills[  _skill ].skill
 		},
 		{
 			_id: 1

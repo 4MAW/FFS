@@ -21,7 +21,7 @@ function process_item( item )
 	{
 		model.Character.find(
 		{
-			id: item.characters[ _character ].id
+			id: item.characters[ _character ]
 		},
 		{
 			_id: 1

@@ -34,12 +34,7 @@
     "id": "00000002",
     "name": "Mage",
     "description": "Fucking throws lazors",
-    "allowedWeapons": [
-      {
-        "slot": "",
-        "type": ""
-      }
-    ],
+    "allowedWeapons": [],
     "allowedArmors": [],
     "skills": [],
     "stats": [
@@ -48,11 +43,11 @@
         "stat": "00000001"
       },
       {
-        "value": "",
+        "value": 0,
         "stat": "00000002"
       },
       {
-        "value": null,
+        "value": 0,
         "stat": "00000003"
       },
       {
@@ -98,11 +93,11 @@
         "stat": "00000001"
       },
       {
-        "value": "",
+        "value": 0,
         "stat": "00000002"
       },
       {
-        "value": null,
+        "value": 0,
         "stat": "00000003"
       },
       {
@@ -148,11 +143,11 @@
         "stat": "00000001"
       },
       {
-        "value": "",
+        "value": 0,
         "stat": "00000002"
       },
       {
-        "value": null,
+        "value": 0,
         "stat": "00000003"
       },
       {
@@ -198,11 +193,11 @@
         "stat": "00000001"
       },
       {
-        "value": "",
+        "value": 0,
         "stat": "00000002"
       },
       {
-        "value": null,
+        "value": 0,
         "stat": "00000003"
       },
       {
@@ -248,11 +243,11 @@
         "stat": "00000001"
       },
       {
-        "value": "",
+        "value": 0,
         "stat": "00000002"
       },
       {
-        "value": null,
+        "value": 0,
         "stat": "00000003"
       },
       {
@@ -298,11 +293,11 @@
         "stat": "00000001"
       },
       {
-        "value": "",
+        "value": 0,
         "stat": "00000002"
       },
       {
-        "value": null,
+        "value": 0,
         "stat": "00000003"
       },
       {
@@ -348,11 +343,11 @@
         "stat": "00000001"
       },
       {
-        "value": "",
+        "value": 0,
         "stat": "00000002"
       },
       {
-        "value": null,
+        "value": 0,
         "stat": "00000003"
       },
       {
@@ -398,11 +393,11 @@
         "stat": "00000001"
       },
       {
-        "value": null,
+        "value": 0,
         "stat": "00000002"
       },
       {
-        "value": "",
+        "value": 0,
         "stat": "00000003"
       },
       {

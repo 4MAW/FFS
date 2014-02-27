@@ -20,7 +20,7 @@ function process_item( item )
 
 	model.WeaponType.find(
 	{
-		id: item.type.id
+		id: item.type
 	},
 	{
 		id: 1
@@ -44,7 +44,7 @@ function process_item( item )
 	{
 		model.Stat.find(
 		{
-			id: item.stats[  _stat ].stat.id
+			id: item.stats[  _stat ].stat
 		},
 		{
 			_id: 1
@@ -79,7 +79,7 @@ function process_item( item )
 	{
 		model.Skill.find(
 		{
-			id: item.skills[  _skill ].skill.id
+			id: item.skills[  _skill ].skill
 		},
 		{
 			_id: 1

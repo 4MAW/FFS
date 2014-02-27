@@ -20,7 +20,7 @@ function process_item( item )
 
 	model.Class.find(
 	{
-		id: item.class.id
+		id: item.class
 	},
 	{
 		id: 1
@@ -44,7 +44,7 @@ function process_item( item )
 	{
 		model.Accessory.find(
 		{
-			id: item.accessories[ _accessory ].id
+			id: item.accessories[ _accessory ]
 		},
 		{
 			_id: 1
@@ -79,7 +79,7 @@ function process_item( item )
 	{
 		model.WeaponSlot.find(
 		{
-			id: item.weapons[ _weapon_slot ].slot.id
+			id: item.weapons[ _weapon_slot ].slot
 		},
 		{
 			_id: 1
@@ -114,7 +114,7 @@ function process_item( item )
 	{
 		model.Weapon.find(
 		{
-			id: item.weapons[ _weapon ].weapon.id
+			id: item.weapons[ _weapon ].weapon
 		},
 		{
 			_id: 1
@@ -148,7 +148,7 @@ function process_item( item )
 
 	model.ArmorPiece.find(
 	{
-		id: item.armor.id
+		id: item.armor
 	},
 	{
 		id: 1
@@ -171,7 +171,7 @@ function process_item( item )
 
 	model.ArmorPiece.find(
 	{
-		id: item.boots.id
+		id: item.boots
 	},
 	{
 		id: 1
@@ -194,7 +194,7 @@ function process_item( item )
 
 	model.ArmorPiece.find(
 	{
-		id: item.helmet.id
+		id: item.helmet
 	},
 	{
 		id: 1
@@ -217,7 +217,7 @@ function process_item( item )
 
 	model.ArmorPiece.find(
 	{
-		id: item.gauntlets.id
+		id: item.gauntlets
 	},
 	{
 		id: 1

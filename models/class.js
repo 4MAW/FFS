@@ -21,7 +21,7 @@ function process_item( item )
 	{
 		model.WeaponSlot.find(
 		{
-			id: item.allowedWeapons[ _weapon_slot ].slot.id
+			id: item.allowedWeapons[ _weapon_slot ].slot
 		},
 		{
 			_id: 1
@@ -56,7 +56,7 @@ function process_item( item )
 	{
 		model.Stat.find(
 		{
-			id: item.stats[  _stat ].stat.id
+			id: item.stats[  _stat ].stat
 		},
 		{
 			_id: 1
@@ -91,7 +91,7 @@ function process_item( item )
 	{
 		model.WeaponType.find(
 		{
-			id: item.allowedWeapons[ _weapon_type ].type.id
+			id: item.allowedWeapons[ _weapon_type ].type
 		},
 		{
 			_id: 1
@@ -126,7 +126,7 @@ function process_item( item )
 	{
 		model.ArmorType.find(
 		{
-			id: item.allowedArmors[ _armor_type ].id
+			id: item.allowedArmors[ _armor_type ]
 		},
 		{
 			_id: 1
@@ -161,7 +161,7 @@ function process_item( item )
 	{
 		model.Skill.find(
 		{
-			id: item.skills[ _skill ].id
+			id: item.skills[ _skill ]
 		},
 		{
 			_id: 1

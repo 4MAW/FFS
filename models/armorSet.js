@@ -20,7 +20,7 @@ function process_item( item )
 
 	model.ArmorType.find(
 	{
-		id: item.type.id
+		id: item.type
 	},
 	{
 		id: 1
@@ -44,7 +44,7 @@ function process_item( item )
 	{
 		model.ArmorPiece.find(
 		{
-			id: item.components[ _component ].id
+			id: item.components[ _component ]
 		},
 		{
 			_id: 1
@@ -79,7 +79,7 @@ function process_item( item )
 	{
 		model.Skill.find(
 		{
-			id: item.skills[ _skill ].skill.id
+			id: item.skills[ _skill ].skill
 		},
 		{
 			_id: 1
@@ -186,8 +186,8 @@ module.exports = {
 				for ( var i in ret.components )
 				{
 					ret.components[ i ] = {
-						id: ret.components[ i ].id,
-						name: ret.components[ i ].name
+						id: ret.components[ i ],
+						name: ret.components[ i ]
 					};
 				}
 				delete ret._id;

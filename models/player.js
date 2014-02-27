@@ -21,7 +21,7 @@ function process_item( item )
 	{
 		model.Team.find(
 		{
-			id: item.teams[  _team ].id
+			id: item.teams[  _team ]
 		},
 		{
 			_id: 1
