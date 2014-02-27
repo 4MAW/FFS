@@ -186,8 +186,8 @@ module.exports = {
 				for ( var i in ret.components )
 				{
 					ret.components[ i ] = {
-						id: ret.components[ i ],
-						name: ret.components[ i ]
+						id: ret.components[ i ].id,
+						name: ret.components[ i ].name
 					};
 				}
 				delete ret._id;
