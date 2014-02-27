@@ -1,19 +1,17 @@
 [
-	{
-		"id": "00000001",
-		"username": "Lluís",
-		"password": "yolo",
-		"gamesPlayed": 0,
-		"gamesWon": 0,
-		"teams": ["00000001"]
-	},
-	{
-		"id": "00000002",
-		"username": "demo",
-		"password": "demo",
-		"gamesPlayed": 0,
-		"gamesWon": 0,
-		"teams": [ "00000002", "00000003"]
-			
-	} 
-]
+{
+	"id": "00000001",
+	"username": "Lluís",
+	"password": "yolo",
+	"gamesPlayed": 0,
+	"gamesWon": 0,
+	"teams": [ "00000001" ]
+},
+{
+	"id": "00000002",
+	"username": "demo",
+	"password": "demo",
+	"gamesPlayed": 0,
+	"gamesWon": 0,
+	"teams": [ "00000002", "00000003" ]
+} ]

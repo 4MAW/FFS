@@ -3,126 +3,134 @@
 	"id": "00000001",
 	"name": "Maderín",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"]
+	"accessories": [ "00000001" ]
 },
 {
 	"id": "00000002",
 	"name": "Warra",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"]
+	"accessories": [ "00000001" ]
 },
 {
 	"id": "00000003",
 	"name": "Caballero arbóreo",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"]
+	"accessories": [ "00000001" ]
 },
 {
 	"id": "00000004",
 	"name": "Mr. Proper",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"]
+	"accessories": [ "00000001" ]
 },
 {
 	"id": "00000005",
 	"name": "Eddy el Ent",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"] 
+	"accessories": [ "00000001" ]
 },
 {
 	"id": "00000006",
 	"name": "Roblín",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"]
+	"accessories": [ "00000001" ]
 },
 {
 	"id": "00000007",
 	"name": "Roblón",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"]
+	"accessories": [ "00000001" ]
 },
 {
 	"id": "00000008",
 	"name": "Arcín",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"]
+	"accessories": [ "00000001" ]
 },
 {
 	"id": "00000009",
 	"name": "Brian the Unlucky",
 	"class": "00000001",
-	"weapons": [{
+	"weapons": [
+	{
 		"slot": "00000001",
 		"weapon": "00000001"
-	}],
+	} ],
 	"armor": "00000002",
 	"boots": "00000004",
 	"helmet": "00000001",
 	"gauntlets": "00000003",
-	"accessories": [ "00000001"]
-} 
-]
+	"accessories": [ "00000001" ]
+} ]
