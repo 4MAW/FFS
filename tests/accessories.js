@@ -40,7 +40,7 @@ describe( 'Accessories', function ()
 				':id': 'id'
 			},
 			sources: Mocks.accessories,
-			compare: compare.sameAccessory,
+			compare: compare.sameAccessoryMock,
 			nonExistingID: Mocks.NON_EXISTING_ID
 		};
 

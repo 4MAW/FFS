@@ -40,7 +40,7 @@ describe( 'Weapons', function ()
 				':id': 'id'
 			},
 			sources: Mocks.weapons,
-			compare: compare.sameWeapon,
+			compare: compare.sameWeaponMock,
 			nonExistingID: Mocks.NON_EXISTING_ID
 		};
 

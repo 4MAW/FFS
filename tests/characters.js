@@ -27,7 +27,7 @@ describe( 'Characters', function ()
 				':id': 'id'
 			},
 			sources: Mocks.characters,
-			compare: compare.sameCharacter,
+			compare: compare.sameCharacterMock,
 			nonExistingID: Mocks.NON_EXISTING_ID
 		};
 

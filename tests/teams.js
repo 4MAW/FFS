@@ -40,7 +40,7 @@ describe( 'Teams', function ()
 				':id': 'id'
 			},
 			sources: Mocks.teams,
-			compare: compare.sameTeam,
+			compare: compare.sameTeamMock,
 			nonExistingID: Mocks.NON_EXISTING_ID
 		};
 
