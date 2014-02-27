@@ -40,7 +40,7 @@ describe( 'Armor pieces', function ()
 				':id': 'id'
 			},
 			sources: Mocks.armorPieces,
-			compare: compare.sameArmorPiece,
+			compare: compare.sameArmorPieceMock,
 			nonExistingID: Mocks.NON_EXISTING_ID
 		};
 

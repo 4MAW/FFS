@@ -1,433 +1,422 @@
 [
-  {
-    "id": "00000001",
-    "name": "Warrior",
-    "description": "A mighty warrior",
-    "allowedWeapons": [
-      {
-        "slot": "00000001",
-        "type": "00000001"
-      },
-      {
-        "slot": "00000001",
-        "type": "00000003"
-      },
-      {
-        "slot": "00000003",
-        "type": "00000005"
-      }
-    ],
-    "allowedArmors": [ "00000001", "00000002", "00000004"],
-    "skills": [ "00000001", "00000002", "00000003"],
-    "stats": [
-      {
-        "value": 20,
-        "stat": "00000005"
-      },
-      {
-        "value": 40,
-        "stat": "00000001"
-      }
-    ]
-  },
-  {
-    "id": "00000002",
-    "name": "Mage",
-    "description": "Fucking throws lazors",
-    "allowedWeapons": [],
-    "allowedArmors": [],
-    "skills": [],
-    "stats": [
-      {
-        "value": 600,
-        "stat": "00000001"
-      },
-      {
-        "value": 0,
-        "stat": "00000002"
-      },
-      {
-        "value": 0,
-        "stat": "00000003"
-      },
-      {
-        "value": 40,
-        "stat": "00000004"
-      },
-      {
-        "value": 45,
-        "stat": "00000005"
-      },
-      {
-        "value": 80,
-        "stat": "00000006"
-      },
-      {
-        "value": 70,
-        "stat": "00000007"
-      },
-      {
-        "value": 60,
-        "stat": "00000008"
-      },
-      {
-        "value": 10,
-        "stat": "00000009"
-      },
-      {
-        "value": 20,
-        "stat": "00000010"
-      }
-    ]
-  },
-  {
-    "id": "00000003",
-    "name": "Heretic",
-    "description": "Fucking throws tons of shit",
-    "allowedWeapons": [],
-    "allowedArmors": [],
-    "skills": [],
-    "stats": [
-      {
-        "value": 775,
-        "stat": "00000001"
-      },
-      {
-        "value": 0,
-        "stat": "00000002"
-      },
-      {
-        "value": 0,
-        "stat": "00000003"
-      },
-      {
-        "value": 40,
-        "stat": "00000004"
-      },
-      {
-        "value": 65,
-        "stat": "00000005"
-      },
-      {
-        "value": 70,
-        "stat": "00000006"
-      },
-      {
-        "value": 60,
-        "stat": "00000007"
-      },
-      {
-        "value": 50,
-        "stat": "00000008"
-      },
-      {
-        "value": 10,
-        "stat": "00000009"
-      },
-      {
-        "value": 15,
-        "stat": "00000010"
-      }
-    ]
-  },
-  {
-    "id": "00000004",
-    "name": "Priest",
-    "description": "Fucking throws heals",
-    "allowedWeapons": [],
-    "allowedArmors": [],
-    "skills": [],
-    "stats": [
-      {
-        "value": 700,
-        "stat": "00000001"
-      },
-      {
-        "value": 0,
-        "stat": "00000002"
-      },
-      {
-        "value": 0,
-        "stat": "00000003"
-      },
-      {
-        "value": 40,
-        "stat": "00000004"
-      },
-      {
-        "value": 50,
-        "stat": "00000005"
-      },
-      {
-        "value": 60,
-        "stat": "00000006"
-      },
-      {
-        "value": 80,
-        "stat": "00000007"
-      },
-      {
-        "value": 55,
-        "stat": "00000008"
-      },
-      {
-        "value": 15,
-        "stat": "00000009"
-      },
-      {
-        "value": 15,
-        "stat": "00000010"
-      }
-    ]
-  },
-  {
-    "id": "00000005",
-    "name": "Scout",
-    "description": "Fucking deals damage",
-    "allowedWeapons": [],
-    "allowedArmors": [],
-    "skills": [],
-    "stats": [
-      {
-        "value": 650,
-        "stat": "00000001"
-      },
-      {
-        "value": 0,
-        "stat": "00000002"
-      },
-      {
-        "value": 0,
-        "stat": "00000003"
-      },
-      {
-        "value": 75,
-        "stat": "00000004"
-      },
-      {
-        "value": 40,
-        "stat": "00000005"
-      },
-      {
-        "value": 10,
-        "stat": "00000006"
-      },
-      {
-        "value": 40,
-        "stat": "00000007"
-      },
-      {
-        "value": 80,
-        "stat": "00000008"
-      },
-      {
-        "value": 30,
-        "stat": "00000009"
-      },
-      {
-        "value": 30,
-        "stat": "00000010"
-      }
-    ]
-  },
-  {
-    "id": "00000006",
-    "name": "Shooter",
-    "description": "Fucking throws bullets and arrows",
-    "allowedWeapons": [],
-    "allowedArmors": [],
-    "skills": [],
-    "stats": [
-      {
-        "value": 600,
-        "stat": "00000001"
-      },
-      {
-        "value": 0,
-        "stat": "00000002"
-      },
-      {
-        "value": 0,
-        "stat": "00000003"
-      },
-      {
-        "value": 75,
-        "stat": "00000004"
-      },
-      {
-        "value": 40,
-        "stat": "00000005"
-      },
-      {
-        "value": 50,
-        "stat": "00000006"
-      },
-      {
-        "value": 40,
-        "stat": "00000007"
-      },
-      {
-        "value": 69,
-        "stat": "00000008"
-      },
-      {
-        "value": 22,
-        "stat": "00000009"
-      },
-      {
-        "value": 22,
-        "stat": "00000010"
-      }
-    ]
-  },
-  {
-    "id": "00000007",
-    "name": "Knight",
-    "description": "Fucking gets hit",
-    "allowedWeapons": [],
-    "allowedArmors": [],
-    "skills": [],
-    "stats": [
-      {
-        "value": 950,
-        "stat": "00000001"
-      },
-      {
-        "value": 0,
-        "stat": "00000002"
-      },
-      {
-        "value": 0,
-        "stat": "00000003"
-      },
-      {
-        "value": 53,
-        "stat": "00000004"
-      },
-      {
-        "value": 85,
-        "stat": "00000005"
-      },
-      {
-        "value": 35,
-        "stat": "00000006"
-      },
-      {
-        "value": 65,
-        "stat": "00000007"
-      },
-      {
-        "value": 40,
-        "stat": "00000008"
-      },
-      {
-        "value": 5,
-        "stat": "00000009"
-      },
-      {
-        "value": 13,
-        "stat": "00000010"
-      }
-    ]
-  },
-  {
-    "id": "00000008",
-    "name": "Soldier",
-    "description": "Fucking hits like a truck",
-    "allowedWeapons": [],
-    "allowedArmors": [],
-    "skills": [],
-    "stats": [
-      {
-        "value": 650,
-        "stat": "00000001"
-      },
-      {
-        "value": 0,
-        "stat": "00000002"
-      },
-      {
-        "value": 0,
-        "stat": "00000003"
-      },
-      {
-        "value": 95,
-        "stat": "00000004"
-      },
-      {
-        "value": 40,
-        "stat": "00000005"
-      },
-      {
-        "value": 30,
-        "stat": "00000006"
-      },
-      {
-        "value": 40,
-        "stat": "00000007"
-      },
-      {
-        "value": 70,
-        "stat": "00000008"
-      },
-      {
-        "value": 15,
-        "stat": "00000009"
-      },
-      {
-        "value": 25,
-        "stat": "00000010"
-      }
-    ]
-  },
-  {
-    "id": "00000009",
-    "name": "Fighter",
-    "description": "The damn fucking monk",
-    "allowedWeapons": [],
-    "allowedArmors": [],
-    "skills": [],
-    "stats": [
-      {
-        "value": 800,
-        "stat": "00000001"
-      },
-      {
-        "value": 0,
-        "stat": "00000002"
-      },
-      {
-        "value": 0,
-        "stat": "00000003"
-      },
-      {
-        "value": 60,
-        "stat": "00000004"
-      },
-      {
-        "value": 60,
-        "stat": "00000005"
-      },
-      {
-        "value": 5,
-        "stat": "00000006"
-      },
-      {
-        "value": 85,
-        "stat": "00000007"
-      },
-      {
-        "value": 65,
-        "stat": "00000008"
-      },
-      {
-        "value": 15,
-        "stat": "00000009"
-      },
-      {
-        "value": 15,
-        "stat": "00000010"
-      }
-    ]
-  }
-]
+{
+	"id": "00000001",
+	"name": "Warrior",
+	"description": "A mighty warrior",
+	"allowedWeapons": [
+	{
+		"slot": "00000001",
+		"type": "00000001"
+	},
+	{
+		"slot": "00000001",
+		"type": "00000003"
+	},
+	{
+		"slot": "00000003",
+		"type": "00000005"
+	} ],
+	"allowedArmors": [ "00000001", "00000002", "00000004" ],
+	"skills": [ "00000001", "00000002", "00000003" ],
+	"stats": [
+	{
+		"value": 20,
+		"stat": "00000005"
+	},
+	{
+		"value": 40,
+		"stat": "00000001"
+	} ]
+},
+{
+	"id": "00000002",
+	"name": "Mage",
+	"description": "Fucking throws lazors",
+	"allowedWeapons": [],
+	"allowedArmors": [],
+	"skills": [],
+	"stats": [
+	{
+		"value": 600,
+		"stat": "00000001"
+	},
+	{
+		"value": 0,
+		"stat": "00000002"
+	},
+	{
+		"value": 0,
+		"stat": "00000003"
+	},
+	{
+		"value": 40,
+		"stat": "00000004"
+	},
+	{
+		"value": 45,
+		"stat": "00000005"
+	},
+	{
+		"value": 80,
+		"stat": "00000006"
+	},
+	{
+		"value": 70,
+		"stat": "00000007"
+	},
+	{
+		"value": 60,
+		"stat": "00000008"
+	},
+	{
+		"value": 10,
+		"stat": "00000009"
+	},
+	{
+		"value": 20,
+		"stat": "00000010"
+	} ]
+},
+{
+	"id": "00000003",
+	"name": "Heretic",
+	"description": "Fucking throws tons of shit",
+	"allowedWeapons": [],
+	"allowedArmors": [],
+	"skills": [],
+	"stats": [
+	{
+		"value": 775,
+		"stat": "00000001"
+	},
+	{
+		"value": 0,
+		"stat": "00000002"
+	},
+	{
+		"value": 0,
+		"stat": "00000003"
+	},
+	{
+		"value": 40,
+		"stat": "00000004"
+	},
+	{
+		"value": 65,
+		"stat": "00000005"
+	},
+	{
+		"value": 70,
+		"stat": "00000006"
+	},
+	{
+		"value": 60,
+		"stat": "00000007"
+	},
+	{
+		"value": 50,
+		"stat": "00000008"
+	},
+	{
+		"value": 10,
+		"stat": "00000009"
+	},
+	{
+		"value": 15,
+		"stat": "00000010"
+	} ]
+},
+{
+	"id": "00000004",
+	"name": "Priest",
+	"description": "Fucking throws heals",
+	"allowedWeapons": [],
+	"allowedArmors": [],
+	"skills": [],
+	"stats": [
+	{
+		"value": 700,
+		"stat": "00000001"
+	},
+	{
+		"value": 0,
+		"stat": "00000002"
+	},
+	{
+		"value": 0,
+		"stat": "00000003"
+	},
+	{
+		"value": 40,
+		"stat": "00000004"
+	},
+	{
+		"value": 50,
+		"stat": "00000005"
+	},
+	{
+		"value": 60,
+		"stat": "00000006"
+	},
+	{
+		"value": 80,
+		"stat": "00000007"
+	},
+	{
+		"value": 55,
+		"stat": "00000008"
+	},
+	{
+		"value": 15,
+		"stat": "00000009"
+	},
+	{
+		"value": 15,
+		"stat": "00000010"
+	} ]
+},
+{
+	"id": "00000005",
+	"name": "Scout",
+	"description": "Fucking deals damage",
+	"allowedWeapons": [],
+	"allowedArmors": [],
+	"skills": [],
+	"stats": [
+	{
+		"value": 650,
+		"stat": "00000001"
+	},
+	{
+		"value": 0,
+		"stat": "00000002"
+	},
+	{
+		"value": 0,
+		"stat": "00000003"
+	},
+	{
+		"value": 75,
+		"stat": "00000004"
+	},
+	{
+		"value": 40,
+		"stat": "00000005"
+	},
+	{
+		"value": 10,
+		"stat": "00000006"
+	},
+	{
+		"value": 40,
+		"stat": "00000007"
+	},
+	{
+		"value": 80,
+		"stat": "00000008"
+	},
+	{
+		"value": 30,
+		"stat": "00000009"
+	},
+	{
+		"value": 30,
+		"stat": "00000010"
+	} ]
+},
+{
+	"id": "00000006",
+	"name": "Shooter",
+	"description": "Fucking throws bullets and arrows",
+	"allowedWeapons": [],
+	"allowedArmors": [],
+	"skills": [],
+	"stats": [
+	{
+		"value": 600,
+		"stat": "00000001"
+	},
+	{
+		"value": 0,
+		"stat": "00000002"
+	},
+	{
+		"value": 0,
+		"stat": "00000003"
+	},
+	{
+		"value": 75,
+		"stat": "00000004"
+	},
+	{
+		"value": 40,
+		"stat": "00000005"
+	},
+	{
+		"value": 50,
+		"stat": "00000006"
+	},
+	{
+		"value": 40,
+		"stat": "00000007"
+	},
+	{
+		"value": 69,
+		"stat": "00000008"
+	},
+	{
+		"value": 22,
+		"stat": "00000009"
+	},
+	{
+		"value": 22,
+		"stat": "00000010"
+	} ]
+},
+{
+	"id": "00000007",
+	"name": "Knight",
+	"description": "Fucking gets hit",
+	"allowedWeapons": [],
+	"allowedArmors": [],
+	"skills": [],
+	"stats": [
+	{
+		"value": 950,
+		"stat": "00000001"
+	},
+	{
+		"value": 0,
+		"stat": "00000002"
+	},
+	{
+		"value": 0,
+		"stat": "00000003"
+	},
+	{
+		"value": 53,
+		"stat": "00000004"
+	},
+	{
+		"value": 85,
+		"stat": "00000005"
+	},
+	{
+		"value": 35,
+		"stat": "00000006"
+	},
+	{
+		"value": 65,
+		"stat": "00000007"
+	},
+	{
+		"value": 40,
+		"stat": "00000008"
+	},
+	{
+		"value": 5,
+		"stat": "00000009"
+	},
+	{
+		"value": 13,
+		"stat": "00000010"
+	} ]
+},
+{
+	"id": "00000008",
+	"name": "Soldier",
+	"description": "Fucking hits like a truck",
+	"allowedWeapons": [],
+	"allowedArmors": [],
+	"skills": [],
+	"stats": [
+	{
+		"value": 650,
+		"stat": "00000001"
+	},
+	{
+		"value": 0,
+		"stat": "00000002"
+	},
+	{
+		"value": 0,
+		"stat": "00000003"
+	},
+	{
+		"value": 95,
+		"stat": "00000004"
+	},
+	{
+		"value": 40,
+		"stat": "00000005"
+	},
+	{
+		"value": 30,
+		"stat": "00000006"
+	},
+	{
+		"value": 40,
+		"stat": "00000007"
+	},
+	{
+		"value": 70,
+		"stat": "00000008"
+	},
+	{
+		"value": 15,
+		"stat": "00000009"
+	},
+	{
+		"value": 25,
+		"stat": "00000010"
+	} ]
+},
+{
+	"id": "00000009",
+	"name": "Fighter",
+	"description": "The damn fucking monk",
+	"allowedWeapons": [],
+	"allowedArmors": [],
+	"skills": [],
+	"stats": [
+	{
+		"value": 800,
+		"stat": "00000001"
+	},
+	{
+		"value": 0,
+		"stat": "00000002"
+	},
+	{
+		"value": 0,
+		"stat": "00000003"
+	},
+	{
+		"value": 60,
+		"stat": "00000004"
+	},
+	{
+		"value": 60,
+		"stat": "00000005"
+	},
+	{
+		"value": 5,
+		"stat": "00000006"
+	},
+	{
+		"value": 85,
+		"stat": "00000007"
+	},
+	{
+		"value": 65,
+		"stat": "00000008"
+	},
+	{
+		"value": 15,
+		"stat": "00000009"
+	},
+	{
+		"value": 15,
+		"stat": "00000010"
+	} ]
+} ]

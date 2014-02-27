@@ -30,7 +30,7 @@ describe( 'Reachability', function ()
 
 		var socket = io.connect( baseURL );
 
-		socket.on( 'messages', function ( data )
+		socket.on( Constants.WELCOME_EVENT, function ( data )
 		{
 			socket.disconnect();
 			assert.strictEqual( data, Constants.WELCOME_TO_SOCKET_MSG );

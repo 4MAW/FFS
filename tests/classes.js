@@ -40,7 +40,7 @@ describe( 'Classes', function ()
 				':id': 'id'
 			},
 			sources: Mocks.classes,
-			compare: compare.sameClass,
+			compare: compare.sameClassMock,
 			nonExistingID: Mocks.NON_EXISTING_ID
 		};
 
