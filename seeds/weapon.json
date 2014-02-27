@@ -2,28 +2,15 @@
 {
 	"id": "00000001",
 	"name": "Wooden Sword",
-	"type":
-	{
-		"id": "00000001",
-		"name": "Sword"
-	},
+	"type": "00000001",
 	"stats": [
 	{
 		"value": 10,
-		"stat":
-		{
-			"id": "00000004",
-			"name": "Strength"
-		}
+		"stat": "00000004",
 	} ],
 	"skills": [
 	{
 		"probability": 0.05,
-		"skill":
-		{
-			"id": "00000003",
-			"name": "Wait",
-			"passive": false
-		}
+		"skill": "00000003"
 	} ]
 } ]

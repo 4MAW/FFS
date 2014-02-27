@@ -5,84 +5,28 @@
     "description": "A mighty warrior",
     "allowedWeapons": [
       {
-        "slot": {
-          "id": "00000001",
-          "name": "Right hand"
-        },
-        "type": {
-          "id": "00000001",
-          "name": "Sword"
-        }
+        "slot": "00000001",
+        "type": "00000001"
       },
       {
-        "slot": {
-          "id": "00000001",
-          "name": "Right hand"
-        },
-        "type": {
-          "id": "00000003",
-          "name": "Axe"
-        }
+        "slot": "00000001",
+        "type": "00000003"
       },
       {
-        "slot": {
-          "id": "00000003",
-          "name": "Both hands"
-        },
-        "type": {
-          "id": "00000005",
-          "name": "Claymore"
-        }
+        "slot": "00000003",
+        "type": "00000005"
       }
     ],
-    "allowedArmors": [
-      {
-        "id": "00000001",
-        "name": "Wooden"
-      },
-      {
-        "id": "00000002",
-        "name": "Iron"
-      },
-      {
-        "id": "00000004",
-        "name": "Mithril"
-      }
-    ],
-    "skills": [
-      {
-        "id": "00000001",
-        "name": "Direct Attack",
-        "definition": "attack.js",
-        "passive": false
-      },
-      {
-        "id": "00000002",
-        "name": "Threaten",
-        "definition": "threaten.js",
-        "passive": false
-      },
-      {
-        "id": "00000003",
-        "name": "Wait",
-        "definition": "wait.js",
-        "passive": false
-      }
-    ],
+    "allowedArmors": [ "00000001", "00000002", "00000004"],
+    "skills": [ "00000001", "00000002", "00000003"],
     "stats": [
       {
         "value": 20,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       }
     ]
   },
@@ -92,108 +36,52 @@
     "description": "Fucking throws lazors",
     "allowedWeapons": [
       {
-        "slot": {
-          "id": "",
-          "name": ""
-        },
-        "type": {
-          "id": "",
-          "name": ""
-        }
+        "slot": "",
+        "type": ""
       }
     ],
-    "allowedArmors": [
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      }
-    ],
-    "skills": [
-      {
-        "id": "",
-        "name": "",
-        "definition": "",
-        "passive": ""
-      }
-    ],
+    "allowedArmors": [],
+    "skills": [],
     "stats": [
       {
         "value": 600,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       },
       {
         "value": "",
-        "stat": {
-          "id": "00000002",
-          "name": "Mana"
-        }
+        "stat": "00000002"
       },
       {
         "value": null,
-        "stat": {
-          "id": "00000003",
-          "name": "Ki"
-        }
+        "stat": "00000003"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000004",
-          "name": "Strength"
-        }
+        "stat": "00000004"
       },
       {
         "value": 45,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 80,
-        "stat": {
-          "id": "00000006",
-          "name": "Intelligence"
-        }
+        "stat": "00000006"
       },
       {
         "value": 70,
-        "stat": {
-          "id": "00000007",
-          "name": "Mentality"
-        }
+        "stat": "00000007"
       },
       {
         "value": 60,
-        "stat": {
-          "id": "00000008",
-          "name": "Speed"
-        }
+        "stat": "00000008"
       },
       {
         "value": 10,
-        "stat": {
-          "id": "00000009",
-          "name": "Evasion"
-        }
+        "stat": "00000009"
       },
       {
         "value": 20,
-        "stat": {
-          "id": "00000010",
-          "name": "Critical"
-        }
+        "stat": "00000010"
       }
     ]
   },
@@ -201,110 +89,49 @@
     "id": "00000003",
     "name": "Heretic",
     "description": "Fucking throws tons of shit",
-    "allowedWeapons": [
-      {
-        "slot": {
-          "id": "",
-          "name": ""
-        },
-        "type": {
-          "id": "",
-          "name": ""
-        }
-      }
-    ],
-    "allowedArmors": [
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      }
-    ],
-    "skills": [
-      {
-        "id": "",
-        "name": "",
-        "definition": "",
-        "passive": ""
-      }
-    ],
+    "allowedWeapons": [],
+    "allowedArmors": [],
+    "skills": [],
     "stats": [
       {
         "value": 775,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       },
       {
         "value": "",
-        "stat": {
-          "id": "00000002",
-          "name": "Mana"
-        }
+        "stat": "00000002"
       },
       {
         "value": null,
-        "stat": {
-          "id": "00000003",
-          "name": "Ki"
-        }
+        "stat": "00000003"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000004",
-          "name": "Strength"
-        }
+        "stat": "00000004"
       },
       {
         "value": 65,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 70,
-        "stat": {
-          "id": "00000006",
-          "name": "Intelligence"
-        }
+        "stat": "00000006"
       },
       {
         "value": 60,
-        "stat": {
-          "id": "00000007",
-          "name": "Mentality"
-        }
+        "stat": "00000007"
       },
       {
         "value": 50,
-        "stat": {
-          "id": "00000008",
-          "name": "Speed"
-        }
+        "stat": "00000008"
       },
       {
         "value": 10,
-        "stat": {
-          "id": "00000009",
-          "name": "Evasion"
-        }
+        "stat": "00000009"
       },
       {
         "value": 15,
-        "stat": {
-          "id": "00000010",
-          "name": "Critical"
-        }
+        "stat": "00000010"
       }
     ]
   },
@@ -312,110 +139,49 @@
     "id": "00000004",
     "name": "Priest",
     "description": "Fucking throws heals",
-    "allowedWeapons": [
-      {
-        "slot": {
-          "id": "",
-          "name": ""
-        },
-        "type": {
-          "id": "",
-          "name": ""
-        }
-      }
-    ],
-    "allowedArmors": [
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      }
-    ],
-    "skills": [
-      {
-        "id": "",
-        "name": "",
-        "definition": "",
-        "passive": ""
-      }
-    ],
+    "allowedWeapons": [],
+    "allowedArmors": [],
+    "skills": [],
     "stats": [
       {
         "value": 700,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       },
       {
         "value": "",
-        "stat": {
-          "id": "00000002",
-          "name": "Mana"
-        }
+        "stat": "00000002"
       },
       {
         "value": null,
-        "stat": {
-          "id": "00000003",
-          "name": "Ki"
-        }
+        "stat": "00000003"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000004",
-          "name": "Strength"
-        }
+        "stat": "00000004"
       },
       {
         "value": 50,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 60,
-        "stat": {
-          "id": "00000006",
-          "name": "Intelligence"
-        }
+        "stat": "00000006"
       },
       {
         "value": 80,
-        "stat": {
-          "id": "00000007",
-          "name": "Mentality"
-        }
+        "stat": "00000007"
       },
       {
         "value": 55,
-        "stat": {
-          "id": "00000008",
-          "name": "Speed"
-        }
+        "stat": "00000008"
       },
       {
         "value": 15,
-        "stat": {
-          "id": "00000009",
-          "name": "Evasion"
-        }
+        "stat": "00000009"
       },
       {
         "value": 15,
-        "stat": {
-          "id": "00000010",
-          "name": "Critical"
-        }
+        "stat": "00000010"
       }
     ]
   },
@@ -423,110 +189,49 @@
     "id": "00000005",
     "name": "Scout",
     "description": "Fucking deals damage",
-    "allowedWeapons": [
-      {
-        "slot": {
-          "id": "",
-          "name": ""
-        },
-        "type": {
-          "id": "",
-          "name": ""
-        }
-      }
-    ],
-    "allowedArmors": [
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      }
-    ],
-    "skills": [
-      {
-        "id": "",
-        "name": "",
-        "definition": "",
-        "passive": ""
-      }
-    ],
+    "allowedWeapons": [],
+    "allowedArmors": [],
+    "skills": [],
     "stats": [
       {
         "value": 650,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       },
       {
         "value": "",
-        "stat": {
-          "id": "00000002",
-          "name": "Mana"
-        }
+        "stat": "00000002"
       },
       {
         "value": null,
-        "stat": {
-          "id": "00000003",
-          "name": "Ki"
-        }
+        "stat": "00000003"
       },
       {
         "value": 75,
-        "stat": {
-          "id": "00000004",
-          "name": "Strength"
-        }
+        "stat": "00000004"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 10,
-        "stat": {
-          "id": "00000006",
-          "name": "Intelligence"
-        }
+        "stat": "00000006"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000007",
-          "name": "Mentality"
-        }
+        "stat": "00000007"
       },
       {
         "value": 80,
-        "stat": {
-          "id": "00000008",
-          "name": "Speed"
-        }
+        "stat": "00000008"
       },
       {
         "value": 30,
-        "stat": {
-          "id": "00000009",
-          "name": "Evasion"
-        }
+        "stat": "00000009"
       },
       {
         "value": 30,
-        "stat": {
-          "id": "00000010",
-          "name": "Critical"
-        }
+        "stat": "00000010"
       }
     ]
   },
@@ -534,110 +239,49 @@
     "id": "00000006",
     "name": "Shooter",
     "description": "Fucking throws bullets and arrows",
-    "allowedWeapons": [
-      {
-        "slot": {
-          "id": "",
-          "name": ""
-        },
-        "type": {
-          "id": "",
-          "name": ""
-        }
-      }
-    ],
-    "allowedArmors": [
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      }
-    ],
-    "skills": [
-      {
-        "id": "",
-        "name": "",
-        "definition": "",
-        "passive": ""
-      }
-    ],
+    "allowedWeapons": [],
+    "allowedArmors": [],
+    "skills": [],
     "stats": [
       {
         "value": 600,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       },
       {
         "value": "",
-        "stat": {
-          "id": "00000002",
-          "name": "Mana"
-        }
+        "stat": "00000002"
       },
       {
         "value": null,
-        "stat": {
-          "id": "00000003",
-          "name": "Ki"
-        }
+        "stat": "00000003"
       },
       {
         "value": 75,
-        "stat": {
-          "id": "00000004",
-          "name": "Strength"
-        }
+        "stat": "00000004"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 50,
-        "stat": {
-          "id": "00000006",
-          "name": "Intelligence"
-        }
+        "stat": "00000006"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000007",
-          "name": "Mentality"
-        }
+        "stat": "00000007"
       },
       {
         "value": 69,
-        "stat": {
-          "id": "00000008",
-          "name": "Speed"
-        }
+        "stat": "00000008"
       },
       {
         "value": 22,
-        "stat": {
-          "id": "00000009",
-          "name": "Evasion"
-        }
+        "stat": "00000009"
       },
       {
         "value": 22,
-        "stat": {
-          "id": "00000010",
-          "name": "Critical"
-        }
+        "stat": "00000010"
       }
     ]
   },
@@ -645,110 +289,49 @@
     "id": "00000007",
     "name": "Knight",
     "description": "Fucking gets hit",
-    "allowedWeapons": [
-      {
-        "slot": {
-          "id": "",
-          "name": ""
-        },
-        "type": {
-          "id": "",
-          "name": ""
-        }
-      }
-    ],
-    "allowedArmors": [
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      }
-    ],
-    "skills": [
-      {
-        "id": "",
-        "name": "",
-        "definition": "",
-        "passive": ""
-      }
-    ],
+    "allowedWeapons": [],
+    "allowedArmors": [],
+    "skills": [],
     "stats": [
       {
         "value": 950,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       },
       {
         "value": "",
-        "stat": {
-          "id": "00000002",
-          "name": "Mana"
-        }
+        "stat": "00000002"
       },
       {
         "value": null,
-        "stat": {
-          "id": "00000003",
-          "name": "Ki"
-        }
+        "stat": "00000003"
       },
       {
         "value": 53,
-        "stat": {
-          "id": "00000004",
-          "name": "Strength"
-        }
+        "stat": "00000004"
       },
       {
         "value": 85,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 35,
-        "stat": {
-          "id": "00000006",
-          "name": "Intelligence"
-        }
+        "stat": "00000006"
       },
       {
         "value": 65,
-        "stat": {
-          "id": "00000007",
-          "name": "Mentality"
-        }
+        "stat": "00000007"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000008",
-          "name": "Speed"
-        }
+        "stat": "00000008"
       },
       {
         "value": 5,
-        "stat": {
-          "id": "00000009",
-          "name": "Evasion"
-        }
+        "stat": "00000009"
       },
       {
         "value": 13,
-        "stat": {
-          "id": "00000010",
-          "name": "Critical"
-        }
+        "stat": "00000010"
       }
     ]
   },
@@ -756,110 +339,49 @@
     "id": "00000008",
     "name": "Soldier",
     "description": "Fucking hits like a truck",
-    "allowedWeapons": [
-      {
-        "slot": {
-          "id": "",
-          "name": ""
-        },
-        "type": {
-          "id": "",
-          "name": ""
-        }
-      }
-    ],
-    "allowedArmors": [
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      }
-    ],
-    "skills": [
-      {
-        "id": "",
-        "name": "",
-        "definition": "",
-        "passive": ""
-      }
-    ],
+    "allowedWeapons": [],
+    "allowedArmors": [],
+    "skills": [],
     "stats": [
       {
         "value": 650,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       },
       {
         "value": "",
-        "stat": {
-          "id": "00000002",
-          "name": "Mana"
-        }
+        "stat": "00000002"
       },
       {
         "value": null,
-        "stat": {
-          "id": "00000003",
-          "name": "Ki"
-        }
+        "stat": "00000003"
       },
       {
         "value": 95,
-        "stat": {
-          "id": "00000004",
-          "name": "Strength"
-        }
+        "stat": "00000004"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 30,
-        "stat": {
-          "id": "00000006",
-          "name": "Intelligence"
-        }
+        "stat": "00000006"
       },
       {
         "value": 40,
-        "stat": {
-          "id": "00000007",
-          "name": "Mentality"
-        }
+        "stat": "00000007"
       },
       {
         "value": 70,
-        "stat": {
-          "id": "00000008",
-          "name": "Speed"
-        }
+        "stat": "00000008"
       },
       {
         "value": 15,
-        "stat": {
-          "id": "00000009",
-          "name": "Evasion"
-        }
+        "stat": "00000009"
       },
       {
         "value": 25,
-        "stat": {
-          "id": "00000010",
-          "name": "Critical"
-        }
+        "stat": "00000010"
       }
     ]
   },
@@ -867,110 +389,49 @@
     "id": "00000009",
     "name": "Fighter",
     "description": "The damn fucking monk",
-    "allowedWeapons": [
-      {
-        "slot": {
-          "id": "",
-          "name": ""
-        },
-        "type": {
-          "id": "",
-          "name": ""
-        }
-      }
-    ],
-    "allowedArmors": [
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      },
-      {
-        "id": "",
-        "name": ""
-      }
-    ],
-    "skills": [
-      {
-        "id": "",
-        "name": "",
-        "definition": "",
-        "passive": ""
-      }
-    ],
+    "allowedWeapons": [],
+    "allowedArmors": [],
+    "skills": [],
     "stats": [
       {
         "value": 800,
-        "stat": {
-          "id": "00000001",
-          "name": "Health"
-        }
+        "stat": "00000001"
       },
       {
         "value": null,
-        "stat": {
-          "id": "00000002",
-          "name": "Mana"
-        }
+        "stat": "00000002"
       },
       {
         "value": "",
-        "stat": {
-          "id": "00000003",
-          "name": "Ki"
-        }
+        "stat": "00000003"
       },
       {
         "value": 60,
-        "stat": {
-          "id": "00000004",
-          "name": "Strength"
-        }
+        "stat": "00000004"
       },
       {
         "value": 60,
-        "stat": {
-          "id": "00000005",
-          "name": "Defense"
-        }
+        "stat": "00000005"
       },
       {
         "value": 5,
-        "stat": {
-          "id": "00000006",
-          "name": "Intelligence"
-        }
+        "stat": "00000006"
       },
       {
         "value": 85,
-        "stat": {
-          "id": "00000007",
-          "name": "Mentality"
-        }
+        "stat": "00000007"
       },
       {
         "value": 65,
-        "stat": {
-          "id": "00000008",
-          "name": "Speed"
-        }
+        "stat": "00000008"
       },
       {
         "value": 15,
-        "stat": {
-          "id": "00000009",
-          "name": "Evasion"
-        }
+        "stat": "00000009"
       },
       {
         "value": 15,
-        "stat": {
-          "id": "00000010",
-          "name": "Critical"
-        }
+        "stat": "00000010"
       }
     ]
   }
