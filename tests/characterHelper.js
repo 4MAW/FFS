@@ -119,6 +119,8 @@ describe( "Character helper tests", function ()
 			assert.notEqual( c[ Constants.ARMOR_ELEMENTS[ i ] ].type, undefined );
 			assert.notEqual( c[ Constants.ARMOR_ELEMENTS[ i ] ].type.id, undefined );
 			assert.notEqual( c[ Constants.ARMOR_ELEMENTS[ i ] ].type.name, undefined );
+			assert.notEqual( c[ Constants.ARMOR_ELEMENTS[ i ] ].type.phyFactor, undefined );
+			assert.notEqual( c[ Constants.ARMOR_ELEMENTS[ i ] ].type.magFactor, undefined );
 			for ( j in c[ Constants.ARMOR_ELEMENTS[ i ] ].stats )
 			{
 				assert.notEqual( c[ Constants.ARMOR_ELEMENTS[ i ] ].stats[ j ].value, undefined );

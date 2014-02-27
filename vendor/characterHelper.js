@@ -119,13 +119,31 @@ module.exports = function ( db_source )
 				{
 					character[ element ] = JSON.parse( JSON.stringify( docs[ 0 ] ) );
 
+					var _dat = Q.defer();
+					var _das = Q.defer();
+
+					model.ArmorType.find(
+					{
+						_id: docs[ 0 ].type._id
+					} ).populate( model.ArmorType.join ).exec( function ( err, docs )
+					{
+						if ( err ) _dat.reject( err );
+						else if ( docs.length === 0 ) _dat.reject( Constants.ERROR_ARMOR_TYPE_NOT_FOUND );
+						else
+						{
+							character[ element ].type.phyFactor = docs[ 0 ].phyFactor;
+							character[ element ].type.magFactor = docs[ 0 ].magFactor;
+							_dat.resolve();
+						}
+					} );
+
 					model.ArmorSet.find(
 					{
 						id: docs[ 0 ].armorSet.id
 					} ).populate( model.ArmorSet.join ).exec( function ( err, docs )
 					{
-						if ( err ) _d.reject( err );
-						else if ( docs.length === 0 ) _d.reject( Constants.ERROR_ARMOR_SET_NOT_FOUND );
+						if ( err ) _das.reject( err );
+						else if ( docs.length === 0 ) _das.reject( Constants.ERROR_ARMOR_SET_NOT_FOUND );
 						else
 						{
 							character[ element ].armorSet = JSON.parse( JSON.stringify( docs[ 0 ] ) );
@@ -133,9 +151,11 @@ module.exports = function ( db_source )
 								character[ element ].armorSet.components[ i ] = character[ element ].armorSet.components[ i ].id;
 							for ( var j in character[ element ].armorSet.skills )
 								character[ element ].armorSet.skills[ j ].skill.definition = docs[ 0 ].skills[ j ].skill.definition;
-							_d.resolve();
+							_das.resolve();
 						}
 					} );
+
+					Q.all( [ _dat.promise, _das.promise ] ).then( _d.resolve ).fail( _d.reject );
 				}
 			} );
 

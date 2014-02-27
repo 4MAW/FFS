@@ -27,5 +27,6 @@ module.exports = {
 	ERROR_ARMOR_SET_NOT_FOUND: "armor_set_not_found",
 	ERROR_WEAPON_NOT_FOUND: "weapon_not_found",
 	ERROR_ACCESSORY_NOT_FOUND: "accessory_not_found",
+	ERROR_ARMOR_TYPE_NOT_FOUND: "armor_type_not_found",
 	ARMOR_ELEMENTS: [ 'armor', 'boots', 'helmet', 'gauntlets' ]
 };

@@ -21,7 +21,7 @@ module.exports = {
 				dropDups: true
 			}
 		},
-		phyFactor: 
+		phyFactor:
 		{
 			type: Number
 		},
@@ -40,6 +40,8 @@ module.exports = {
 		{
 			transform: function ( doc, ret, options )
 			{
+				delete ret.phyFactor;
+				delete ret.magFactor;
 				delete ret._id;
 				delete ret.__v;
 			}
