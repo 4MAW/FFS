@@ -3,8 +3,9 @@
 	"id": "00000001",
 	"name": "Wooden Ring",
 	"skills": [
-	{
-		"probability": 0.5,
-		"skill": "00000003"
-	} ]
+		{
+			"probability": 0.5,
+			"skill": "00000003"
+		} 
+	]
 } ]
