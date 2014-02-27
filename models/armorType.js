@@ -20,7 +20,16 @@ module.exports = {
 				unique: true,
 				dropDups: true
 			}
+		},
+		phyFactor: 
+		{
+			type: Number
+		},
+		magFactor:
+		{
+			type: Number
 		}
+
 	},
 	statics:
 	{},
