@@ -1,17 +1,25 @@
 [
 {
 	"id": "00000001",
-	"name": "Wooden"
+	"name": "Wooden",
+	"Physical factor": 2,
+	"Magical factor": 1
 },
 {
 	"id": "00000002",
-	"name": "Iron"
+	"name": "Iron",
+	"Physical factor": 1,
+	"Magical factor": 2
 },
 {
 	"id": "00000003",
-	"name": "Silk"
+	"name": "Silk",
+	"Physical factor": 3,
+	"Magical factor": 1
 },
 {
 	"id": "00000004",
-	"name": "Mithril"
+	"name": "Mithril",
+	"Physical factor": 2,
+	"Magical factor": 2
 } ]
