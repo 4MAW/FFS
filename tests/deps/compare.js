@@ -43,6 +43,30 @@ function same_weapon( actual, expected )
 }
 
 /**
+ * Asserts whether both weapons are equal or not.
+ * @param  {Weapon}     actual   Actual weapon.
+ * @param  {WeaponMock} expected Expected weapon.
+ */
+function same_weapon_mock( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.type.id, expected.type );
+	assert.strictEqual( actual.stats.length, expected.stats.length );
+	for ( var i in actual.stats )
+	{
+		assert.strictEqual( actual.stats[ i ].value, expected.stats[ i ].value );
+		assert.strictEqual( actual.stats[ i ].stat.id, expected.stats[ i ].stat );
+	}
+	assert.strictEqual( actual.skills.length, expected.skills.length );
+	for ( var j in actual.skills )
+	{
+		assert.strictEqual( actual.skills[ i ].probability, expected.skills[ i ].probability );
+		assert.strictEqual( actual.skills[ i ].skill.id, expected.skills[ i ].skill );
+	}
+}
+
+/**
  * Asserts whether both weapons are different or not.
  * @param  {Weapon} actual   Actual weapon.
  * @param  {Weapon} expected Expected weapon.
@@ -64,7 +88,24 @@ function same_accessory( actual, expected )
 	assert.strictEqual( actual.name, expected.name );
 	assert.strictEqual( actual.skills.length, expected.skills.length );
 	for ( var j in actual.skills )
-		same_valued_stat( actual.skills[ j ], expected.skills[ j ] );
+		same_skill_prob( actual.skills[ j ], expected.skills[ j ] );
+}
+
+/**
+ * Asserts whether both accessories are equal or not.
+ * @param  {Accessory}     actual   Actual accessory.
+ * @param  {AccessoryMock} expected Expected accessory.
+ */
+function same_accessory_mock( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.skills.length, expected.skills.length );
+	for ( var j in actual.skills )
+	{
+		assert.strictEqual( actual.skills[ j ].probability, expected.skills[ j ].probability );
+		assert.strictEqual( actual.skills[ j ].skill.id, expected.skills[ j ].skill );
+	}
 }
 
 /**
@@ -206,6 +247,26 @@ function same_armor_piece( actual, expected )
 }
 
 /**
+ * Asserts whether both armor pieces are equal or not.
+ * @param  {ArmorPiece}     actual   Actual armor piece.
+ * @param  {ArmorPieceMock} expected Expected armor piece.
+ */
+function same_armor_piece_mock( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.stats.length, expected.stats.length );
+	for ( var i in actual.stats )
+	{
+		assert.strictEqual( actual.stats[ i ].value, expected.stats[ i ].value );
+		assert.strictEqual( actual.stats[ i ].stat.id, expected.stats[ i ].stat );
+	}
+	assert.strictEqual( actual.type.id, expected.type );
+	assert.strictEqual( actual.armorSet.id, expected.armorSet );
+	assert.strictEqual( actual.slot.id, expected.slot );
+}
+
+/**
  * Asserts whether both armor pieces are different or not.
  * @param  {ArmorPiece} actual   Actual armor piece.
  * @param  {ArmorPiece} expected Expected armor piece.
@@ -231,6 +292,27 @@ function same_armor_set( actual, expected )
 	for ( var j in actual.components )
 		same_basic_armor_piece( actual.components[ j ], expected.components[ j ] );
 	same_armor_type( actual.type, expected.type );
+}
+
+/**
+ * Asserts whether both armor sets are equal or not.
+ * @param  {ArmorSet}     actual   Actual armor set.
+ * @param  {ArmorSetMock} expected Expected armor set.
+ */
+function same_armor_set_mock( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.skills.length, expected.skills.length );
+	for ( var i in actual.skills )
+	{
+		assert.strictEqual( actual.skills[ i ].amount, expected.skills[ i ].amount );
+		assert.strictEqual( actual.skills[ i ].skill.id, expected.skills[ i ].skill );
+	}
+	assert.strictEqual( actual.components.length, expected.components.length );
+	for ( var j in actual.components )
+		assert.strictEqual( actual.components[ j ].id, expected.components[ j ] );
+	assert.strictEqual( actual.type.id, expected.type );
 }
 
 /**
@@ -263,8 +345,32 @@ function same_class( actual, expected )
 		same_weapon_type( actual.allowedWeapons[ j ].type, expected.allowedWeapons[ j ].type );
 	}
 	assert.strictEqual( actual.skills.length, expected.skills.length );
-	for ( var i in actual.skills )
-		same_skill( actual.skills[ i ], expected.skills[ i ] );
+	for ( var k in actual.skills )
+		same_skill( actual.skills[ k ], expected.skills[ k ] );
+}
+
+/**
+ * Asserts whether both classes are equal or not.
+ * @param  {Class}     actual   Actual class.
+ * @param  {ClassMock} expected Expected class.
+ */
+function same_class_mock( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.description, expected.description );
+	assert.strictEqual( actual.allowedArmors.length, expected.allowedArmors.length );
+	for ( var i in actual.allowedArmors )
+		assert.strictEqual( actual.allowedArmors[ i ].id, expected.allowedArmors[ i ] );
+	assert.strictEqual( actual.allowedWeapons.length, expected.allowedWeapons.length );
+	for ( var j in actual.allowedWeapons )
+	{
+		assert.strictEqual( actual.allowedWeapons[ j ].slot.id, expected.allowedWeapons[ j ].slot );
+		assert.strictEqual( actual.allowedWeapons[ j ].type.id, expected.allowedWeapons[ j ].type );
+	}
+	assert.strictEqual( actual.skills.length, expected.skills.length );
+	for ( var k in actual.skills )
+		assert.strictEqual( actual.skills[ k ].id, expected.skills[ k ] );
 }
 
 /**
@@ -317,13 +423,42 @@ function same_character( actual, expected )
 }
 
 /**
+ * Asserts whether both characters are equal or not.
+ * @param  {Character}    actual   Actual character.
+ * @param  {CharacterMock} expected Expected character.
+ */
+function same_character_mock( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+
+	assert.strictEqual( actual.class.id, expected.class );
+
+	assert.strictEqual( actual.weapons.length, expected.weapons.length );
+	for ( var i in actual.weapons )
+	{
+		assert.strictEqual( actual.weapons[ i ].slot.id, expected.weapons[ i ].slot );
+		assert.strictEqual( actual.weapons[ i ].weapon.id, expected.weapons[ i ].weapon );
+	}
+
+	assert.strictEqual( actual.accessories.length, expected.accessories.length );
+	for ( var j in actual.accessories )
+		assert.strictEqual( actual.accessories[ j ].id, expected.accessories[ j ] );
+
+	assert.strictEqual( actual.armor.id, expected.armor );
+	assert.strictEqual( actual.boots.id, expected.boots );
+	assert.strictEqual( actual.helmet.id, expected.helmet );
+	assert.strictEqual( actual.gauntlets.id, expected.gauntlets );
+}
+
+/**
  * Asserts whether both characters are different or not.
  * @param  {Character} actual   Actual character.
  * @param  {Character} expected Expected character.
  */
 function different_character( actual, expected )
 {
-	assert.ok( !( actual.id === expected.id ) );
+	assert.ok( ( actual.id !== expected.id ) );
 }
 
 /**
@@ -333,12 +468,28 @@ function different_character( actual, expected )
  */
 function same_team( actual, expected )
 {
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
 	assert.strictEqual( actual.length, expected.length );
 	for ( var i in actual )
 	{
 		assert.strictEqual( actual[ i ].id, expected[ i ].id );
 		assert.strictEqual( actual[ i ].name, expected[ i ].name );
 	}
+}
+
+/**
+ * Asserts whether both teams are equal or not.
+ * @param  {Team}     actual   Actual team.
+ * @param  {TeamMock} expected Expected team.
+ */
+function same_team_mock( actual, expected )
+{
+	assert.strictEqual( actual.id, expected.id );
+	assert.strictEqual( actual.name, expected.name );
+	assert.strictEqual( actual.characters.length, expected.characters.length );
+	for ( var i in actual.characters )
+		assert.strictEqual( actual.characters[ i ].id, expected.characters[ i ] );
 }
 
 /**
@@ -354,24 +505,31 @@ function different_team( actual, expected )
 			different_character( actual[ i ], expected[ i ] );
 		}
 	else
-		assert.ok( !( actual.length === expected.length ) );
+		assert.ok( ( actual.length !== expected.length ) );
 }
 
 module.exports = {
 	sameSkill: same_skill,
 	differentSkill: different_skill,
 	sameWeapon: same_weapon,
+	sameWeaponMock: same_weapon_mock,
 	differentWeapon: different_weapon,
 	sameArmorPiece: same_armor_piece,
+	sameArmorPieceMock: same_armor_piece_mock,
 	differentArmorPiece: different_armor_piece,
 	sameArmorSet: same_armor_set,
+	sameArmorSetMock: same_armor_set_mock,
 	differentArmorSet: different_armor_set,
 	sameClass: same_class,
+	sameClassMock: same_class_mock,
 	differentClass: different_class,
 	sameAccessory: same_accessory,
+	sameAccessoryMock: same_accessory_mock,
 	differentAccessory: different_accessory,
 	sameCharacter: same_character,
+	sameCharacterMock: same_character_mock,
 	differentCharacter: different_character,
 	sameTeam: same_team,
+	sameTeamMock: same_team_mock,
 	differentTeam: different_team
 };
