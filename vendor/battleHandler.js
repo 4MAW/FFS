@@ -313,7 +313,7 @@ module.exports = function ( endpoint )
 					}
 					else
 					{
-						log.success( players[ ( loser === 0 ) ? 1 : 0 ].player.name + ' has won!', 'WINNER' );
+						log.success( players[ ( loser === 0 ) ? 1 : 0 ].player.username + ' has won!', 'WINNER' );
 
 						// Notify winner and loser.
 						players[ loser ].socket.emit( Constants.LOSE_EVENT );
