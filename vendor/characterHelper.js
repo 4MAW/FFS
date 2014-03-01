@@ -11,11 +11,57 @@ var hello = function ()
 	return "Hello, my name's " + this.name;
 };
 
+var skillList = function()
+{
+	return this.class.skills;
+};
+
+var stats = function()
+{
+	var returnStats = this.class.stats;
+	for(var weap in this.weapons){
+		this.class.stats[0].value+=this.weapons[weap].stats.value;
+	}
+	for(var piece in Constants.ARMOR_ELEMENTS){
+		this.class.stats[1].value+=this[Constants.ARMOR_ELEMENTS[piece]].stats.value;
+	}
+};
+
+var alterStat = function(){}
+
+var newStatus = function(skillDef, round){
+	var rand = (Math.random() < 0.5) ? -1: 1;
+
+	if(this.status[skillDef.id] - round.currentRound() < skillDef.duration+rand)
+		this.status[skillDef.id] = [{skillDef.id,skillDef.duration+rand}];
+}
+
+var performAction = function(skillDef){
+	for(var i in skillDef.blockedBy){
+		if(this.status[skillDef.blockedBy[i]].length == 1)
+			return false;
+	}
+	return true;
+}
+
+var getPasives = function(){}
+
+var doSkill = function(){}
+
+var clientObject = function(){}
+
 // Add here any instance method you want to make public.
 // Key: public name.
 // Value: function to be called.
 var INSTANCE_METHODS = {
-	"hello": hello
+	"hello": hello,
+	"skillList": skillList,
+	"stats": stats,
+	"alterStat": alterStat,
+	"performAction": performAction,
+	"getPasives": getPasives,
+	"doSkill": doSkill,
+	"clientObject": clientObject
 };
 
 // Constructor.
@@ -204,7 +250,20 @@ module.exports = function ( db_source )
 		{
 
 			character = JSON.parse( JSON.stringify( character ) ); // Transform character to a standard Javascript object.
+			character.status = {};
 
+			model.Status.find(
+					{
+						
+					} ).exec( function ( err, docs )
+					{
+						if ( err ) _das.reject( err );
+						else
+						{
+							for( var i = 0, i<status.length,i++)
+								character.status[docs[i].id] = [];
+						}
+					} );
 			// Here we will assign methods to the character.
 			for ( var j in INSTANCE_METHODS )
 				character[ j ] = INSTANCE_METHODS[ j ];
