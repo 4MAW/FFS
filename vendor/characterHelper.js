@@ -105,6 +105,9 @@ var set_status = function ( statuses, skill, priority )
 		// If status was not altered or the priority is lower than the new one's...
 		if ( altered_statuses[ status ] === undefined || altered_statuses[ status ].priority <= priority )
 		{
+			if ( altered_statuses[ status ] !== undefined )
+				altered_statuses[ status ].skill.cancel( [ status ] );
+
 			altered_statuses[ status ] = {
 				skill: skill,
 				priority: priority

@@ -115,6 +115,82 @@ describe( "Round Skill API", function ()
 			blockedBy: [ "paralysis" ]
 		};
 
+		// Poison skill.
+		superpoison = {
+			internalVariables:
+			{},
+			// Initialization, called when a skill is used.
+			init: function ()
+			{
+				Round.do( this.poison, this );
+			},
+			// Registers the damage and unregister callbacks.
+			poison: function ()
+			{
+				// Compute duration: 2±1 rounds.
+				var duration = 2 + Math.round( Math.random() * 2 - 1 );
+				duration = 2; // Just to make the tests deterministic.
+				// Store whether character was poisoned or not: in
+				// some cases a character won't be poisoned because
+				// it has inmunity or it is poisoned by a skill with
+				// more duration or it is poisoned by a skill with
+				// more priority.
+				this.internalVariables.did_poison = this.target.setStatus( [ "poison" ], this, Round.currentRound() + duration )[ 0 ]; // Poison's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
+				// If character was poisoned by this skill then register callbacks.
+				if ( this.internalVariables.did_poison )
+				{
+					// Store UUIDs to cancel callbacks in the future.
+					this.internalVariables.in_uuid = Round. in ( duration, this.unpoison, this, Constants.ENDROUND_EVENT );
+					this.internalVariables.each_uuid = Round.each( this.damage, this, Constants.AFTER_DAMAGE_PHASE_EVENT );
+				}
+			},
+			// Unregisters the damage callbacl.
+			unpoison: function ()
+			{
+				// Unpoison only if this skill did poison the character.
+				if ( this.internalVariables.did_poison )
+					this.target.unsetStatus( [ "poison" ], this, false );
+			},
+			// Performs some damage.
+			damage: function ()
+			{
+				this.target.damage( 100, 0, "physic", "poison" );
+			},
+			// Cancels the effects produced by this skill.
+			//
+			// Reasons is an optional array of status, used to
+			// allow cancelling just the effects produced by a
+			// skill due to one altered status.
+			//
+			// For instance:  «Vómito de Molbol» will affect
+			// several status, one of them might be poison and
+			// other might be blind. If you cast a spell that
+			// heals "blind" altered status you should affect
+			// the poison damage triggered by this skill, even
+			// if blind status was triggered also by this skill.
+			cancel: function ( reasons )
+			{
+				// Unpoison only if this skill did poison the character.
+				if ( this.internalVariables.did_poison )
+				{
+					// In this case this is trivial but if this skill
+					// affected more than one altered status this
+					// won't be so trivial.
+					if ( reasons.indexOf( "poison" ) > -1 )
+					{
+						Round.cancel( this.internalVariables.in_uuid );
+						Round.uneach( this.internalVariables.each_uuid );
+					}
+				}
+			},
+			// Target of this skill.
+			target: character,
+			// Character how will use this skill.
+			caller: character,
+			// Array of altered status that prevent this skill to be performed.
+			blockedBy: [ "paralysis" ]
+		};
+
 		// Esuna skill.
 		esuna = {
 			// Initialization, called when a skill is used.
@@ -355,6 +431,146 @@ describe( "Round Skill API", function ()
 		// Health should have changed after running a round.
 		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
 		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], initial_health - 80 ); // Hardcoded value!
+
+		// Finishes this round, returning the summary of actions that happened during the round.
+		Round.finishRound();
+
+		done();
+	} );
+
+	it( "Magically remove paralysis (we are merciful gods)", function ( done )
+	{
+		character.unsetStatus( [ "paralysis" ], null, true );
+		assert( poison.caller.canPerformAction( superpoison ) );
+		done();
+	} );
+
+	it( "After character uses poison it is hurt", function ( done )
+	{
+		var original_health = character.stats()[ Constants.HEALTH_STAT_ID ];
+
+		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
+		// A real server would compute order here.
+		Round.performPhaseCallbacks( Constants.AFTER_ORDER_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.BEFORE_DAMAGE_PHASE_EVENT );
+		// For each action to be performed (in order)...
+		if ( poison.caller.canPerformAction( poison ) )
+		// Before damage event, but this is special and should be handled in a way I have not clear yet.
+			poison.init();
+		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// Health should have changed after running a round.
+		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+
+		// Finishes this round, returning the summary of actions that happened during the round.
+		Round.finishRound();
+
+		done();
+	} );
+
+	it( "After character uses superpoison it is hurt by superpoison and previous poison is removed", function ( done )
+	{
+		var original_health = character.stats()[ Constants.HEALTH_STAT_ID ];
+
+		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
+		// A real server would compute order here.
+		Round.performPhaseCallbacks( Constants.AFTER_ORDER_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.BEFORE_DAMAGE_PHASE_EVENT );
+		// For each action to be performed (in order)...
+		if ( superpoison.caller.canPerformAction( poison ) )
+		// Before damage event, but this is special and should be handled in a way I have not clear yet.
+			superpoison.init();
+		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// Health should have changed after running a round.
+		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health - 100 ); // Hardcoded value!
+
+		// Finishes this round, returning the summary of actions that happened during the round.
+		Round.finishRound();
+
+		done();
+	} );
+
+	it( "Character should be hurt by superpoison", function ( done )
+	{
+		var original_health = character.stats()[ Constants.HEALTH_STAT_ID ];
+		assert.notEqual( original_health, 0 );
+
+		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
+		// A real server would compute order here.
+		Round.performPhaseCallbacks( Constants.AFTER_ORDER_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.BEFORE_DAMAGE_PHASE_EVENT );
+		// For each action to be performed (in order)...
+
+		// Before damage event, but this is special and should be handled in a way I have not clear yet.
+
+		// This round we do nothing.
+
+		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// Health should have changed after running a round.
+		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+
+		// Finishes this round, returning the summary of actions that happened during the round.
+		Round.finishRound();
+
+		done();
+	} );
+
+	it( "Character should be hurt by superpoison (again)", function ( done )
+	{
+		var original_health = character.stats()[ Constants.HEALTH_STAT_ID ];
+		assert.notEqual( original_health, 0 );
+
+		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
+		// A real server would compute order here.
+		Round.performPhaseCallbacks( Constants.AFTER_ORDER_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.BEFORE_DAMAGE_PHASE_EVENT );
+		// For each action to be performed (in order)...
+
+		// Before damage event, but this is special and should be handled in a way I have not clear yet.
+
+		// This round we do nothing.
+
+		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// Health should have changed after running a round.
+		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+
+		// Finishes this round, returning the summary of actions that happened during the round.
+		Round.finishRound();
+
+		done();
+	} );
+
+	it( "Superpoison should expire after 2 rounds", function ( done )
+	{
+		var original_health = character.stats()[ Constants.HEALTH_STAT_ID ];
+		assert.notEqual( original_health, 0 );
+
+		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
+		// A real server would compute order here.
+		Round.performPhaseCallbacks( Constants.AFTER_ORDER_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.BEFORE_DAMAGE_PHASE_EVENT );
+		// For each action to be performed (in order)...
+		if ( poison.caller.canPerformAction( esuna ) )
+		// Before damage event, but this is special and should be handled in a way I have not clear yet.
+			esuna.init(); // Won't do anything as player is still paralyzed.
+		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// Health should have changed after running a round.
+		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], initial_health - 400 ); // Hardcoded value!
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
