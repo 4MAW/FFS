@@ -24,7 +24,7 @@ describe( "Character helper tests", function ()
 			}, function ( err, docs )
 			{
 				assert.ifError( err );
-				var promise = new Character( docs[ 0 ] );
+				var promise = Character( docs[ 0 ] );
 				promise.then( function ( _c )
 				{
 					c = _c;

@@ -14,6 +14,14 @@ module.exports = {
 	DECISION_MADE_EVENT: "decision_make",
 	DECISIONS_PHASE_START_EVENT: "decisions_phase_start",
 	DECISIONS_PHASE_END_EVENT: "decisions_phase_end",
+	BEFORE_ORDER_PHASE_EVENT: "before_order_phase_event",
+	AFTER_ORDER_PHASE_EVENT: "after_order_phase_event",
+	BEFORE_DAMAGE_PHASE_EVENT: "before_damage_phase_event",
+	BEFORE_DAMAGE_EVENT: "before_damage_event", // This is special event as it happens more than once in the same round, once per each skill to be performed.
+	AFTER_DAMAGE_EVENT: "after_damage_event", // This is special event as it happens more than once in the same round, once per each skill to be performed.
+	AFTER_DAMAGE_PHASE_EVENT: "after_damage_phase_event",
+	ENDROUND_EVENT: "endround_event",
+	ROUND_PHASES_EVENTS: [ this.DECISIONS_PHASE_START_EVENT, this.DECISIONS_PHASE_END_EVENT, this.BEFORE_ORDER_PHASE_EVENT, this.AFTER_ORDER_PHASE_EVENT, this.BEFORE_DAMAGE_PHASE_EVENT, this.BEFORE_DAMAGE_EVENT, this.AFTER_DAMAGE_EVENT, this.AFTER_DAMAGE_PHASE_EVENT, this.ENDROUND_EVENT ],
 	ROUND_RESULTS_EVENT: "round_results_event",
 	LOSE_EVENT: "you_lose",
 	WIN_EVENT: "you_win",
