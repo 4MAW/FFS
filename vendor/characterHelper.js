@@ -13,7 +13,19 @@ var hello = function ()
 
 var skillList = function()
 {
-	return this.class.skills;
+	var returnSkills = [];
+	for(var weap in this.weapons){
+		for var sk in this.weapons[weap].skills{
+			if(!this.weapons[weap].skills[sk].passive)
+				returnSkills.push(this.weapons[weap].skills[sk]);
+		}
+	}
+	for(var i in this.class.skills){
+		if(!this.class.skills[i].passive)
+			returnSkills.push(this.class.skills[i]);
+	}
+	
+	return returnSkills;
 };
 
 var stats = function()
@@ -30,7 +42,10 @@ var stats = function()
 var alterStat = function(){}
 
 var newStatus = function(skillDef, round){
-	var rand = (Math.random() < 0.5) ? -1: 1;
+	var rand = Math.random();
+	if(rand < 0.3) rand = -1
+	else if(rand >= 0.3 && rand < 0.6) rand = 0;
+	else rand = 1;
 
 	if(this.status[skillDef.id] - round.currentRound() < skillDef.duration+rand)
 		this.status[skillDef.id] = [{skillDef.id,skillDef.duration+rand}];
@@ -44,7 +59,36 @@ var performAction = function(skillDef){
 	return true;
 }
 
-var getPasives = function(){}
+var getPasives = function(){
+	var returnSkills = [];
+	for(var weap in this.weapons){
+		for var sk in this.weapons[weap].skills{
+			if(this.weapons[weap].skills[sk].passive)
+				returnSkills.push(this.weapons[weap].skills[sk]);
+		}
+	}
+
+	for(var acc in this.accessories){
+		for var sk in this.accessories[acc].skills{
+			if(this.accessories[acc].skills[sk].passive)
+				returnSkills.push(this.accessories[acc].skills[sk]);
+		}
+	}
+
+	for(var i in this.class.skills){
+		if(this.class.skills[i].passive)
+			returnSkills.push(this.class.skills[i]);
+	}
+
+	var sets = {};
+	for(var piece in Constants.ARMOR_ELEMENTS){
+		sets[]+=this[Constants.ARMOR_ELEMENTS[piece]].stats.value;
+	}
+
+
+	
+	return returnSkills;
+}
 
 var doSkill = function(){}
 
