@@ -41,6 +41,9 @@ describe( "Round Skill API", function ()
 	{
 		// Poison skill.
 		poison = {
+			id: "00000001", // This will be injected by SkillLoader when implemented.
+			type: "magical",
+			element: "poison",
 			internalVariables:
 			{},
 			// Initialization, called when a skill is used.
@@ -68,7 +71,7 @@ describe( "Round Skill API", function ()
 					this.internalVariables.each_uuid = Round.each( this.damage, this, Constants.AFTER_DAMAGE_PHASE_EVENT );
 				}
 			},
-			// Unregisters the damage callbacl.
+			// Unregisters the damage callback.
 			unpoison: function ()
 			{
 				// Unpoison only if this skill did poison the character.
@@ -78,7 +81,7 @@ describe( "Round Skill API", function ()
 			// Performs some damage.
 			damage: function ()
 			{
-				this.target.damage( 20, 0, "physic", "poison" );
+				this.target.damage( 20, 0, this );
 			},
 			// Cancels the effects produced by this skill.
 			//
@@ -117,6 +120,9 @@ describe( "Round Skill API", function ()
 
 		// Poison skill.
 		superpoison = {
+			id: "00000002", // This will be injected by SkillLoader when implemented.
+			type: "magical",
+			element: "poison",
 			internalVariables:
 			{},
 			// Initialization, called when a skill is used.
@@ -154,7 +160,7 @@ describe( "Round Skill API", function ()
 			// Performs some damage.
 			damage: function ()
 			{
-				this.target.damage( 100, 0, "physic", "poison" );
+				this.target.damage( 100, 0, this );
 			},
 			// Cancels the effects produced by this skill.
 			//
@@ -193,6 +199,8 @@ describe( "Round Skill API", function ()
 
 		// Esuna skill.
 		esuna = {
+			id: "00000003", // This will be injected by SkillLoader when implemented.
+			type: "magical",
 			// Initialization, called when a skill is used.
 			init: function ()
 			{
@@ -212,8 +220,31 @@ describe( "Round Skill API", function ()
 			blockedBy: [ "paralysis", "mutis" ]
 		};
 
+		// Attack skill.
+		attack = {
+			id: "00000004", // This will be injected by SkillLoader when implemented.
+			type: "physical",
+			// Initialization, called when a skill is used.
+			init: function ()
+			{
+				Round.do( this.damage, this );
+			},
+			damage: function ()
+			{
+				this.target.damage( 100, 50, this );
+			},
+			// Target of this skill.
+			target: character,
+			// Character how will use this skill.
+			caller: character,
+			// Array of altered status that prevent this skill to be performed.
+			blockedBy: [ "paralysis" ]
+		};
+
 		// Paralyze skill.
 		paralyze = {
+			id: "00000005", // This will be injected by SkillLoader when implemented.
+			type: "magical",
 			internalVariables:
 			{},
 			// Initialization, called when a skill is used.
@@ -226,7 +257,7 @@ describe( "Round Skill API", function ()
 			{
 				// Compute duration: 2±1 rounds.
 				var duration = 2 + Math.round( Math.random() * 2 - 1 );
-				duration = 2; // Just to make the tests deterministic.
+				duration = 3; // Just to make the tests deterministic.
 				// Store whether character was paralyzed or not.
 				this.internalVariables.did_paralyze = this.target.setStatus( [ "paralysis" ], this, Round.currentRound() + duration )[ 0 ];
 				// If character was paralyzed by this skill then register unregister callback.
@@ -281,6 +312,12 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
+	it( "Character can use Attack", function ( done )
+	{
+		assert.ok( character.canPerformAction( attack ) );
+		done();
+	} );
+
 	it( "After character uses poison it is hurt", function ( done )
 	{
 		var original_health = character.stats()[ Constants.HEALTH_STAT_ID ];
@@ -300,6 +337,20 @@ describe( "Round Skill API", function ()
 
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+
+		// Commit should include information about character being poisoned.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, poison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 2 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "+" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, "poison" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].change, "-20" ); // Hardcoded value!
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.value, Constants.HEALTH_STAT_ID );
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -327,6 +378,16 @@ describe( "Round Skill API", function ()
 		// Health should have changed after running a round.
 		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
 
+		// Commit should include information about character being healed.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, esuna.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 1 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "-" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, "poison" );
+
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
 
@@ -352,6 +413,20 @@ describe( "Round Skill API", function ()
 
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+
+		// Commit should include information about character being poisoned.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, poison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 2 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "+" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, "poison" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].change, "-20" ); // Hardcoded value!
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.value, Constants.HEALTH_STAT_ID );
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -379,6 +454,22 @@ describe( "Round Skill API", function ()
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
 
+		// Commit should include information about character being paralyzed and hurt.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 2 );
+		assert.strictEqual( commit[ 0 ].skill.id, paralyze.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 1 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, paralyze.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "+" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, "paralysis" );
+		assert.strictEqual( commit[ 1 ].skill.id, poison.id );
+		assert.strictEqual( commit[ 1 ].changes.length, 1 );
+		assert.strictEqual( commit[ 1 ].changes[ 0 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 1 ].changes[ 0 ].change, "-20" ); // Hardcoded value!
+		assert.strictEqual( commit[ 1 ].changes[ 0 ].item.key, "stat" );
+		assert.strictEqual( commit[ 1 ].changes[ 0 ].item.value, Constants.HEALTH_STAT_ID );
+
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
 
@@ -404,6 +495,16 @@ describe( "Round Skill API", function ()
 
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+
+		// Commit should include information about character being hurt.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, poison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 1 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "-20" ); // Hardcoded value!
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.HEALTH_STAT_ID );
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -432,6 +533,16 @@ describe( "Round Skill API", function ()
 		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
 		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], initial_health - 80 ); // Hardcoded value!
 
+		// Commit should include information about character being hurt.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, poison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 1 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "-" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, "poison" );
+
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
 
@@ -442,6 +553,9 @@ describe( "Round Skill API", function ()
 	{
 		character.unsetStatus( [ "paralysis" ], null, true );
 		assert( poison.caller.canPerformAction( superpoison ) );
+		// We are GODS and don't introduce any perceptable change in the round.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 0 );
 		done();
 	} );
 
@@ -463,6 +577,20 @@ describe( "Round Skill API", function ()
 
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+
+		// Commit should include information about character being poisoned.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, poison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 2 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "+" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, "poison" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].character.id, poison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].change, "-20" ); // Hardcoded value!
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.value, Constants.HEALTH_STAT_ID );
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -488,6 +616,20 @@ describe( "Round Skill API", function ()
 
 		// Health should have changed after running a round.
 		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health - 100 ); // Hardcoded value!
+
+		// Commit should include information about character being poisoned.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, superpoison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 2 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, superpoison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "+" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, "poison" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].character.id, superpoison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].change, "-100" ); // Hardcoded value!
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.value, Constants.HEALTH_STAT_ID );
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -517,6 +659,16 @@ describe( "Round Skill API", function ()
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
 
+		// Commit should include information about character being hurt.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, superpoison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 1 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, superpoison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "-100" ); // Hardcoded value!
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.HEALTH_STAT_ID );
+
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
 
@@ -545,6 +697,16 @@ describe( "Round Skill API", function ()
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
 
+		// Commit should include information about character being hurt.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, superpoison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 1 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, superpoison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "-100" ); // Hardcoded value!
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.HEALTH_STAT_ID );
+
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
 
@@ -572,7 +734,62 @@ describe( "Round Skill API", function ()
 		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
 		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], initial_health - 400 ); // Hardcoded value!
 
+		// Commit should include information about character being poisoned.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 2 );
+		assert.strictEqual( commit[ 0 ].skill.id, superpoison.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 1 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, superpoison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "-" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, "poison" );
+		assert.strictEqual( commit[ 1 ].skill.id, esuna.id );
+		assert.strictEqual( commit[ 1 ].changes.length, 0 );
+
 		// Finishes this round, returning the summary of actions that happened during the round.
+		Round.finishRound();
+
+		done();
+	} );
+
+	it( "Character should damage target when using Attack during damage phase", function ( done )
+	{
+		var original_health = character.stats()[ Constants.HEALTH_STAT_ID ];
+		assert.notEqual( original_health, 0 );
+
+		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
+		// A real server would compute order here.
+		Round.performPhaseCallbacks( Constants.AFTER_ORDER_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.BEFORE_DAMAGE_PHASE_EVENT );
+		// Damage shouldn't have been done yet.
+		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+		// For each action to be performed (in order)...
+		if ( poison.caller.canPerformAction( attack ) )
+		// Before damage event, but this is special and should be handled in a way I have not clear yet.
+			attack.init(); // Won't do anything as player is still paralyzed.
+		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		// Damage should have been done.
+		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+		var after_damage_phase = character.stats()[ Constants.HEALTH_STAT_ID ];
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// No more damage should be done.
+		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], after_damage_phase );
+
+		// Commit should include information about character being damaged.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, attack.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 1 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, superpoison.target.id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change.indexOf( "-" ), 0 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.HEALTH_STAT_ID );
+
+		var hit = parseInt( commit[ 0 ].changes[ 0 ].change.substring( 1 ), 10 );
+		assert.strictEqual( after_damage_phase, original_health - hit );
+
 		Round.finishRound();
 
 		done();
