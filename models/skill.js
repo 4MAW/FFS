@@ -35,6 +35,10 @@ module.exports = {
 		passive:
 		{
 			type: Boolean
+		},
+		multiTarget:
+		{
+			type: Boolean
 		}
 	},
 	//join: 'type',
