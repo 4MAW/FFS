@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Statistics</title>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="chart.min.js"></script>
+		<script src="stats.js"></script>
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+		<link href="style.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h2>Skills used</h2>
+					<canvas id="skills"></canvas>
+				</div>
+				<div class="col-md-6">
+					<h2>Skills damage <small>total damage</small></h2>
+					<canvas id="skills_damages"></canvas>
+				</div>
+				<div class="col-md-6">
+					<h2>Skills damage <small>damage per hit</small></h2>
+					<canvas id="skills_damages_per_hit"></canvas>
+				</div>
+				<div class="col-md-6">
+					<h2>Altered status</h2>
+					<canvas id="status"></canvas>
+				</div>
+				<div class="col-md-6">
+					<h2>Damage dealed</h2>
+					<canvas id="damages"></canvas>
+					<ul class="squared">
+						<li><span class="square" style="background:#F7464A;"></span>Magical</li>
+						<li><span class="square" style="background:#4D5360;"></span>Physical</li>
+					</ul>
+				</div>
+				<div class="col-md-6">
+					<h2>Other</h2>
+					<ul>
+						<li>Battles played: <span id="battles_played"></span></li>
+						<li>Damage dealed: <span id="damage_dealed"></span></li>
+						<li>Characters dead: <span id="characters_dead"></span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

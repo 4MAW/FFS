@@ -1,0 +1,11 @@
+.squared li {
+	height: 30px;
+	list-style: none;
+}
+
+.square {
+	width: 20px;
+	height: 20px;
+	margin: 0 5px -5px 0;
+	display: inline-block;
+}

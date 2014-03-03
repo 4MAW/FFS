@@ -18,6 +18,7 @@ var socket = require( 'socket.io' ),
 	controller = require( './controllers/controller.js' ),
 	log = require( './vendor/log.js' ),
 	Constants = require( './vendor/constants.js' ),
+	Statistics = require( './vendor/statistics.js' ),
 	config = require( './config.js' ),
 	port = config.port,
 	app = express(),
@@ -40,6 +41,10 @@ Q.all( [ model.ready, skill.ready ] ).then( function ()
 	app.use( express.urlencoded() );
 
 	// Routes.
+
+	// Statistics.
+	app.get( '/statistics/json.json', Statistics.jsonReply );
+	app.use( '/statistics', express.static( __dirname + '/public/statistics' ) );
 
 	// Skills.
 	app.get( '/skill', controller.Skill.get() );
