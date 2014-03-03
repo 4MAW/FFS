@@ -2,6 +2,8 @@
 var crypt = require( './crypt.js' ),
 	Q = require( 'q' ),
 	Events = require( 'events' ),
+	Constants = require( './constants.js' ),
+	Statistics = require( './statistics.js' ),
 	Environment = require( './environment.js' );
 
 // Event emitter in charge of actions' results.
@@ -129,6 +131,9 @@ module.exports = {
 			round: tthis.round,
 			skill: tthis.id
 		} ) );
+
+		Statistics.increaseStatistic( Constants.STATISTIC_SKILLS_USED_PREFIX + tthis.id, 1 );
+
 		// @TODO This should be recored in an array of actions performed this round so it can be animated by the clients.
 		callback.apply( tthis );
 	},

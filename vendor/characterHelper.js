@@ -4,6 +4,7 @@ var Q = require( 'q' ),
 	model = require( '../models/model.js' ),
 	Constants = require( './constants.js' ),
 	Round = require( './roundAPI.js' ),
+	Statistics = require( './statistics.js' ),
 	Change = require( './change.js' );
 
 // Instance methods.
@@ -116,6 +117,9 @@ var set_status = function ( statuses, skill, priority )
 				priority: priority
 			};
 			affected[ s ] = true;
+
+			Statistics.increaseStatistic( Constants.STATISTIC_TIMES_STATUS_ALTERED_PREFIX + status, 1 );
+
 			// Create change representation.
 			var c = new Change( this, "status", status, "+" );
 			changes.push( c );
@@ -150,6 +154,9 @@ var unset_status = function ( statuses, skill, override )
 				// Create change representation.
 				var c = new Change( this, "status", status, "-" );
 				changes.push( c );
+
+				Statistics.increaseStatistic( Constants.STATISTIC_TIMES_HEALED_STATUS_ALTERED_PREFIX + status, 1 );
+
 				// Actually change status.
 				this.altered_statuses[ status ].skill.cancel( statuses );
 				delete this.altered_statuses[ status ];
@@ -180,7 +187,20 @@ var damage = function ( amount, margin, skill )
 	// Compute a random damage in range amount±margin.
 	// To perform a fixed damage just pass margin=0 when calling this method.
 	var actual_damage = Math.max( Math.round( amount + margin * ( Math.random() * 2 - 1 ) ), 0 ); // Damage can't be negative!
+	actual_damage = Math.min( this.class.stats[ Constants.HEALTH_STAT_ID ], actual_damage ); // Don't do more damage than player can stand.
 	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
+
+	Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_DEALED, actual_damage );
+
+	Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_BY_SKILL_PREFIX + skill.id, actual_damage );
+
+	if ( skill.type === Constants.PHYSICAL )
+		Statistics.increaseStatistic( Constants.STATISTIC_PHYSICAL_DAMAGE_DEALED, actual_damage );
+	else
+		Statistics.increaseStatistic( Constants.STATISTIC_MAGICAL_DAMAGE_DEALED, actual_damage );
+
+	if ( this.class.stats[ Constants.HEALTH_STAT_ID ] === 0 && actual_damage > 0 )
+		Statistics.increaseStatistic( Constants.STATISTIC_CHARACTERS_DIE, 1 );
 
 	// Get change object.
 	var c = new Change( this, "stat", Constants.HEALTH_STAT_ID, "-" + actual_damage );

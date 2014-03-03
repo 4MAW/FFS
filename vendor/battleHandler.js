@@ -7,7 +7,8 @@ var Q = require( 'q' ),
 	log = require( './log.js' ),
 	Skills = require( '../skills/skill.js' ),
 	Character = require( './characterHelper.js' ),
-	Round = require( './roundAPI.js' );
+	Round = require( './roundAPI.js' ),
+	Statistics = require( './statistics.js' );
 
 module.exports = function ( endpoint )
 {
@@ -145,6 +146,8 @@ module.exports = function ( endpoint )
 
 	waiting.ev.on( 'match_ready', function ( room_id )
 	{
+		Statistics.increaseStatistic( Constants.STATISTIC_BATTLES_PLAYED, 1 );
+
 		var room = rooms[ room_id ];
 
 		room.players[ 0 ].socket.on( 'disconnect', function ()
