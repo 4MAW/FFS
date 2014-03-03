@@ -1,5 +1,4 @@
 // Dependencies.
-
 var Constants = require( '../vendor/constants.js' );
 
 // Definition.

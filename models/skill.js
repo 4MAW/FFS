@@ -39,6 +39,12 @@ module.exports = {
 		multiTarget:
 		{
 			type: Boolean
+		},
+		accuracy:
+		{
+			type: Number,
+			max: 1,
+			min: 0
 		}
 	},
 	//join: 'type',

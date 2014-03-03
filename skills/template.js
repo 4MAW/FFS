@@ -1,11 +1,13 @@
 // You can safely assume that the following attributes are set:
 //
-// - id:       ID of this skill.
-// - name:     Name of this skill.
-// - target:   Target of this skill (if there is only one target). Character.
-// - targets:  Array of targets of this skill. [Character].
-// - caller:   Character performing using this skill.
-// - Round:    Round API.
+// - id:          ID of this skill.
+// - name:        Name of this skill.
+// - target:      Target of this skill (if there is only one target). Character.
+// - targets:     Array of targets of this skill. [Character].
+// - caller:      Character performing using this skill.
+// - Round:       Round API.
+// - accuracy:    Accuracy of the skill (0...1).
+// - multiTarget: Whether this skill is a multi target skill or not.
 
 module.exports = function ()
 {
@@ -58,6 +60,19 @@ module.exports = function ()
 	 * @injected
 	 */
 	this.caller = null;
+	/**
+	 * Accuracy of this skill.
+	 * This value will be injected later by the skill loader.
+	 * @type {number}
+	 * @injected
+	 */
+	this.accuracy = null;
+	/**
+	 * Whether this skill is multi target or not.
+	 * @type {boolean}
+	 * @injected
+	 */
+	this.multiTarget = null;
 
 	/*
 	 *
