@@ -56,180 +56,19 @@ describe( "Round Skill API", function ()
 		poison = Skill.cast( character, [ character ], "00000004" );
 
 		// Poison skill.
-		superpoison = {
-			id: "00000002", // This will be injected by SkillLoader when implemented.
-			type: "magical",
-			element: "poison",
-			internalVariables:
-			{},
-			// Initialization, called when a skill is used.
-			init: function ()
-			{
-				Round.do( this.poison, this );
-			},
-			// Registers the damage and unregister callbacks.
-			poison: function ()
-			{
-				// Compute duration: 2±1 rounds.
-				var duration = 2 + Math.round( Math.random() * 2 - 1 );
-				duration = 2; // Just to make the tests deterministic.
-				// Store whether character was poisoned or not: in
-				// some cases a character won't be poisoned because
-				// it has inmunity or it is poisoned by a skill with
-				// more duration or it is poisoned by a skill with
-				// more priority.
-				this.internalVariables.did_poison = this.target.setStatus( [ "poison" ], this, Round.currentRound() + duration )[ 0 ]; // Poison's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
-				// If character was poisoned by this skill then register callbacks.
-				if ( this.internalVariables.did_poison )
-				{
-					// Store UUIDs to cancel callbacks in the future.
-					this.internalVariables.in_uuid = Round. in ( duration, this.unpoison, this, Constants.ENDROUND_EVENT );
-					this.internalVariables.each_uuid = Round.each( this.damage, this, Constants.AFTER_DAMAGE_PHASE_EVENT );
-				}
-			},
-			// Unregisters the damage callbacl.
-			unpoison: function ()
-			{
-				// Unpoison only if this skill did poison the character.
-				if ( this.internalVariables.did_poison )
-					this.target.unsetStatus( [ "poison" ], this, false );
-			},
-			// Performs some damage.
-			damage: function ()
-			{
-				this.target.damage( 100, 0, this );
-			},
-			// Cancels the effects produced by this skill.
-			//
-			// Reasons is an optional array of status, used to
-			// allow cancelling just the effects produced by a
-			// skill due to one altered status.
-			//
-			// For instance:  «Vómito de Molbol» will affect
-			// several status, one of them might be poison and
-			// other might be blind. If you cast a spell that
-			// heals "blind" altered status you should affect
-			// the poison damage triggered by this skill, even
-			// if blind status was triggered also by this skill.
-			cancel: function ( reasons )
-			{
-				// Unpoison only if this skill did poison the character.
-				if ( this.internalVariables.did_poison )
-				{
-					// In this case this is trivial but if this skill
-					// affected more than one altered status this
-					// won't be so trivial.
-					if ( reasons.indexOf( "poison" ) > -1 )
-					{
-						Round.cancel( this.internalVariables.in_uuid );
-						Round.uneach( this.internalVariables.each_uuid );
-					}
-				}
-			},
-			// Target of this skill.
-			target: character,
-			// Character how will use this skill.
-			caller: character,
-			// Array of altered status that prevent this skill to be performed.
-			blockedBy: [ "paralysis" ]
-		};
+		superpoison = Skill.cast( character, [ character ], "00000002" );
 
 		// Esuna skill.
-		esuna = {
-			id: "00000003", // This will be injected by SkillLoader when implemented.
-			type: "magical",
-			// Initialization, called when a skill is used.
-			init: function ()
-			{
-				Round.do( this.heal, this );
-			},
-			// Healing action.
-			heal: function ()
-			{
-				// Unset given status and retrieve array of skills that affected those status.
-				this.target.unsetStatus( [ "poison", "blind" ], this, true );
-			},
-			// Target of this skill.
-			target: character,
-			// Character how will use this skill.
-			caller: character,
-			// Array of altered status that prevent this skill to be performed.
-			blockedBy: [ "paralysis", "mutis" ]
-		};
+		esuna = Skill.cast( character, [ character ], "00000003" );
 
 		// Attack skill.
 		attack = Skill.cast( character, [ character ], "00000001" );
 
 		// Nova skill.
-		nova = {
-			id: "00000005", // This will be injected by SkillLoader when implemented.
-			type: "magical",
-			element: "fire",
-			// Initialization, called when a skill is used.
-			init: function ()
-			{
-				Round.do( this.damage, this );
-			},
-			damage: function ()
-			{
-				for ( var i in this.targets )
-					this.targets[ i ].damage( 1000, 250, this );
-			},
-			// Target of this skill.
-			targets: [ character, other_character ],
-			// Character how will use this skill.
-			caller: character,
-			// Array of altered status that prevent this skill to be performed.
-			blockedBy: [ "paralysis", "mutis" ]
-		};
+		nova = Skill.cast( character, [ character, other_character ], "00000005" );
 
 		// Paralyze skill.
-		paralyze = {
-			id: "00000006", // This will be injected by SkillLoader when implemented.
-			type: "magical",
-			internalVariables:
-			{},
-			// Initialization, called when a skill is used.
-			init: function ()
-			{
-				Round.do( this.paralyze, this );
-			},
-			// Registers the unregister callback.
-			paralyze: function ()
-			{
-				// Compute duration: 2±1 rounds.
-				var duration = 2 + Math.round( Math.random() * 2 - 1 );
-				duration = 3; // Just to make the tests deterministic.
-				// Store whether character was paralyzed or not.
-				this.internalVariables.did_paralyze = this.target.setStatus( [ "paralysis" ], this, Round.currentRound() + duration )[ 0 ];
-				// If character was paralyzed by this skill then register unregister callback.
-				if ( this.internalVariables.did_paralyze )
-				{
-					// Store UUIDs to cancel callbacks in the future.
-					this.internalVariables.in_uuid = Round. in ( duration, this.unparalyze, this, Constants.ENDROUND_EVENT );
-				}
-			},
-			// Unsets altered status.
-			unparalyze: function ()
-			{
-				// Unpoison only if this skill did poison the character.
-				if ( this.internalVariables.did_paralyze )
-					this.target.unsetStatus( [ "paralysis" ], this, false );
-			},
-			// Cancels the effects produced by this skill.
-			cancel: function ( reasons )
-			{
-				// Unparalyses only if this skill did paralyze the character.
-				if ( this.internalVariables.did_paralyze && reasons.indexOf( "paralysis" ) > -1 )
-					Round.cancel( this.internalVariables.in_uuid );
-			},
-			// Target of this skill.
-			target: character,
-			// Character how will use this skill.
-			caller: character,
-			// Array of altered status that prevent this skill to be performed.
-			blockedBy: [ "paralysis" ]
-		};
+		paralyze = Skill.cast( character, [ character ], "00000006" );
 
 		initial_health = character.stats()[ Constants.HEALTH_STAT_ID ];
 
