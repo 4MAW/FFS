@@ -14,6 +14,7 @@ var socket = require( 'socket.io' ),
 	fs = require( 'fs' ),
 	Q = require( 'q' ),
 	model = require( './models/model.js' ),
+	skill = require( './skills/skill.js' ), // Loaded here just to wait for initialization before setting up listeners.
 	controller = require( './controllers/controller.js' ),
 	log = require( './vendor/log.js' ),
 	Constants = require( './vendor/constants.js' ),
@@ -31,7 +32,7 @@ io.set( 'log level', 1 ); // Reduce log level.
 
 // Wait for model initialization before continuing.
 
-model.ready.then( function ()
+Q.all( [ model.ready, skill.ready ] ).then( function ()
 {
 	// App Middlewares.
 
