@@ -37,5 +37,16 @@ module.exports = {
 	ERROR_WEAPON_NOT_FOUND: "weapon_not_found",
 	ERROR_ACCESSORY_NOT_FOUND: "accessory_not_found",
 	ERROR_ARMOR_TYPE_NOT_FOUND: "armor_type_not_found",
-	ARMOR_ELEMENTS: [ 'armor', 'boots', 'helmet', 'gauntlets' ]
+	ARMOR_ELEMENTS: [ 'armor', 'boots', 'helmet', 'gauntlets' ],
+	STATISTIC_BATTLES_PLAYED: "battles_played",
+	STATISTIC_SKILLS_USED_PREFIX: "times_used_skill_",
+	STATISTIC_DAMAGE_BY_SKILL_PREFIX: "damage_by_skill_",
+	STATISTIC_DAMAGE_DEALED: "damage_dealed",
+	STATISTIC_PHYSICAL_DAMAGE_DEALED: "physical_damage_dealed",
+	STATISTIC_MAGICAL_DAMAGE_DEALED: "magical_damage_dealed",
+	STATISTIC_TIMES_STATUS_ALTERED_PREFIX: "altered_status_",
+	STATISTIC_TIMES_HEALED_STATUS_ALTERED_PREFIX: "healed_altered_status_",
+	STATISTIC_CHARACTERS_DIE: "characters_dead",
+	PHYSICAL: "physical",
+	MAGICAL: "magical"
 };
