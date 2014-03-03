@@ -10,7 +10,7 @@ module.exports = {
 	{
 		var casted = new module.exports[ skillID ]();
 		casted.caller = caller;
-		if ( targets.length > 1 )
+		if ( casted.multiTarget )
 			casted.targets = targets;
 		else
 			casted.target = targets[ 0 ];
@@ -62,6 +62,17 @@ model.Skill.find(
 	{
 		var filename;
 
+		var to_json_skill = function ()
+		{
+			var ret = {};
+			for ( var j in this )
+				if ( typeof this[ j ] !== 'function' )
+					ret[ j ] = this[ j ];
+			ret.id = this.id;
+			ret.name = this.name;
+			return ret;
+		};
+
 		for ( var i in docs )
 		{
 			filename = path.basename( docs[ i ].definition, '.js' );
@@ -72,7 +83,9 @@ model.Skill.find(
 				var proto = {
 					id: docs[ i ].id,
 					name: docs[ i ].name,
-					Round: Round
+					multiTarget: docs[ i ].multiTarget,
+					Round: Round,
+					toJSON: to_json_skill
 				};
 				module.exports[ filename ].prototype = proto;
 				// Allow direct access by skill ID.
