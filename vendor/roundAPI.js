@@ -1,6 +1,11 @@
 // Dependencies.
-var crypt = require( './crypt.js' );
-var Q = require( 'q' );
+var crypt = require( './crypt.js' ),
+	Q = require( 'q' ),
+	Events = require( 'events' ),
+	Environment = require( './environment.js' );
+
+// Event emitter in charge of actions' results.
+var ema = new Events.EventEmitter();
 
 // Array of enqueued callbacks.
 var callbacks_once = [];
@@ -9,12 +14,96 @@ var callbacks_once = [];
 var callbacks_each = {};
 
 // Array of defers that handle whether a skill would be performed or not.
-var callback_defers = {};
+var callback_defers = [];
 
 // Store current round number.
 var current_round = 0;
 
+// Store current round's changes.
+var current_round_changes = [];
+
+ema.on( 'CHANGE', function ( data )
+{
+	var changes = data.changes;
+	var skill = data.skill;
+
+	var i = 0;
+	for ( i = 0; i < current_round_changes.length; i++ ) // Foreach loop resets index after completion.
+		if ( current_round_changes[ i ].uuid === skill.uuid ) break;
+
+	if ( current_round_changes[ i ] === undefined )
+		current_round_changes[ i ] = {
+			uuid: skill.uuid,
+			skill: skill,
+			changes: []
+		};
+
+	for ( var j in changes )
+		current_round_changes[ i ].changes.push( changes[ j ] );
+} );
+
+ema.on( 'COMMIT_ENVIRONMENT', function ()
+{
+
+	/*
+	 * THIS IS JUST TO MAKE DEBUG EASIER.
+	 */
+
+	/*
+	console.log( 'Send' );
+
+	for ( var c in current_round_changes )
+	{
+		var action = current_round_changes[ c ];
+		console.log( 'Action ' + c + ' (' + action.uuid.substring( 0, 5 ) + '):' );
+		for ( var i in action.changes )
+		{
+			var change = action.changes[ i ];
+			console.log( '\tChange ' + change.change + ' ' + change.item.key + ' ' + change.item.value );
+		}
+	}
+
+	console.log( 'Clean' );
+	*/
+
+	current_round_changes = [];
+} );
+
 module.exports = {
+
+	/**
+	 *
+	 *
+	 *        ROUND API FOR CHARACTER
+	 *
+	 *
+	 */
+
+	/**
+	 * Notifies that caller performed skill targetting targets altering environtment from before to after.
+	 * @param  {Character} caller Character who used the skill. If skill is a registered callback caller would be undefined.
+	 * @param  {[Target]}          targets Character who will be affected by skill.
+	 * @param  {CalledSkill}       skill   Skill used.
+	 * @param  {Environment}       before  Environment before using the skill.
+	 * @param  {Environment}       after   Environment after using the skill.
+	 */
+	notify: function ( caller, targets, skill, before, after ) {
+
+	},
+
+	/**
+	 * Notifies that given skill produced given changes in the environment.
+	 * @param  {[Change]}    changes Array of changes due to given skill.
+	 * @param  {CalledSkill} skill   Skill performed.
+	 */
+	notifyChanges: function ( changes, skill )
+	{
+		ema.emit( 'CHANGE',
+		{
+			changes: changes,
+			skill: skill
+		} );
+	},
 
 	/**
 	 *
@@ -32,6 +121,14 @@ module.exports = {
 	 */
 	"do": function ( callback, tthis )
 	{
+		// To be able to tell apart different instantiations of a skill.
+		tthis.round = this.currentRound();
+		tthis.uuid = crypt.hash( JSON.stringify(
+		{
+			caller: tthis.caller.id,
+			round: tthis.round,
+			skill: tthis.id
+		} ) );
 		// @TODO This should be recored in an array of actions performed this round so it can be animated by the clients.
 		callback.apply( tthis );
 	},
@@ -116,6 +213,7 @@ module.exports = {
 	{
 		callbacks_once.shift();
 		current_round++;
+		ema.emit( 'COMMIT_ENVIRONMENT' );
 
 		// @TODO This method should return the results of this round so they can be sent to players.
 		//return everything_done_and_the_results;
@@ -165,5 +263,14 @@ module.exports = {
 	"currentRound": function ()
 	{
 		return current_round;
+	},
+
+	/**
+	 * Returns the commit (array of changes) of this round.
+	 * @return {Commit} Changes of this round.
+	 */
+	"changes": function ()
+	{
+		return current_round_changes;
 	}
 };

@@ -1,8 +1,10 @@
 // Dependencies.
 
-var Q = require( 'q' );
-var model = require( '../models/model.js' );
-var Constants = require( './constants.js' );
+var Q = require( 'q' ),
+	model = require( '../models/model.js' ),
+	Constants = require( './constants.js' ),
+	Round = require( './roundAPI.js' ),
+	Change = require( './change.js' );
 
 // Data structures.
 
@@ -108,6 +110,7 @@ var has_all_status = function ( statuses )
 var set_status = function ( statuses, skill, priority )
 {
 	var affected = [];
+	var changes = [];
 
 	for ( var s in statuses )
 	{
@@ -123,8 +126,13 @@ var set_status = function ( statuses, skill, priority )
 				priority: priority
 			};
 			affected[ s ] = true;
+			// Create change representation.
+			var c = new Change( this, "status", status, "+" );
+			changes.push( c );
 		}
 	}
+	// Notify round.
+	Round.notifyChanges( changes, skill );
 
 	return affected;
 };
@@ -141,6 +149,7 @@ var set_status = function ( statuses, skill, priority )
  */
 var unset_status = function ( statuses, skill, override )
 {
+	var changes = [];
 	for ( var s in statuses )
 	{
 		var status = statuses[ s ];
@@ -148,26 +157,47 @@ var unset_status = function ( statuses, skill, override )
 		if ( altered_statuses[ status ] !== undefined )
 			if ( override || altered_statuses[ status ].skill === skill )
 			{
+				// Create change representation.
+				var c = new Change( this, "status", status, "-" );
+				changes.push( c );
+				// Actually change status.
 				altered_statuses[ status ].skill.cancel( statuses );
 				delete altered_statuses[ status ];
 			}
 	}
+	// This SHOULD NOT HAPPEN in deployment, but it happens in testing.
+	if ( skill !== null )
+	{
+		// Notify round.
+		Round.notifyChanges( changes, skill );
+	}
 };
+
+// Similar to set_status but changing character's class.
+var change_class = function () {};
 
 /**
  * Damages the player given the amount of damage, the type and the element of the hit.
- * @param  {integer} amount  Base amount of health points to decrease.
- * @param  {integer} margin  Margin where the damage will be located.
- * @param  {string}  type    Type of damage: "physic" or "magic"
- * @param  {string}  element Element of damage: "poison" or "".
+ * @param  {integer}     amount  Base amount of health points to decrease.
+ * @param  {integer}     margin  Margin where the damage will be located.
+ * @param  {CalledSkill} skill Skill that performes this damage.
  */
-var damage = function ( amount, margin, type, element )
+var damage = function ( amount, margin, skill )
 {
+	// @TODO Take into account the type of damage and the element.
+	var type = skill.type;
+	var element = skill.element;
 	// Compute a random damage in range amount±margin.
 	// To perform a fixed damage just pass margin=0 when calling this method.
-	var actual_damage = Math.max( amount + margin * ( Math.random() * 2 - 1 ), 0 ); // Damage can't be negative!
-	// @TODO Take into account the type of damage and the element.
+	var actual_damage = Math.max( Math.round( amount + margin * ( Math.random() * 2 - 1 ) ), 0 ); // Damage can't be negative!
 	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
+
+	// Get change object.
+	var c = new Change( this, "stat", Constants.HEALTH_STAT_ID, "-" + actual_damage );
+	// Notify round.
+	Round.notifyChanges( [ c ], skill );
+
+	return actual_damage;
 };
 
 

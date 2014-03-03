@@ -52,7 +52,7 @@ function logStatus( status, label )
 function logWarn( status, label )
 {
 	if ( typeof label === 'undefined' ) label = 'WARNING';
-	console.log( ( '[' + label + ']' ).yellow.bold + ' ' + status );
+	console.log( ( '[' + label + ']' ).yellow + ' ' + status );
 }
 
 module.exports = {
