@@ -45,6 +45,12 @@ module.exports = {
 			type: Number,
 			max: 1,
 			min: 0
+		},
+		criticalProbability:
+		{
+			type: Number,
+			max: 1,
+			min: 0
 		}
 	},
 	//join: 'type',

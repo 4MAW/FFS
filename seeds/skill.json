@@ -5,7 +5,8 @@
 	"definition": "attack.js",
 	"passive": false,
 	"multiTarget": false,
-	"accuracy": 1
+	"accuracy": 1,
+	"criticalProbability": 1
 },
 {
 	"id": "00000002",
@@ -13,7 +14,8 @@
 	"definition": "superpoison.js",
 	"passive": false,
 	"multiTarget": false,
-	"accuracy": 1
+	"accuracy": 1,
+	"criticalProbability": 1
 },
 {
 	"id": "00000003",
@@ -21,7 +23,8 @@
 	"definition": "esuna.js",
 	"passive": false,
 	"multiTarget": false,
-	"accuracy": 1
+	"accuracy": 1,
+	"criticalProbability": 1
 },
 {
 	"id": "00000004",
@@ -29,7 +32,8 @@
 	"definition": "poison.js",
 	"passive": false,
 	"multiTarget": false,
-	"accuracy": 1
+	"accuracy": 1,
+	"criticalProbability": 1
 },
 {
 	"id": "00000005",
@@ -37,7 +41,8 @@
 	"definition": "nova.js",
 	"passive": false,
 	"multiTarget": true,
-	"accuracy": 1
+	"accuracy": 1,
+	"criticalProbability": 1
 },
 {
 	"id": "00000006",
@@ -45,5 +50,6 @@
 	"definition": "paralyze.js",
 	"passive": false,
 	"multiTarget": false,
-	"accuracy": 1
+	"accuracy": 1,
+	"criticalProbability": 1
 } ]

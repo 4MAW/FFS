@@ -85,6 +85,7 @@ model.Skill.find(
 					name: docs[ i ].name,
 					multiTarget: docs[ i ].multiTarget,
 					accuracy: docs[ i ].accuracy,
+					criticalProbability: docs[ i ].criticalProbability,
 					Round: Round,
 					toJSON: to_json_skill
 				};
