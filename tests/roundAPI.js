@@ -3,6 +3,7 @@
 var Q = require( 'q' ),
 	assert = require( 'assert' ),
 	model = require( '../models/model.js' ),
+	Skill = require( '../skills/skill.js' ),
 	Round = require( '../vendor/roundAPI.js' ),
 	Constants = require( '../vendor/constants.js' ),
 	Character = require( '../vendor/characterHelper.js' );
@@ -17,7 +18,7 @@ describe( "Round Skill API", function ()
 	// Load a character and initialize a helper.
 	before( function ( done )
 	{
-		model.ready.then( function ()
+		Q.all( [ model.ready, Skill.ready ] ).then( function ()
 		{
 			model.Character.find(
 			{
@@ -53,7 +54,7 @@ describe( "Round Skill API", function ()
 	{
 		// Poison skill.
 		poison = {
-			id: "00000001", // This will be injected by SkillLoader when implemented.
+			id: "00000004", // This will be injected by SkillLoader when implemented.
 			type: "magical",
 			element: "poison",
 			internalVariables:
@@ -233,25 +234,7 @@ describe( "Round Skill API", function ()
 		};
 
 		// Attack skill.
-		attack = {
-			id: "00000004", // This will be injected by SkillLoader when implemented.
-			type: "physical",
-			// Initialization, called when a skill is used.
-			init: function ()
-			{
-				Round.do( this.damage, this );
-			},
-			damage: function ()
-			{
-				this.target.damage( 100, 50, this );
-			},
-			// Target of this skill.
-			target: character,
-			// Character how will use this skill.
-			caller: character,
-			// Array of altered status that prevent this skill to be performed.
-			blockedBy: [ "paralysis" ]
-		};
+		attack = Skill.cast( character, [ character ], "00000001" );
 
 		// Nova skill.
 		nova = {
