@@ -6,16 +6,7 @@ var Q = require( 'q' ),
 	Round = require( './roundAPI.js' ),
 	Change = require( './change.js' );
 
-// Data structures.
-
-var altered_statuses = {};
-
 // Instance methods.
-
-var hello = function ()
-{
-	return "Hello, my name's " + this.name;
-};
 
 /**
  * Returns the list of skills this character can use actively.
@@ -60,6 +51,15 @@ var stats = function ()
 	return returnStats;
 };
 
+/**
+ * Returns whether this character is alive or not.
+ * @return {boolean} Whether this character is alive or not.
+ */
+var alive = function ()
+{
+	return ( this.stats()[ Constants.HEALTH_STAT_ID ] > 0 );
+};
+
 var alterStat = function () {};
 
 /**
@@ -70,7 +70,7 @@ var alterStat = function () {};
 var has_status = function ( statuses )
 {
 	for ( var s in statuses )
-		if ( altered_statuses[ statuses[ s ] ] !== undefined )
+		if ( this.altered_statuses[ statuses[ s ] ] !== undefined )
 			return true;
 	return false;
 };
@@ -84,7 +84,7 @@ var has_all_status = function ( statuses )
 {
 	var affected = true;
 	for ( var s in statuses )
-		affected = affected && ( altered_statuses[ statuses[ s ] ] !== undefined );
+		affected = affected && ( this.altered_statuses[ statuses[ s ] ] !== undefined );
 	return affected;
 };
 
@@ -106,12 +106,12 @@ var set_status = function ( statuses, skill, priority )
 	{
 		var status = statuses[ s ];
 		// If status was not altered or the priority is lower than the new one's...
-		if ( altered_statuses[ status ] === undefined || altered_statuses[ status ].priority <= priority )
+		if ( this.altered_statuses[ status ] === undefined || this.altered_statuses[ status ].priority <= priority )
 		{
-			if ( altered_statuses[ status ] !== undefined )
-				altered_statuses[ status ].skill.cancel( [ status ] );
+			if ( this.altered_statuses[ status ] !== undefined )
+				this.altered_statuses[ status ].skill.cancel( [ status ] );
 
-			altered_statuses[ status ] = {
+			this.altered_statuses[ status ] = {
 				skill: skill,
 				priority: priority
 			};
@@ -144,15 +144,15 @@ var unset_status = function ( statuses, skill, override )
 	{
 		var status = statuses[ s ];
 		// If status was not altered or the priority is lower than the new one's...
-		if ( altered_statuses[ status ] !== undefined )
-			if ( override || altered_statuses[ status ].skill === skill )
+		if ( this.altered_statuses[ status ] !== undefined )
+			if ( override || this.altered_statuses[ status ].skill === skill )
 			{
 				// Create change representation.
 				var c = new Change( this, "status", status, "-" );
 				changes.push( c );
 				// Actually change status.
-				altered_statuses[ status ].skill.cancel( statuses );
-				delete altered_statuses[ status ];
+				this.altered_statuses[ status ].skill.cancel( statuses );
+				delete this.altered_statuses[ status ];
 			}
 	}
 	// This SHOULD NOT HAPPEN in deployment, but it happens in testing.
@@ -214,7 +214,7 @@ var newStatus = function ( skillDef, round )
  */
 var can_perform_action = function ( skill )
 {
-	return !has_status( skill.blockedBy );
+	return this.stats()[ Constants.HEALTH_STAT_ID ] > 0 && !this.hasStatus( skill.blockedBy );
 };
 
 var getPasives = function () {};
@@ -223,11 +223,27 @@ var doSkill = function () {};
 
 var clientObject = function () {};
 
+/**
+ * Returns a JSON version of this Character.
+ * @return {string} JSON representation of this Character.
+ */
+var toJSON = function ()
+{
+	ret = {};
+	for ( var i in this )
+		if ( typeof this[ i ] !== 'function' )
+			ret[ i ] = this[ i ];
+	delete ret.altered_statuses;
+	ret.stats = this.stats();
+	ret.alive = this.alive();
+	return ret;
+};
+
 // Add here any instance method you want to make public.
 // Key: public name.
 // Value: function to be called.
 var INSTANCE_METHODS = {
-	hello: hello,
+	toJSON: toJSON,
 	skillList: skillList,
 	stats: stats,
 	alterStat: alterStat,
@@ -240,7 +256,8 @@ var INSTANCE_METHODS = {
 	hasStatus: has_status,
 	hasAllStatus: has_all_status,
 	setStatus: set_status,
-	unsetStatus: unset_status
+	unsetStatus: unset_status,
+	alive: alive
 };
 
 // Constructor.
@@ -436,6 +453,10 @@ module.exports = function ( db_source )
 		{
 
 			character = JSON.parse( JSON.stringify( character ) ); // Transform character to a standard Javascript object.
+
+			// Data structures.
+
+			character.altered_statuses = {};
 
 			// Here we will assign methods to the character.
 			for ( var j in INSTANCE_METHODS )
