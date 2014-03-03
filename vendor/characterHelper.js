@@ -59,6 +59,20 @@ var stats = function ()
 		}
 	}
 
+	for ( var acc in this.accessories )
+	{
+		for ( stat in this.accessories[ acc ].stats )
+		{
+			stat_id = this.accessories[ acc ].stats[ stat ].stat.id;
+			stat_value = this.accessories[ acc ].stats[ stat ].value;
+			if((typeof stat_value) == "string"))
+				returnStats[ stat_id ] *= 1+parseInt(stat_value)/10;
+			else
+				returnStats[ stat_id ] += stat_value;
+
+		}
+	}
+
 	return returnStats;
 };
 

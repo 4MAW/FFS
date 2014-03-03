@@ -13,6 +13,42 @@ function process_item( item )
 {
 	var model = require( './model.js' );
 
+	// Find all stats.
+
+	var all_stats_found_promise;
+
+	var find_stat_and_resolve_promise = function ( item, _stat, stat_defer )
+	{
+		model.Stat.find(
+		{
+			id: item.stats[  _stat ].stat
+		},
+		{
+			_id: 1
+		}, function ( err, docs )
+		{
+			if ( err ) stat_defer.reject( err );
+			else if ( docs.length < 1 ) stat_defer.reject( 404 );
+			else
+			{
+				var doc = docs[ 0 ];
+				item.stats[  _stat ].stat = doc._id;
+				stat_defer.resolve();
+			}
+		} );
+	};
+
+	var stat_promises = [];
+	for ( var _stat in item.stats )
+	{
+		var stat_defer = Q.defer();
+		stat_promises.push( stat_defer.promise );
+		find_stat_and_resolve_promise( item, _stat, stat_defer );
+	}
+
+	all_stats_found_promise = Q.all( stat_promises );
+
+
 	// Find all skills.
 
 	var all_skills_found_promise;
@@ -78,6 +114,25 @@ module.exports = {
 				dropDups: true
 			}
 		},
+		stats:
+		{
+			type: [
+			{
+				value:
+				{
+					type: Number,
+					set: function ( v )
+					{
+						return Math.floor( v );
+					}
+				},
+				stat:
+				{
+					type: require( 'mongoose' ).Schema.Types.ObjectId,
+					ref: 'Stat'
+				}
+			} ]
+		},
 		skills:
 		{
 			type: [
@@ -98,11 +153,11 @@ module.exports = {
 			} ]
 		}
 	},
-	join: 'skills.skill',
+	join: 'skills.skill stats.stat',
 	phases: [
 	{
 		name: 'init',
-		requirements: [ 'Skill' ],
+		requirements: [ 'Stat', 'Skill' ],
 		callback: process_item
 	} ],
 	set:
