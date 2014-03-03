@@ -196,15 +196,16 @@ var damage = function ( amount, margin, skill )
 	// Compute a random damage in range amount±margin.
 	// To perform a fixed damage just pass margin=0 when calling this method.
 	var criticalProbability = (skill.criticalProbability == 0) ? 0 : 1+skill.criticalProbability;
-	critMulti = (Math.Random()<=statsCaster["00000010"].value * criticalProbability) ? critMulti = 1.5 : critMulti = 1;
+	critMulti = (Math.Random()<=statsCaster[Constants.CRITICAL_STAT_ID].value * criticalProbability) ? critMulti = 1.5 : critMulti = 1;
 	if(type == "magycal"){
-		resMulti = (Math.Random()<=skill.accuracy-(1-MIN(statsCaster["00000006"].value/statsDefender["00000007"].value, 1))) ? resMulti = 1 : resMulti = 0;
-		var actual_damage = (MAX(0.8,(statsCaster["00000006"]+ amount + MAX(0,eleDmg - eleDef))/statsCaster["00000006"])*
-			statsCaster["00000006"]*this.Constants.ARMOR_ELEMENTS[ 0 ].type.magFactor) * critMulti*resMulti*resistencias
+		resMulti = (Math.Random()<=skill.accuracy-(1-MIN(statsCaster[Constants.INT_STAT_ID].value/statsDefender[Constants.MEN_STAT_ID].value, 1)))
+			? resMulti = 1 : resMulti = 0;
+		var actual_damage = (MAX(0.8,(statsCaster[Constants.INT_STAT_ID]+ amount + MAX(0,eleDmg - eleDef))/statsDefender[Constants.MEN_STAT_ID])*
+			statsCaster[Constants.INT_STAT_ID]*this.Constants.ARMOR_ELEMENTS[ 0 ].type.magFactor) * critMulti*resMulti*resistencias
 	}else{
-		evaMulti = (Math.Random()<=statsDefender["00000009"].value/skill.accuracy) ? evaMulti = 0 : evaMulti = 1;
-		var actual_damage = (MAX(0.8,(statsCaster["00000004"].value+amount)/statsDefender["00000005"].value)
-			*statsCaster["00000004"]*this.Constants.ARMOR_ELEMENTS[ 0 ].type.phyFactor )*critMulti*evaMulti*resistencias
+		evaMulti = (Math.Random()<=statsDefender[Constants.EVS_STAT_ID].value/skill.accuracy) ? evaMulti = 0 : evaMulti = 1;
+		var actual_damage = (MAX(0.8,(statsCaster[Constants.STR_STAT_ID].value+amount)/statsDefender[Constants.DEF_STAT_ID].value)
+			*statsCaster[Constants.STR_STAT_ID]*this.Constants.ARMOR_ELEMENTS[ 0 ].type.phyFactor )*critMulti*evaMulti*resistencias
 	}
 
 	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
