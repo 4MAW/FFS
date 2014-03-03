@@ -12,7 +12,7 @@ var Q = require( 'q' ),
 describe( "Round Skill API", function ()
 {
 
-	var character, initial_health;
+	var character, initial_health, other_character;
 
 	// Load a character and initialize a helper.
 	before( function ( done )
@@ -22,14 +22,26 @@ describe( "Round Skill API", function ()
 			model.Character.find(
 			{
 				id: "00000001"
-			} ).exec( function ( err, docs )
+			}, function ( err, docs )
 			{
 				assert.ifError( err );
 				assert.notEqual( docs.length, 0 );
 				Character( docs[ 0 ] ).then( function ( c )
 				{
 					character = c;
-					done();
+					model.Character.find(
+					{
+						id: "00000002"
+					}, function ( err, docs )
+					{
+						assert.ifError( err );
+						assert.notEqual( docs.length, 0 );
+						Character( docs[ 0 ] ).then( function ( c )
+						{
+							other_character = c;
+							done();
+						} );
+					} );
 				} );
 			} );
 		} );
@@ -241,9 +253,32 @@ describe( "Round Skill API", function ()
 			blockedBy: [ "paralysis" ]
 		};
 
+		// Nova skill.
+		nova = {
+			id: "00000005", // This will be injected by SkillLoader when implemented.
+			type: "magical",
+			element: "fire",
+			// Initialization, called when a skill is used.
+			init: function ()
+			{
+				Round.do( this.damage, this );
+			},
+			damage: function ()
+			{
+				for ( var i in this.targets )
+					this.targets[ i ].damage( 1000, 250, this );
+			},
+			// Target of this skill.
+			targets: [ character, other_character ],
+			// Character how will use this skill.
+			caller: character,
+			// Array of altered status that prevent this skill to be performed.
+			blockedBy: [ "paralysis", "mutis" ]
+		};
+
 		// Paralyze skill.
 		paralyze = {
-			id: "00000005", // This will be injected by SkillLoader when implemented.
+			id: "00000006", // This will be injected by SkillLoader when implemented.
 			type: "magical",
 			internalVariables:
 			{},
@@ -789,6 +824,61 @@ describe( "Round Skill API", function ()
 
 		var hit = parseInt( commit[ 0 ].changes[ 0 ].change.substring( 1 ), 10 );
 		assert.strictEqual( after_damage_phase, original_health - hit );
+
+		Round.finishRound();
+
+		done();
+	} );
+
+	it( "Character should damage multiple targets when using Nova during damage phase", function ( done )
+	{
+		var original_health = character.stats()[ Constants.HEALTH_STAT_ID ];
+		var other_character_health = other_character.stats()[ Constants.HEALTH_STAT_ID ];
+		assert.notEqual( original_health, 0 );
+		assert.notEqual( other_character_health, 0 );
+
+		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
+		// A real server would compute order here.
+		Round.performPhaseCallbacks( Constants.AFTER_ORDER_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.BEFORE_DAMAGE_PHASE_EVENT );
+		// Damage shouldn't have been done yet.
+		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+		// For each action to be performed (in order)...
+		if ( poison.caller.canPerformAction( nova ) )
+		// Before damage event, but this is special and should be handled in a way I have not clear yet.
+			nova.init(); // Won't do anything as player is still paralyzed.
+		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		// Damage should have been done.
+		assert.notEqual( character.stats()[ Constants.HEALTH_STAT_ID ], original_health );
+		assert.notEqual( other_character.stats()[ Constants.HEALTH_STAT_ID ], other_character_health );
+		var after_damage_phase = character.stats()[ Constants.HEALTH_STAT_ID ];
+		var other_after_damage_phase = other_character.stats()[ Constants.HEALTH_STAT_ID ];
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// No more damage should be done.
+		assert.strictEqual( character.stats()[ Constants.HEALTH_STAT_ID ], after_damage_phase );
+		assert.strictEqual( other_character.stats()[ Constants.HEALTH_STAT_ID ], other_after_damage_phase );
+
+		// Commit should include information about character being damaged.
+		var commit = Round.changes();
+		assert.strictEqual( commit.length, 1 );
+		assert.strictEqual( commit[ 0 ].skill.id, nova.id );
+		assert.strictEqual( commit[ 0 ].changes.length, 2 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].character.id, nova.targets[ 0 ].id );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].change.indexOf( "-" ), 0 );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.HEALTH_STAT_ID );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].character.id, nova.targets[ 1 ].id );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].change.indexOf( "-" ), 0 );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.key, "stat" );
+		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.value, Constants.HEALTH_STAT_ID );
+
+		var hit = parseInt( commit[ 0 ].changes[ 0 ].change.substring( 1 ), 10 );
+		assert.strictEqual( after_damage_phase, original_health - hit );
+
+		var other_hit = parseInt( commit[ 0 ].changes[ 1 ].change.substring( 1 ), 10 );
+		assert.strictEqual( other_after_damage_phase, other_character_health - other_hit );
 
 		Round.finishRound();
 

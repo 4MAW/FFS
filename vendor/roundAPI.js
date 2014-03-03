@@ -125,7 +125,6 @@ module.exports = {
 		tthis.round = this.currentRound();
 		tthis.uuid = crypt.hash( JSON.stringify(
 		{
-			target: tthis.target.id,
 			caller: tthis.caller.id,
 			round: tthis.round,
 			skill: tthis.id
