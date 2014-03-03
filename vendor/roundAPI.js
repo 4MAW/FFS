@@ -49,7 +49,7 @@ ema.on( 'COMMIT_ENVIRONMENT', function ()
 	 * THIS IS JUST TO MAKE DEBUG EASIER.
 	 */
 
-	/*
+	/**/
 	console.log( 'Send' );
 
 	for ( var c in current_round_changes )
@@ -64,7 +64,7 @@ ema.on( 'COMMIT_ENVIRONMENT', function ()
 	}
 
 	console.log( 'Clean' );
-	*/
+	/**/
 
 	current_round_changes = [];
 } );
