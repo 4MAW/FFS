@@ -240,7 +240,7 @@ var newStatus = function ( skillDef, round )
  */
 var can_perform_action = function ( skill )
 {
-	return this.stats()[ Constants.HEALTH_STAT_ID ] > 0 && !this.hasStatus( skill.blockedBy );
+	return this.alive() && !this.hasStatus( skill.blockedBy );
 };
 
 var getPasives = function(){
