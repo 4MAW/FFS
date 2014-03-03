@@ -187,9 +187,26 @@ var damage = function ( amount, margin, skill )
 	// @TODO Take into account the type of damage and the element.
 	var type = skill.type;
 	var element = skill.element;
+	var statsCaster = skill.caller.stats();
+	var statsDefender = this.stats();
+	var eleDmg = 0;
+	var eleDef = 0;
+	resistencias = 1;
+	//Resistencias = 1 - Resistencia1 - Resistencia2 - Resistencia 3 ej. Daño no mitigado por resistencias = 1 - 0.1 (Daño mágico -10%) = 0.9%
 	// Compute a random damage in range amount±margin.
 	// To perform a fixed damage just pass margin=0 when calling this method.
-	var actual_damage = Math.max( Math.round( amount + margin * ( Math.random() * 2 - 1 ) ), 0 ); // Damage can't be negative!
+	var criticalProbability = (skill.criticalProbability == 0) ? 0 : 1+skill.criticalProbability;
+	critMulti = (Math.Random()<=statsCaster["00000010"].value * criticalProbability) ? critMulti = 1.5 : critMulti = 1;
+	if(type == "magycal"){
+		resMulti = (Math.Random()<=skill.accuracy-(1-MIN(statsCaster["00000006"].value/statsDefender["00000007"].value, 1))) ? resMulti = 1 : resMulti = 0;
+		var actual_damage = (MAX(0.8,(statsCaster["00000006"]+ amount + MAX(0,eleDmg - eleDef))/statsCaster["00000006"])*
+			statsCaster["00000006"]*this.Constants.ARMOR_ELEMENTS[ 0 ].type.magFactor) * critMulti*resMulti*resistencias
+	}else{
+		evaMulti = (Math.Random()<=statsDefender["00000009"].value/skill.accuracy) ? evaMulti = 0 : evaMulti = 1;
+		var actual_damage = (MAX(0.8,(statsCaster["00000004"].value+amount)/statsDefender["00000005"].value)
+			*statsCaster["00000004"]*this.Constants.ARMOR_ELEMENTS[ 0 ].type.phyFactor )*critMulti*evaMulti*resistencias
+	}
+
 	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
 
 	// Get change object.
