@@ -30,6 +30,7 @@ module.exports = {
 	SPEED_STAT_ID: "00000007",
 	HEALTH_STAT_ID: "00000001",
 	CHARACTER_DIED_BEFORE_ACTION: "died_before_action",
+	ERROR_CHARACTER_NOT_FOUND: "character_not_found",
 	ERROR_CLASS_NOT_FOUND: "class_not_found",
 	ERROR_ARMOR_PIECE_NOT_FOUND: "armor_piece_not_found",
 	ERROR_ARMOR_SET_NOT_FOUND: "armor_set_not_found",

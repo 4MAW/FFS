@@ -3,35 +3,41 @@
 	"id": "00000001",
 	"name": "Direct Attack",
 	"definition": "attack.js",
-	"passive": false
+	"passive": false,
+	"multiTarget": false
 },
 {
 	"id": "00000002",
 	"name": "Super poison",
 	"definition": "superpoison.js",
-	"passive": false
+	"passive": false,
+	"multiTarget": false
 },
 {
 	"id": "00000003",
 	"name": "Esuna",
 	"definition": "esuna.js",
-	"passive": false
+	"passive": false,
+	"multiTarget": false
 },
 {
 	"id": "00000004",
 	"name": "Poison",
 	"definition": "poison.js",
-	"passive": false
+	"passive": false,
+	"multiTarget": false
 },
 {
 	"id": "00000005",
 	"name": "Nova",
 	"definition": "nova.js",
-	"passive": false
+	"passive": false,
+	"multiTarget": true
 },
 {
 	"id": "00000006",
 	"name": "Paralyze",
 	"definition": "paralyze.js",
-	"passive": false
+	"passive": false,
+	"multiTarget": false
 } ]
