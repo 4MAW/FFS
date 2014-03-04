@@ -45,6 +45,7 @@ var stats = function ()
 		{
 			stat_id = this.weapons[ weap ].stats[ stat ].stat.id;
 			stat_value = this.weapons[ weap ].stats[ stat ].value;
+			if(returnStats[stat_id] === undefined) returnStats[stat_id]=0;
 			returnStats[ stat_id ] += stat_value;
 		}
 	}
@@ -55,6 +56,7 @@ var stats = function ()
 		{
 			stat_id = this[ Constants.ARMOR_ELEMENTS[ piece ] ].stats[ stat ].stat.id;
 			stat_value = this[ Constants.ARMOR_ELEMENTS[ piece ] ].stats[ stat ].value;
+			if(returnStats[stat_id] === undefined) returnStats[stat_id]=0;
 			returnStats[ stat_id ] += stat_value;
 		}
 	}
@@ -65,8 +67,9 @@ var stats = function ()
 		{
 			stat_id = this.accessories[ acc ].stats[ stat ].stat.id;
 			stat_value = this.accessories[ acc ].stats[ stat ].value;
-			if((typeof stat_value) == "string"))
-				returnStats[ stat_id ] *= 1+parseInt(stat_value)/10;
+			if(returnStats[stat_id] === undefined) returnStats[stat_id]=0;
+			if((stat_value<=1))
+				returnStats[ stat_id ] *= 1+stat_value;
 			else
 				returnStats[ stat_id ] += stat_value;
 
@@ -210,14 +213,14 @@ var damage = function ( amount, margin, skill )
 	// Compute a random damage in range amount±margin.
 	// To perform a fixed damage just pass margin=0 when calling this method.
 	var criticalProbability = (skill.criticalProbability == 0) ? 0 : 1+skill.criticalProbability;
-	critMulti = (Math.Random()<=statsCaster[Constants.CRITICAL_STAT_ID].value * criticalProbability) ? critMulti = 1.5 : critMulti = 1;
+	critMulti = (Math.Random()<=statsCaster[Constants.CRITICAL_STAT_ID].value * criticalProbability) ? 1.5 : 1;
 	if(type == "magycal"){
 		resMulti = (Math.Random()<=skill.accuracy-(1-MIN(statsCaster[Constants.INT_STAT_ID].value/statsDefender[Constants.MEN_STAT_ID].value, 1)))
 			? resMulti = 1 : resMulti = 0;
 		var actual_damage = (MAX(0.8,(statsCaster[Constants.INT_STAT_ID]+ amount + MAX(0,eleDmg - eleDef))/statsDefender[Constants.MEN_STAT_ID])*
 			statsCaster[Constants.INT_STAT_ID]*this.Constants.ARMOR_ELEMENTS[ 0 ].type.magFactor) * critMulti*resMulti*resistencias
 	}else{
-		evaMulti = (Math.Random()<=statsDefender[Constants.EVS_STAT_ID].value/skill.accuracy) ? evaMulti = 0 : evaMulti = 1;
+		evaMulti = (Math.Random()<=statsDefender[Constants.EVS_STAT_ID].value/skill.accuracy) ?  0 : 1;
 		var actual_damage = (MAX(0.8,(statsCaster[Constants.STR_STAT_ID].value+amount)/statsDefender[Constants.DEF_STAT_ID].value)
 			*statsCaster[Constants.STR_STAT_ID]*this.Constants.ARMOR_ELEMENTS[ 0 ].type.phyFactor )*critMulti*evaMulti*resistencias
 	}
