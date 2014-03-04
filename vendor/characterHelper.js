@@ -256,7 +256,7 @@ var damage = function ( amount, skill )
 	critMulti = ( Math.random() <= caster.getStat( Constants.CRITICAL_STAT_ID ) * criticalProbability ) ? 1.5 : 1;
 	if ( type === Constants.MAGICAL )
 	{
-		var probability_damage_resisted = skill.accuracy - ( 1 - Math.min( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ) || 1, 1 ) );
+		var probability_damage_resisted = skill.accuracy - ( 1 - Math.min( ( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ) ) || 1, 1 ) );
 		resMulti = ( Math.random() <= probability_damage_resisted ) ? resMulti = 1 : resMulti = 0;
 		var magical_multiplier = ( caster.getStat( Constants.INT_STAT_ID ) + amount + Math.max( 0, eleDmg - eleDef ) ) / this.getStat( Constants.MEN_STAT_ID );
 		if ( !isFinite( magical_multiplier ) ) magical_multiplier = 0;

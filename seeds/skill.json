@@ -37,7 +37,7 @@
 },
 {
 	"id": "00000005",
-	"name": "Nova",
+	"name": "Doge Nova",
 	"definition": "nova.js",
 	"passive": false,
 	"multiTarget": true,
