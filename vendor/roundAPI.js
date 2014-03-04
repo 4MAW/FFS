@@ -3,8 +3,7 @@ var crypt = require( './crypt.js' ),
 	Q = require( 'q' ),
 	Events = require( 'events' ),
 	Constants = require( './constants.js' ),
-	Statistics = require( './statistics.js' ),
-	Environment = require( './environment.js' );
+	Statistics = require( './statistics.js' );
 
 // Event emitter in charge of actions' results.
 var ema = new Events.EventEmitter();
@@ -80,18 +79,6 @@ module.exports = {
 	 *
 	 *
 	 */
-
-	/**
-	 * Notifies that caller performed skill targetting targets altering environtment from before to after.
-	 * @param  {Character} caller Character who used the skill. If skill is a registered callback caller would be undefined.
-	 * @param  {[Target]}          targets Character who will be affected by skill.
-	 * @param  {CalledSkill}       skill   Skill used.
-	 * @param  {Environment}       before  Environment before using the skill.
-	 * @param  {Environment}       after   Environment after using the skill.
-	 */
-	notify: function ( caller, targets, skill, before, after ) {
-
-	},
 
 	/**
 	 * Notifies that given skill produced given changes in the environment.
