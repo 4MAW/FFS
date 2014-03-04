@@ -13,7 +13,7 @@ var Q = require( 'q' ),
  * Returns the list of skills this character can use actively.
  * @return {Array} List of active skills of this character.
  */
-var get_passive_skills = function ()
+var get_skills = function ()
 {
 	var returnSkills = [];
 
@@ -98,6 +98,19 @@ var stats = function ()
 	}
 
 	return returnStats;
+};
+
+/**
+ * Returns desired stat.
+ * @param  {string}  id ID of stat to return.
+ * @return {integer}    Value of desired stat.
+ */
+var get_stat = function ( id )
+{
+	var v = this.stats();
+	if ( v[ id ] === undefined )
+		return 0;
+	return v[ id ];
 };
 
 /**
@@ -356,8 +369,8 @@ var INSTANCE_METHODS = {
 	skills: get_skills,
 	passiveSkills: get_passive_skills,
 	stats: stats,
+	getStat: get_stat,
 	alterStat: alterStat,
-	getPasives: getPasives,
 	doSkill: doSkill,
 	clientObject: clientObject,
 	// API
