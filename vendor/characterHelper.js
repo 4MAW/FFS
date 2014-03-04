@@ -110,7 +110,7 @@ var get_stat = function ( id )
 	var v = this.stats();
 	if ( v[ id ] === undefined )
 		return 0;
-	return (v[id] > 1 ) ? v[ id ] : 1;
+	return v[ id ];
 };
 
 /**
