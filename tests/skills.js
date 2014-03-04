@@ -25,7 +25,7 @@ describe( 'Skills', function ()
 			pagesize: config.pagesize,
 			compare: compare.sameSkill,
 			compareDifferent: compare.differentSkill,
-			checkPageTwo: true
+			checkPageTwo: false
 		};
 
 		Crud.blockRetrieval( options );
