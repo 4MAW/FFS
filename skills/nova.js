@@ -10,7 +10,7 @@ module.exports = function ()
 	this.damage = function ()
 	{
 		for ( var i in this.targets )
-			this.targets[ i ].damage( 1000, 250, this );
+			this.targets[ i ].damage( 1000, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
 	this.blockedBy = [ "paralysis", "mutis" ];

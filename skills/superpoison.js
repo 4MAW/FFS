@@ -50,7 +50,7 @@ module.exports = function ()
 	// Performs some damage.
 	this.damage = function ()
 	{
-		this.target.damage( 100, 0, this );
+		this.target.damage( 100, this );
 	};
 
 	// Cancels the effects produced by this skill.

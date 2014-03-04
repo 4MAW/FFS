@@ -163,6 +163,6 @@ module.exports = function ()
 		// - base damage.
 		// - ± range. Use 0 to inflict always the same amount.
 		// - skill performing the damage (to notify clients later).
-		this.target.damage( 100, 50, this );
+		this.target.damage( 100, this );
 	};
 };

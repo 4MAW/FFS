@@ -13,10 +13,41 @@ var Q = require( 'q' ),
  * Returns the list of skills this character can use actively.
  * @return {Array} List of active skills of this character.
  */
-var skillList = function ()
+var get_passive_skills = function ()
 {
-	// Maybe a weapon could offer a new active skill...
-	return this.class.skills;
+	var returnSkills = [];
+
+	for ( var weap in this.weapons )
+		for ( var sk in this.weapons[ weap ].skills )
+			if ( !this.weapons[ weap ].skills[ sk ].passive )
+				returnSkills.push( this.weapons[ weap ].skills[ sk ] );
+
+	for ( var acc in this.accessories )
+		for ( var ask in this.accessories[ acc ].skills )
+			if ( !this.accessories[ acc ].skills[ ask ].passive )
+				returnSkills.push( this.accessories[ acc ].skills[ ask ] );
+
+	for ( var i in this.class.skills )
+		if ( !this.class.skills[ i ].passive )
+			returnSkills.push( this.class.skills[ i ] );
+
+	var sets = {};
+	for ( var piece in Constants.ARMOR_ELEMENTS )
+	{
+		if ( sets[ Constants.ARMOR_ELEMENTS[ piece ] ] === undefined )
+			sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ] = {
+				set: Constants.ARMOR_ELEMENTS[ piece ].armorSet,
+				amount: 0
+			};
+		sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ].amount++;
+	}
+
+	for ( var set in sets )
+		for ( var ssk in sets[ set ].skills )
+			if ( sets[ set ].amount >= sets[  set ].skills[ ssk ].amount )
+				returnSkills.push( sets[  set ].skills[ ssk ].skill );
+
+	return returnSkills;
 };
 
 /**
@@ -35,6 +66,7 @@ var stats = function ()
 		{
 			stat_id = this.weapons[ weap ].stats[ stat ].stat.id;
 			stat_value = this.weapons[ weap ].stats[ stat ].value;
+			if ( returnStats[ stat_id ] === undefined ) returnStats[ stat_id ] = 0;
 			returnStats[ stat_id ] += stat_value;
 		}
 	}
@@ -45,7 +77,23 @@ var stats = function ()
 		{
 			stat_id = this[ Constants.ARMOR_ELEMENTS[ piece ] ].stats[ stat ].stat.id;
 			stat_value = this[ Constants.ARMOR_ELEMENTS[ piece ] ].stats[ stat ].value;
+			if ( returnStats[ stat_id ] === undefined ) returnStats[ stat_id ] = 0;
 			returnStats[ stat_id ] += stat_value;
+		}
+	}
+
+	for ( var acc in this.accessories )
+	{
+		for ( stat in this.accessories[ acc ].stats )
+		{
+			stat_id = this.accessories[ acc ].stats[ stat ].stat.id;
+			stat_value = this.accessories[ acc ].stats[ stat ].value;
+			if ( returnStats[ stat_id ] === undefined ) returnStats[ stat_id ] = 0;
+			if ( ( stat_value <= 1 ) )
+				returnStats[ stat_id ] *= 1 + stat_value;
+			else
+				returnStats[ stat_id ] += stat_value;
+
 		}
 	}
 
@@ -88,7 +136,6 @@ var has_all_status = function ( statuses )
 		affected = affected && ( this.altered_statuses[ statuses[ s ] ] !== undefined );
 	return affected;
 };
-
 
 /**
  * Sets altered status if priority is bigger than current reason's priority.
@@ -176,18 +223,40 @@ var change_class = function () {};
 /**
  * Damages the player given the amount of damage, the type and the element of the hit.
  * @param  {integer}     amount  Base amount of health points to decrease.
- * @param  {integer}     margin  Margin where the damage will be located.
  * @param  {CalledSkill} skill Skill that performes this damage.
  */
-var damage = function ( amount, margin, skill )
+var damage = function ( amount, skill )
 {
 	// @TODO Take into account the type of damage and the element.
 	var type = skill.type;
 	var element = skill.element;
-	// Compute a random damage in range amount±margin.
-	// To perform a fixed damage just pass margin=0 when calling this method.
-	var actual_damage = Math.max( Math.round( amount + margin * ( Math.random() * 2 - 1 ) ), 0 ); // Damage can't be negative!
+	var statsCaster = skill.caller.stats();
+	var statsDefender = this.stats();
+	var eleDmg = 0;
+	var eleDef = 0;
+	resistencias = 1;
+	//Resistencias = 1 - Resistencia1 - Resistencia2 - Resistencia 3
+	//ej. Daño no mitigado por resistencias = 1 - 0.1 (Daño mágico -10%) = 0.9%
+
+	var actual_damage;
+
+	var criticalProbability = ( skill.criticalProbability === 0 ) ? 0 : 1 + skill.criticalProbability;
+	critMulti = ( Math.random() <= statsCaster[ Constants.CRITICAL_STAT_ID ].value * criticalProbability ) ? 1.5 : 1;
+	if ( type === Constants.MAGICAL )
+	{
+		var probability_damage_resisted = skill.accuracy - ( 1 - Math.min( statsCaster[ Constants.INT_STAT_ID ].value / statsDefender[ Constants.MEN_STAT_ID ].value, 1 ) );
+		resMulti = ( Math.random() <= probability_damage_resisted ) ? resMulti = 1 : resMulti = 0;
+		actual_damage = ( Math.max( 0.8, ( statsCaster[ Constants.INT_STAT_ID ] + amount + Math.max( 0, eleDmg - eleDef ) ) / statsDefender[ Constants.MEN_STAT_ID ] ) * statsCaster[ Constants.INT_STAT_ID ] * this.Constants.ARMOR_ELEMENTS[ 0 ].type.magFactor ) * critMulti * resMulti * resistencias;
+	}
+	else
+	{
+		var probability_damage_evaded = statsDefender[ Constants.EVS_STAT_ID ].value / skill.accuracy;
+		evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
+		actual_damage = ( Math.max( 0.8, ( statsCaster[ Constants.STR_STAT_ID ].value + amount ) / statsDefender[ Constants.DEF_STAT_ID ].value ) * statsCaster[ Constants.STR_STAT_ID ] * this.Constants.ARMOR_ELEMENTS[ 0 ].type.phyFactor ) * critMulti * evaMulti * resistencias;
+	}
+
 	actual_damage = Math.min( this.class.stats[ Constants.HEALTH_STAT_ID ], actual_damage ); // Don't do more damage than player can stand.
+
 	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
 
 	Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_DEALED, actual_damage );
@@ -210,23 +279,6 @@ var damage = function ( amount, margin, skill )
 	return actual_damage;
 };
 
-
-/* renamed to setStatus, but this is left as it has an implementation including semi-immunity.
-var newStatus = function ( skillDef, round )
-{
-	// Probability of applying a status should be part of the skill.
-	// For instance: Pokémon's Toxic has 100% of probability but
-	// Poison Fang only 50%.
-	// var rand = (Math.random() < 0.5) ? -1: 1;
-
-	if ( this.status[ skillDef.id ] - round.currentRound() < skillDef.duration )
-		this.status[ skillDef.id ] = [
-		{
-			skillDef.id, skillDef.duration + rand
-		} ];
-}
-*/
-
 /**
  * Returns whether a skill can be performed by this player or not (due to altered status).
  * @param  {SkillDefinition} skill Skill to be checked.
@@ -237,7 +289,42 @@ var can_perform_action = function ( skill )
 	return this.alive() && !this.hasStatus( skill.blockedBy );
 };
 
-var getPasives = function () {};
+var get_passive_skills = function ()
+{
+	var returnSkills = [];
+
+	for ( var weap in this.weapons )
+		for ( var sk in this.weapons[ weap ].skills )
+			if ( this.weapons[ weap ].skills[ sk ].passive )
+				returnSkills.push( this.weapons[ weap ].skills[ sk ] );
+
+	for ( var acc in this.accessories )
+		for ( var ask in this.accessories[ acc ].skills )
+			if ( this.accessories[ acc ].skills[ ask ].passive )
+				returnSkills.push( this.accessories[ acc ].skills[ ask ] );
+
+	for ( var i in this.class.skills )
+		if ( this.class.skills[ i ].passive )
+			returnSkills.push( this.class.skills[ i ] );
+
+	var sets = {};
+	for ( var piece in Constants.ARMOR_ELEMENTS )
+	{
+		if ( sets[ Constants.ARMOR_ELEMENTS[ piece ] ] === undefined )
+			sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ] = {
+				set: Constants.ARMOR_ELEMENTS[ piece ].armorSet,
+				amount: 0
+			};
+		sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ].amount++;
+	}
+
+	for ( var set in sets )
+		for ( var ssk in sets[ set ].skills )
+			if ( sets[ set ].amount >= sets[  set ].skills[ ssk ].amount )
+				returnSkills.push( sets[  set ].skills[ ssk ].skill );
+
+	return returnSkills;
+};
 
 var doSkill = function () {};
 
@@ -256,6 +343,8 @@ var toJSON = function ()
 	delete ret.altered_statuses;
 	ret.stats = this.stats();
 	ret.alive = this.alive();
+	ret.skills = this.skills();
+	ret.passives = this.passiveSkills();
 	return ret;
 };
 
@@ -264,7 +353,8 @@ var toJSON = function ()
 // Value: function to be called.
 var INSTANCE_METHODS = {
 	toJSON: toJSON,
-	skillList: skillList,
+	skills: get_skills,
+	passiveSkills: get_passive_skills,
 	stats: stats,
 	alterStat: alterStat,
 	getPasives: getPasives,

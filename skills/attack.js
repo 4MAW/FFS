@@ -19,7 +19,7 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
-		this.target.damage( 100, 50, this );
+		this.target.damage( 100, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
 	this.blockedBy = [ "paralysis" ];
