@@ -45,13 +45,6 @@ describe( "Character helper tests", function ()
 		assert.notEqual( c, undefined );
 		assert.notEqual( c.class, undefined );
 		assert.notEqual( c.class.stats, undefined );
-		for ( i in c.class.stats )
-		{
-			assert.notEqual( c.class.stats[ i ].value, undefined );
-			assert.notEqual( c.class.stats[ i ].stat, undefined );
-			assert.notEqual( c.class.stats[ i ].stat.id, undefined );
-			assert.notEqual( c.class.stats[ i ].stat.name, undefined );
-		}
 		assert.notEqual( c.class.allowedWeapons, undefined );
 		for ( i in c.allowedWeapons )
 		{
@@ -164,9 +157,6 @@ describe( "Character helper tests", function ()
 				assert.notEqual( c.accessories[ i ].skills[ j ].skill.passive, undefined );
 			}
 		}
-
-		assert.notEqual( c.hello, undefined );
-		assert.notEqual( c.hello().length, 0 );
 
 		done();
 
