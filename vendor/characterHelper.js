@@ -243,8 +243,7 @@ var damage = function ( amount, skill )
 	// @TODO Take into account the type of damage and the element.
 	var type = skill.type;
 	var element = skill.element;
-	var statsCaster = skill.caller.stats();
-	var statsDefender = this.stats();
+	var caster = skill.caller;
 	var eleDmg = 0;
 	var eleDef = 0;
 	resistencias = 1;
@@ -254,20 +253,25 @@ var damage = function ( amount, skill )
 	var actual_damage;
 
 	var criticalProbability = ( skill.criticalProbability === 0 ) ? 0 : 1 + skill.criticalProbability;
-	critMulti = ( Math.random() <= statsCaster[ Constants.CRITICAL_STAT_ID ].value * criticalProbability ) ? 1.5 : 1;
+	critMulti = ( Math.random() <= caster.getStat( Constants.CRITICAL_STAT_ID ) * criticalProbability ) ? 1.5 : 1;
 	if ( type === Constants.MAGICAL )
 	{
-		var probability_damage_resisted = skill.accuracy - ( 1 - Math.min( statsCaster[ Constants.INT_STAT_ID ].value / statsDefender[ Constants.MEN_STAT_ID ].value, 1 ) );
+		var probability_damage_resisted = skill.accuracy - ( 1 - Math.min( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ) || 1, 1 ) );
 		resMulti = ( Math.random() <= probability_damage_resisted ) ? resMulti = 1 : resMulti = 0;
-		actual_damage = ( Math.max( 0.8, ( statsCaster[ Constants.INT_STAT_ID ] + amount + Math.max( 0, eleDmg - eleDef ) ) / statsDefender[ Constants.MEN_STAT_ID ] ) * statsCaster[ Constants.INT_STAT_ID ] * this.Constants.ARMOR_ELEMENTS[ 0 ].type.magFactor ) * critMulti * resMulti * resistencias;
+		var magical_multiplier = ( caster.getStat( Constants.INT_STAT_ID ) + amount + Math.max( 0, eleDmg - eleDef ) ) / this.getStat( Constants.MEN_STAT_ID );
+		if ( !isFinite( magical_multiplier ) ) magical_multiplier = 0;
+		actual_damage = ( Math.max( 0.8, magical_multiplier ) * caster.getStat( Constants.INT_STAT_ID ) * this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.magFactor ) * critMulti * resMulti * resistencias;
 	}
 	else
 	{
-		var probability_damage_evaded = statsDefender[ Constants.EVS_STAT_ID ].value / skill.accuracy;
+		var probability_damage_evaded = this.getStat( Constants.EVS_STAT_ID ) / skill.accuracy;
 		evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
-		actual_damage = ( Math.max( 0.8, ( statsCaster[ Constants.STR_STAT_ID ].value + amount ) / statsDefender[ Constants.DEF_STAT_ID ].value ) * statsCaster[ Constants.STR_STAT_ID ] * this.Constants.ARMOR_ELEMENTS[ 0 ].type.phyFactor ) * critMulti * evaMulti * resistencias;
+		var physical_multiplier = ( caster.getStat( Constants.STR_STAT_ID ) + amount ) / this.getStat( Constants.DEF_STAT_ID );
+		if ( !isFinite( physical_multiplier ) ) physical_multiplier = 0;
+		actual_damage = ( Math.max( 0.8, physical_multiplier ) * caster.getStat( Constants.STR_STAT_ID ) * this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.phyFactor ) * critMulti * evaMulti * resistencias;
 	}
 
+	actual_damage = Math.round( actual_damage ); // Damage should be an integer!
 	actual_damage = Math.min( this.class.stats[ Constants.HEALTH_STAT_ID ], actual_damage ); // Don't do more damage than player can stand.
 
 	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
