@@ -35,11 +35,11 @@ var get_skills = function ()
 	for ( var piece in Constants.ARMOR_ELEMENTS )
 	{
 		if ( sets[ Constants.ARMOR_ELEMENTS[ piece ] ] === undefined )
-			sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ] = {
-				set: Constants.ARMOR_ELEMENTS[ piece ].armorSet,
+			sets[ this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet.id ] = {
+				set: this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet,
 				amount: 0
 			};
-		sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ].amount++;
+		sets[ this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet.id ].amount++;
 	}
 
 	for ( var set in sets )
@@ -328,11 +328,11 @@ var get_passive_skills = function ()
 	for ( var piece in Constants.ARMOR_ELEMENTS )
 	{
 		if ( sets[ Constants.ARMOR_ELEMENTS[ piece ] ] === undefined )
-			sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ] = {
-				set: Constants.ARMOR_ELEMENTS[ piece ].armorSet,
+			sets[ this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet.id ] = {
+				set: this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet,
 				amount: 0
 			};
-		sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ].amount++;
+		sets[ this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet.id ].amount++;
 	}
 
 	for ( var set in sets )
