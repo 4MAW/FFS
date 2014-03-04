@@ -110,7 +110,7 @@ var get_stat = function ( id )
 	var v = this.stats();
 	if ( v[ id ] === undefined )
 		return 0;
-	return v[ id ];
+	return (v[id] > 1 ) ? v[ id ] : 1;
 };
 
 /**
@@ -122,7 +122,33 @@ var alive = function ()
 	return ( this.stats()[ Constants.HEALTH_STAT_ID ] > 0 );
 };
 
-var alterStat = function () {};
+/**
+ * Alters a stat.
+ * @param  {Number}  amount Stat multiplier.
+ * @param {SkillDefinition} skill    Definition of skill that is setting these statuses.
+ * @param  {String}  id Stat's id.
+ */
+var alterStat = function ( amount, id, skill )
+{
+	var c;
+	// If status was not altered or the priority is lower than the new one's...
+	if(this._stats[ id ] !== undefined){
+		if ( amount < 1 && amount > 0 )
+		{
+			var abs_value = this._stats[ id ] * ( 1 - amount );
+			c = new Change( this, "stat", id, '-' + abs_value );
+			this._stats[ id ] *= amount;
+		}
+		else
+		{
+			this._stats[ id ] *= amount;
+			c = new Change( this, "stat", id, amount );
+		}
+	} 
+
+	// Notify round.
+	Round.notifyChanges( [ c ], skill );
+};
 
 /**
  * Returns whether this character is affected by given altered status or not.
