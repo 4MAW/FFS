@@ -51,6 +51,10 @@ module.exports = {
 			type: Number,
 			max: 1,
 			min: 0
+		},
+		cost:
+		{
+			type: Number
 		}
 	},
 	//join: 'type',
