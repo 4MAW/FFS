@@ -282,7 +282,8 @@ var damage = function ( amount, skill )
 	critMulti = ( Math.random() <= caster.getStat( Constants.CRITICAL_STAT_ID ) * criticalProbability ) ? 1.5 : 1;
 	if ( type === Constants.MAGICAL )
 	{
-		var probability_damage_resisted = skill.accuracy - ( 1 - Math.min( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ) || 1, 1 ) );
+		var probability_damage_resisted = (skill.accuracy > 1) ? 0 :
+			skill.accuracy - ( 1 - Math.min( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ) || 1, 1 ) );
 		resMulti = ( Math.random() <= probability_damage_resisted ) ? resMulti = 1 : resMulti = 0;
 		var magical_multiplier = ( caster.getStat( Constants.INT_STAT_ID ) + amount + Math.max( 0, eleDmg - eleDef ) ) / this.getStat( Constants.MEN_STAT_ID );
 		if ( !isFinite( magical_multiplier ) ) magical_multiplier = 0;
@@ -290,7 +291,7 @@ var damage = function ( amount, skill )
 	}
 	else
 	{
-		var probability_damage_evaded = this.getStat( Constants.EVS_STAT_ID ) / skill.accuracy;
+		var probability_damage_evaded = (skill.accuracy > 1) ? 0 : this.getStat( Constants.EVS_STAT_ID ) / skill.accuracy;
 		evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
 		var physical_multiplier = ( caster.getStat( Constants.STR_STAT_ID ) + amount ) / this.getStat( Constants.DEF_STAT_ID );
 		if ( !isFinite( physical_multiplier ) ) physical_multiplier = 0;
