@@ -7,7 +7,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000002",
@@ -17,7 +17,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000003",
@@ -27,7 +27,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000004",
@@ -37,7 +37,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000005",
@@ -47,7 +47,7 @@
 	"multiTarget": true,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000006",
@@ -57,8 +57,8 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
-},[
+	"cost" : {"amount": 1, "stat": "00000020"}
+},
 {
 	"id": "00000007",
 	"name": "Bomb Shoot",
@@ -67,7 +67,7 @@
 	"multiTarget": true,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000008",
@@ -77,7 +77,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000009",
@@ -87,7 +87,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000010",
@@ -97,7 +97,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000011",
@@ -107,7 +107,7 @@
 	"multiTarget": true,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000012",
@@ -117,17 +117,17 @@
 	"multiTarget": true,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
-},[
+	"cost" : {"amount": 1, "stat": "00000020"}
+},
 {
 	"id": "00000013",
 	"name": "Drought",
-	"definition": "drough.js",
+	"definition": "drought.js",
 	"passive": false,
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000014",
@@ -137,7 +137,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000015",
@@ -147,7 +147,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000016",
@@ -157,7 +157,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000021"}
 },
 {
 	"id": "00000017",
@@ -167,7 +167,7 @@
 	"multiTarget": true,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000018",
@@ -177,8 +177,9 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
-},{
+	"cost" : {"amount": 1, "stat": "00000020"}
+},
+{
 	"id": "00000019",
 	"name": "Power Shoot",
 	"definition": "powerShoot.js",
@@ -186,8 +187,8 @@
 	"multiTarget": true,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
-},[
+	"cost" : {"amount": 1, "stat": "00000020"}
+},
 {
 	"id": "00000020",
 	"name": "Stealth",
@@ -196,7 +197,7 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
+	"cost" : {"amount": 1, "stat": "00000020"}
 },
 {
 	"id": "00000021",
@@ -206,5 +207,6 @@
 	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost" : 1
-}]
+	"cost" : {"amount": 1, "stat": "00000020"}
+}
+]

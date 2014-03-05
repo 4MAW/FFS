@@ -1,4 +1,4 @@
-var Constants = require( './constants.js' ),
+var Constants = require( '../vendor/constants.js' );
 
 module.exports = function ()
 {
@@ -10,7 +10,7 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
-		this.caller.realDamage(this.cost, Constants.ACTUALMP_STAT_ID);
+		this.caller.realDamage(this.cost.amount, this.cost.stat);
 		if(this.target.getArmorType(Constants.PHYSICAL) == Constants.PHY_FACTOR_LEATHER)
 			this.target.damage( 2000, this );
 		else if(this.target.getArmorType(Constants.PHYSICAL) == Constants.PHY_FACTOR_CHAIN)

@@ -29,7 +29,7 @@ module.exports = function ()
 		// it has inmunity or it is poisoned by a skill with
 		// more duration or it is poisoned by a skill with
 		// more priority.
-		this.caller.realDamage(this.cost, Constants.ACTUALMP_STAT_ID);
+		this.caller.realDamage(this.cost.amount, this.cost.stat);
 		this.internalVariables.did_curse = this.target.setStatus( [ CURSE_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Poison's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
 		// If character was poisoned by this skill then register callbacks.
 		if ( this.internalVariables.did_curse )

@@ -54,7 +54,21 @@ module.exports = {
 		},
 		cost:
 		{
-			type: Number
+			type: 
+			{
+				amount:
+				{
+					type: Number,
+					set: function ( v )
+					{
+						return Math.floor( v );
+					}
+				},
+				stat:
+				{
+					type: String
+				}
+			}
 		}
 	},
 	//join: 'type',

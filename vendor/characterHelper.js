@@ -50,26 +50,41 @@ var get_skills = function ()
 	return returnSkills;
 };
 
+var stats = function(){
+	return this._stats;
+}
 /**
  * Returns an array of final stats, including any modification from boons and equipment.
  * @return {Object} Object where each key is an stat ID and the value is the value for that stat.
  */
-var stats = function ()
+var initStats = function ()
 {
+	
+	console.log('pre');
+console.log( this );
+console.log( 'ESTO ES EL THIS \n ________________________ +\n\n\n' + this.class );
+console.log( 'ESTO ES EL THIS.CLASS.STATS \n ________________________ +\n\n\n' + this.class.stats );
+console.log( 'ESTO ES EL THIS.CLASS.STATS JSON \n ________________________ +\n\n\n' + JSON.stringify( this.class.stats ) );
 	var returnStats = JSON.parse( JSON.stringify( this.class.stats ) ); // We don't want to alter base stats.
-
+	console.log('re');
+	console.log(this.class.stats);
+	console.log(JSON.stringify( this.class.stats ));
 	var stat, stat_id, stat_value; // To prevent redefining these variables in each loop.
 
 	for ( var weap in this.weapons )
 	{
-		for ( stat in this.weapons[ weap ].stats )
+		console.log('yolo1-1');
+		for ( stat in this.weapons[ weap ].weapon.stats )
 		{
-			stat_id = this.weapons[ weap ].stats[ stat ].stat.id;
-			stat_value = this.weapons[ weap ].stats[ stat ].value;
+			console.log('yolo1-2');
+			stat_id = this.weapons[ weap ].weapon.stats[ stat ].stat.id;
+			stat_value = this.weapons[ weap ].weapon.stats[ stat ].value;
 			if ( returnStats[ stat_id ] === undefined ) returnStats[ stat_id ] = 0;
 			returnStats[ stat_id ] += stat_value;
 		}
 	}
+
+	console.log('yolo2');
 
 	for ( var piece in Constants.ARMOR_ELEMENTS )
 	{
@@ -81,6 +96,8 @@ var stats = function ()
 			returnStats[ stat_id ] += stat_value;
 		}
 	}
+
+	console.log('yolo3');
 
 	for ( var acc in this.accessories )
 	{
@@ -96,6 +113,8 @@ var stats = function ()
 
 		}
 	}
+
+	console.log('yolo4');
 
 	return returnStats;
 };
@@ -137,7 +156,7 @@ var get_stat = function ( id )
  */
 var alive = function ()
 {
-	return ( this.stats()[ Constants.HEALTH_STAT_ID ] > 0 );
+	return ( this.getStat(Constants.ACTUALHP_STAT_ID) > 0 );
 };
 
 /**
@@ -320,7 +339,7 @@ var _damage = function ( amount, skill, id )
 		resMulti = ( Math.random() <= probability_damage_resisted ) ? resMulti = 1 : resMulti = 0;
 		var magical_multiplier = ( caster.getStat( Constants.INT_STAT_ID ) + amount + Math.max( 0, eleDmg - eleDef ) ) / this.getStat( Constants.MEN_STAT_ID );
 		if ( !isFinite( magical_multiplier ) ) magical_multiplier = 0;
-		actual_damage = ( Math.max( 0.8, magical_multiplier ) * caster.getStat( Constants.INT_STAT_ID ) * this.getArmorType(Constants.MAGICAL) * critMulti * resMulti * resistencias;
+		actual_damage = ( Math.max( 0.8, magical_multiplier )) * caster.getStat( Constants.INT_STAT_ID ) * this.getArmorType(Constants.MAGICAL) * critMulti * resMulti * resistencias;
 	}
 	else
 	{
@@ -328,7 +347,7 @@ var _damage = function ( amount, skill, id )
 		evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
 		var physical_multiplier = ( caster.getStat( Constants.STR_STAT_ID ) + amount ) / this.getStat( Constants.DEF_STAT_ID );
 		if ( !isFinite( physical_multiplier ) ) physical_multiplier = 0;
-		actual_damage = ( Math.max( 0.8, physical_multiplier ) * caster.getStat( Constants.STR_STAT_ID ) * this.getArmorType(Constants.PHYSICAL) * critMulti * evaMulti * resistencias;
+		actual_damage = ( Math.max( 0.8, physical_multiplier )) * caster.getStat( Constants.STR_STAT_ID ) * this.getArmorType(Constants.PHYSICAL) * critMulti * evaMulti * resistencias;
 	}
 
 	actual_damage = Math.round( actual_damage ); // Damage should be an integer!
@@ -383,7 +402,8 @@ var heal = function( amount, id ){
  */
 var can_perform_action = function ( skill )
 {
-	return this.alive() && !this.hasStatus( skill.blockedBy );
+	return this.alive() && !this.hasStatus( skill.blockedBy ) ;
+	//&& this.getStat(skill.cost.stat) < skill.cost.amount;
 };
 
 var get_passive_skills = function ()
@@ -453,6 +473,7 @@ var INSTANCE_METHODS = {
 	skills: get_skills,
 	passiveSkills: get_passive_skills,
 	stats: stats,
+	initStats: initStats,
 	getStat: get_stat,
 	alterStat: alterStat,
 	doSkill: doSkill,
@@ -460,11 +481,16 @@ var INSTANCE_METHODS = {
 	// API
 	canPerformAction: can_perform_action,
 	damage: damage,
+	_damage: _damage,
 	hasStatus: has_status,
 	hasAllStatus: has_all_status,
 	setStatus: set_status,
 	unsetStatus: unset_status,
-	alive: alive
+	alive: alive,
+	consumeMP : consumeMP,
+	consumeKI: consumeKI,
+	realDamage: realDamage,
+	heal: heal
 };
 
 // Constructor.
@@ -662,7 +688,7 @@ module.exports = function ( db_source )
 			character = JSON.parse( JSON.stringify( character ) ); // Transform character to a standard Javascript object.
 
 			// Data structures.
-
+			
 			character.altered_statuses = {};
 			character.buffs = {};
 			character.debuffs = {};
@@ -670,10 +696,10 @@ module.exports = function ( db_source )
 			// Here we will assign methods to the character.
 			for ( var j in INSTANCE_METHODS )
 				character[ j ] = INSTANCE_METHODS[ j ];
-
+			
+			character._stats = character.initStats();
 			defer.resolve( character );
 		} ).fail( defer.reject );
-
 	} );
 
 	return defer.promise;

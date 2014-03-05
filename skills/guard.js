@@ -26,7 +26,7 @@ module.exports = function ()
 		// Store whether character was stealthed or not: in
 		// some cases a character won't be stealthed because
 		// YOLO MAYBE, no, en serio, de momento no sé que podría evitarlo
-		this.caller.realDamage(this.cost, Constants.ACTUALMP_STAT_ID);
+		this.caller.realDamage(this.cost.amount, this.cost.stat);
 		this.internalVariables.did_guard = true;
 		this.target.alterStat( 2, Constants.DEF_STAT_ID, this)[ 0 ]; // Stealth's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
 		// If character was stealthed by this skill then register callbacks.
