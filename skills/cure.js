@@ -22,6 +22,7 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
+		this.caller.realDamage(this.cost, Constants.ACTUALMP_STAT_ID);
 		this.target.heal(3500, Constants.ACTUALHP_STAT_ID);
 	};
 	// Array of altered status that prevent this skill to be performed.

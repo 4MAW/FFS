@@ -21,6 +21,7 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
+		this.caller.realDamage(this.cost, Constants.ACTUALKI_STAT_ID);
 		this.target.realDamage(this.caller.getStat(STR_STAT_ID)*0.6, Constants.ACTUALHP_STAT_ID);
 	};
 	// Array of altered status that prevent this skill to be performed.

@@ -11,6 +11,7 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
+		this.caller.realDamage(this.cost, Constants.ACTUALMP_STAT_ID);
 		for ( var i in this.targets )
 			this.targets[ i ].damage( 1000, this );
 	};

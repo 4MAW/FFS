@@ -11,6 +11,7 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
+		this.caller.realDamage(this.cost, Constants.ACTUALMP_STAT_ID);
 		this.targets[ 0 ].consumeMP( 2000, this );
 	};
 	// Array of altered status that prevent this skill to be performed.

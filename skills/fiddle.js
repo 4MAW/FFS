@@ -21,7 +21,7 @@ module.exports = function ()
 		duration = 3; // Just to make the tests deterministic.
 		// Store whether character was paralyzed or not.
 		//this.internalVariables.did_paralyze = this.target.setStatus( [ "paralysis" ], this, this.Round.currentRound() + duration )[ 0 ];
-
+		this.caller.realDamage(this.cost, Constants.ACTUALMP_STAT_ID);
 		this.internalVariables.did_fiddle1 = this.target.setStatus( [ Constants.HIDDEN_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]
 		this.internalVariables.did_fiddle2 = this.target.setStatus( [ Constants.HIDDEN_STATUS_ID ], this, this.Round.currentRound() + duration )[ 1 ]
 
