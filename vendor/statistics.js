@@ -7,8 +7,16 @@ var Q = require( 'q' ),
 
 // Exports.
 
+var local_statistics = {};
+var complex_local_statistics = {};
+
 module.exports = {
 
+	/**
+	 * Replies to a request with a JSON string with the statistics of the server.
+	 * @param  {request} req Request.
+	 * @param  {reply}   res Reply.
+	 */
 	jsonReply: function ( req, res )
 	{
 		model.Statistic.find(
@@ -125,6 +133,11 @@ module.exports = {
 		} );
 	},
 
+	/**
+	 * Increase by given value a statistic directly in the Database.
+	 * @param  {string} stat_name Name of statistic to increase.
+	 * @param  {number} value     Value to be added.
+	 */
 	increaseStatistic: function ( stat_name, value )
 	{
 		var defer = Q.defer();
@@ -153,6 +166,62 @@ module.exports = {
 		return defer.promise;
 	},
 
+	/**
+	 * Increase by given value a statistic in the local array.
+	 * @param  {string} stat_name Name of statistic to increase.
+	 * @param  {number} value     Value to be added.
+	 */
+	increaseLocalStatistic: function ( stat_name, value )
+	{
+		if ( local_statistics[ stat_name ] === undefined )
+			local_statistics[ stat_name ] = 0;
+		local_statistics[ stat_name ] += value;
+	},
+
+	/**
+	 * Increases a complex local statistic.
+	 * @param  {string} stat_name   Name of the statistic.
+	 * @param  {string} storage_key Storage key where this statistic will be stored.
+	 * @param  {number} value       Value to be increased by.
+	 */
+	increaseLocalComplexStatistic: function ( stat_name, storage_key, value )
+	{
+		if ( complex_local_statistics[ storage_key ] === undefined )
+			complex_local_statistics[ storage_key ] = {};
+		if ( complex_local_statistics[ storage_key ][ stat_name ] === undefined )
+			complex_local_statistics[ storage_key ][ stat_name ] = 0;
+		complex_local_statistics[ storage_key ][ stat_name ] += value;
+	},
+
+	/**
+	 * Returns value of local statistic.
+	 * @param  {string} stat_name Statistic whose value will be returned.
+	 * @return {number}           Value of given statistic.
+	 */
+	getLocalStatistic: function ( stat_name )
+	{
+		if ( local_statistics[ stat_name ] === undefined )
+			local_statistics[ stat_name ] = 0;
+		return local_statistics[ stat_name ];
+	},
+
+	/**
+	 * Returns an array with the statistics stored for a given storage key.
+	 * @param  {string} storage_keys Storage key whose statistics will be returned.
+	 * @return {Object}               Statistics stored.
+	 */
+	getLocalComplexStatistic: function ( storage_keys )
+	{
+		return complex_local_statistics[ storage_keys ] ||
+		{};
+	},
+
+	/**
+	 * Decreases by given value a statistic directly in the Database.
+	 * @param  {string} stat_name Name of statistic to decrease.
+	 * @param  {number} value     Value to be added.
+	 * @deprecated
+	 */
 	decreaseStatistic: function ( stat_name, value )
 	{
 		var v = parseInt( value, 10 );
