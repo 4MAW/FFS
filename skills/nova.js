@@ -2,7 +2,7 @@ var Constants = require( '../vendor/constants.js' );
 
 module.exports = function ()
 {
-	this.type = Constant.MAGICAL;
+	this.type = Constants.MAGICAL;
 	this.element = "fire";
 	// Initialization, called when a skill is used.
 	this.init = function ()

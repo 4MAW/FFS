@@ -13,7 +13,7 @@ var Constants = require( '../vendor/constants.js' );
 
 module.exports = function ()
 {
-	this.type = Constants.PHYSYCAL;
+	this.type = Constants.PHYSICAL;
 	// Initialization, called when a skill is used.
 	this.init = function ()
 	{

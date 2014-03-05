@@ -9,7 +9,7 @@ module.exports = function ()
 	// Here we will store UUIDs of callbacks registered by this skill.
 	this.internalVariables = {};
 	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ Constants.PARALYSYS_STATUS_ID, Constants.BOUND_STATUS_ID ];
+	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.BOUND_STATUS_ID ];
 
 	// Initialization, called when a skill is used.
 	this.init = function ()
@@ -26,7 +26,8 @@ module.exports = function ()
 		// Store whether character was stealthed or not: in
 		// some cases a character won't be stealthed because
 		// YOLO MAYBE, no, en serio, de momento no sé que podría evitarlo
-		this.internalVariables.did_stealth = this.target.setStatus( [ Constants.HIDDEN_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Stealth's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
+		this.internalVariables.did_stealth = true; 
+		this.caller.setStatus( [ Constants.HIDDEN_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Stealth's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
 		// If character was stealthed by this skill then register callbacks.
 		if ( this.internalVariables.did_stealth )
 		{
@@ -40,7 +41,7 @@ module.exports = function ()
 	{
 		// Unstealth only if this skill did stealth the character.
 		if ( this.internalVariables.did_stealth )
-			this.target.unsetStatus( [ Constants.HIDDEN_STATUS_ID ], this, false );
+			this.caller.unsetStatus( [ Constants.HIDDEN_STATUS_ID ], this, false );
 	};
 
 	// Cancels the effects produced by this skill.
