@@ -23,12 +23,12 @@ module.exports = {
 		{}, function ( err, docs )
 		{
 
-			var find_and_assign_skill = function ( stat_skill, defer, skills_stats )
+			var find_and_assign_skill = function ( stat_skill, defer, skills_stats, prefix )
 			{
 				var name = stat_skill.name;
 				var value = stat_skill.value;
 
-				var id = name.replace( Constants.STATISTIC_SKILLS_USED_PREFIX, '' );
+				var id = name.replace( prefix, '' );
 				model.Skill.find(
 				{
 					id: id
@@ -44,13 +44,13 @@ module.exports = {
 				} );
 			};
 
-			var find_and_assign_skill_damage = function ( stat_skill_damage, defer, skills_damage_stats )
+			var find_and_assign_class = function ( stat_class, defer, classes_stats, prefix )
 			{
-				var name = stat_skill_damage.name;
-				var value = stat_skill_damage.value;
+				var name = stat_class.name;
+				var value = stat_class.value;
 
-				var id = name.replace( Constants.STATISTIC_DAMAGE_BY_SKILL_PREFIX, '' );
-				model.Skill.find(
+				var id = name.replace( prefix, '' );
+				model.Class.find(
 				{
 					id: id
 				}, function ( err, docs )
@@ -59,7 +59,7 @@ module.exports = {
 						defer.reject( err );
 					else
 					{
-						skills_damage_stats[ docs[ 0 ].name ] = value;
+						classes_stats[ docs[ 0 ].name ] = value;
 						defer.resolve();
 					}
 				} );
@@ -74,13 +74,23 @@ module.exports = {
 			{
 				var skills_patt = new RegExp( Constants.STATISTIC_SKILLS_USED_PREFIX + "\\d+" );
 				var skills_damage_patt = new RegExp( Constants.STATISTIC_DAMAGE_BY_SKILL_PREFIX + "\\d+" );
+				var skills_used_in_won_battle_patt = new RegExp( Constants.STATISTIC_TIMES_SKILL_USED_IN_WON_BATTLE + "\\d+" );
 				var status_patt = new RegExp( "^" + Constants.STATISTIC_TIMES_STATUS_ALTERED_PREFIX + "\\w" );
 				var healed_status_patt = new RegExp( Constants.STATISTIC_TIMES_HEALED_STATUS_ALTERED_PREFIX + "\\w" );
+				var times_class_wins_battle_patt = new RegExp( Constants.STATISTIC_TIMES_CLASS_WINS_BATTLE + "\\d+" );
+				var times_class_defeats_character_patt = new RegExp( Constants.STATISTIC_TIMES_CLASS_DEFEATS_A_CHARACTER + "\\d+" );
+				var times_class_rounds_played_patt = new RegExp( Constants.STATISTIC_ROUNDS_CLASS_PLAYED + "\\d+" );
+				var times_team_wins_battle_patt = new RegExp( Constants.STATISTIC_TIMES_TEAM_WINS_BATTLE + "\\d+" );
 
 				var skills_stats = {};
 				var skills_damage_stats = {};
+				var skills_used_in_won_battle = {};
 				var status_stats = {};
 				var healed_status_stats = {};
+				var class_wins_battle_stats = {};
+				var class_defeats_character_stats = {};
+				var class_rounds_played_stats = {};
+				var team_wins_battle_stats = {};
 
 				var results = {};
 
@@ -92,18 +102,46 @@ module.exports = {
 					if ( skills_patt.test( docs[ i ].name ) )
 					{
 						d = Q.defer();
-						find_and_assign_skill( docs[ i ], d, skills_stats );
+						find_and_assign_skill( docs[ i ], d, skills_stats, Constants.STATISTIC_SKILLS_USED_PREFIX );
 						promises.push( d.promise );
 					}
 					else if ( skills_damage_patt.test( docs[ i ].name ) )
 					{
 						d = Q.defer();
-						find_and_assign_skill_damage( docs[ i ], d, skills_damage_stats );
+						find_and_assign_skill( docs[ i ], d, skills_damage_stats, Constants.STATISTIC_DAMAGE_BY_SKILL_PREFIX );
+						promises.push( d.promise );
+					}
+					else if ( skills_used_in_won_battle_patt.test( docs[ i ].name ) )
+					{
+						d = Q.defer();
+						find_and_assign_skill( docs[ i ], d, skills_used_in_won_battle, Constants.STATISTIC_TIMES_SKILL_USED_IN_WON_BATTLE );
 						promises.push( d.promise );
 					}
 					else if ( status_patt.test( docs[ i ].name ) )
 					{
 						status_stats[ docs[ i ].name.replace( Constants.STATISTIC_TIMES_STATUS_ALTERED_PREFIX, '' ) ] = docs[ i ].value;
+					}
+					else if ( times_class_wins_battle_patt.test( docs[ i ].name ) )
+					{
+						d = Q.defer();
+						find_and_assign_class( docs[ i ], d, class_wins_battle_stats, Constants.STATISTIC_TIMES_CLASS_WINS_BATTLE );
+						promises.push( d.promise );
+					}
+					else if ( times_class_defeats_character_patt.test( docs[ i ].name ) )
+					{
+						d = Q.defer();
+						find_and_assign_class( docs[ i ], d, class_defeats_character_stats, Constants.STATISTIC_TIMES_CLASS_DEFEATS_A_CHARACTER );
+						promises.push( d.promise );
+					}
+					else if ( times_class_rounds_played_patt.test( docs[ i ].name ) )
+					{
+						d = Q.defer();
+						find_and_assign_class( docs[ i ], d, class_rounds_played_stats, Constants.STATISTIC_ROUNDS_CLASS_PLAYED );
+						promises.push( d.promise );
+					}
+					else if ( times_team_wins_battle_patt.test( docs[ i ].name ) )
+					{
+						team_wins_battle_stats[ docs[ i ].name.replace( Constants.STATISTIC_TIMES_TEAM_WINS_BATTLE, '' ) ] = docs[ i ].value;
 					}
 					else if ( healed_status_patt.test( docs[ i ].name ) )
 					{
@@ -117,8 +155,13 @@ module.exports = {
 
 				results[ 'skills_used' ] = skills_stats;
 				results[ 'skills_damage' ] = skills_damage_stats;
+				results[ 'skills_won' ] = skills_used_in_won_battle;
 				results[ 'status_altered' ] = status_stats;
 				results[ 'status_healed' ] = healed_status_stats;
+				results[ 'team_won' ] = team_wins_battle_stats;
+				results[ 'class_won' ] = class_wins_battle_stats;
+				results[ 'class_kills' ] = class_defeats_character_stats;
+				results[ 'class_rounds' ] = class_rounds_played_stats;
 
 				Q.all( promises ).then( function ()
 				{
