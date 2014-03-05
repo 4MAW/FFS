@@ -64,6 +64,11 @@ module.exports = {
 	STATISTIC_MAGICAL_DAMAGE_DEALED: "magical_damage_dealed",
 	STATISTIC_TIMES_STATUS_ALTERED_PREFIX: "altered_status_",
 	STATISTIC_TIMES_HEALED_STATUS_ALTERED_PREFIX: "healed_altered_status_",
+	STATISTIC_TIMES_CLASS_WINS_BATTLE: "battles_won_by_class_",
+	STATISTIC_TIMES_TEAM_WINS_BATTLE: "battles_won_by_team_",
+	STATISTIC_TIMES_SKILL_USED_IN_WON_BATTLE: "times_skill_used_and_battle_won_",
+	STATISTIC_TIMES_CLASS_DEFEATS_A_CHARACTER: "times_character_defeated_by_class_",
+	STATISTIC_ROUNDS_CLASS_PLAYED: "times_class_plays_round_",
 	STATISTIC_CHARACTERS_DIE: "characters_dead",
 	PHYSICAL: "physical",
 	MAGICAL: "magical"
