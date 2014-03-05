@@ -336,6 +336,19 @@ module.exports = function ( endpoint )
 					{
 						log.success( players[ ( loser === 0 ) ? 1 : 0 ].player.username + ' has won!', 'WINNER' );
 
+						// Save victory statistics.
+						var winner_characters = players[ ( loser === 0 ) ? 1 : 0 ].team.characters;
+						for ( var i in winner_characters )
+						{
+							Statistics.increaseStatistic( Constants.STATISTIC_TIMES_CLASS_WINS_BATTLE + winner_characters[ i ].class.id, 1 );
+
+							var skills_used = Statistics.getLocalComplexStatistic( winner_characters[ i ].id );
+							for ( var j in skills_used )
+								Statistics.increaseStatistic( j, skills_used[ j ] );
+						}
+
+						Statistics.increaseStatistic( Constants.STATISTIC_TIMES_TEAM_WINS_BATTLE + players[ ( loser === 0 ) ? 1 : 0 ].team.id, 1 );
+
 						// Notify winner and loser.
 						players[ loser ].socket.emit( Constants.LOSE_EVENT );
 						players[ ( loser === '0' ) ? 1 : 0 ].socket.emit( Constants.WIN_EVENT );

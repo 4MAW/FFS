@@ -120,6 +120,7 @@ module.exports = {
 		} ) );
 
 		Statistics.increaseStatistic( Constants.STATISTIC_SKILLS_USED_PREFIX + tthis.id, 1 );
+		Statistics.increaseLocalComplexStatistic( Constants.STATISTIC_TIMES_SKILL_USED_IN_WON_BATTLE + tthis.id, tthis.caller.id, 1 );
 
 		// @TODO This should be recored in an array of actions performed this round so it can be animated by the clients.
 		callback.apply( tthis );
