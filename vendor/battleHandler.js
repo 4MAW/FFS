@@ -497,6 +497,11 @@ module.exports = function ( endpoint )
 		{
 			var defer = Q.defer();
 			log.info( 'endphase_phase', 'HOOK' );
+
+			for ( var p in players )
+				for ( var i in players[ p ].team.characters )
+					Statistics.increaseStatistic( Constants.STATISTIC_ROUNDS_CLASS_PLAYED + players[ p ].team.characters[ i ].class.id, 1 );
+
 			if ( room.battle.finished ) defer.resolve();
 			else
 			{
