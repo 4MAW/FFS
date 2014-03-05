@@ -274,6 +274,9 @@ var damage = function ( amount, skill )
 	actual_damage = Math.round( actual_damage ); // Damage should be an integer!
 	actual_damage = Math.min( this.class.stats[ Constants.HEALTH_STAT_ID ], actual_damage ); // Don't do more damage than player can stand.
 
+	if ( this.class.stats[ Constants.HEALTH_STAT_ID ] > 0 && this.class.stats[ Constants.HEALTH_STAT_ID ] - actual_damage === 0 )
+		Statistics.increaseStatistic( Constants.STATISTIC_TIMES_CLASS_DEFEATS_A_CHARACTER + caster.class.id, 1 );
+
 	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
 
 	Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_DEALED, actual_damage );
