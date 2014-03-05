@@ -76,7 +76,7 @@ Q.all( [ model.ready, skill.ready ] ).then( function ()
 	// Teams.
 	app.get( '/team', controller.Team.get() );
 	app.get( '/team/:id', controller.Team.getBy( 'id', 'id' ) );
-	// @TODO Add a way to query the teams by user.
+	app.get( '/player/:id/teams', controller.Team.getByPlayerUsername( 'id' ) );
 
 	app.get( '/', function ( req, res )
 	{
