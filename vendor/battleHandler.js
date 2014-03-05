@@ -232,6 +232,7 @@ module.exports = function ( endpoint )
 		} ).fail( function ( err )
 		{
 			log.error( err, 'MATCH SOCKET' );
+			console.log( err.stack );
 			log.warn( 'Here hacking attempt should be analyzed', 'HACKING' );
 		} );
 	} );

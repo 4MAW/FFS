@@ -6,7 +6,7 @@ var Constants = require( '../vendor/constants.js' );
 module.exports = function ()
 {
 	this.type = Constants.MAGICAL;
-	this.element = "poison";
+	this.element = "dark";
 	// Here we will store UUIDs of callbacks registered by this skill.
 	this.internalVariables = {};
 	// Array of altered status that prevent this skill to be performed.
@@ -15,11 +15,11 @@ module.exports = function ()
 	// Initialization, called when a skill is used.
 	this.init = function ()
 	{
-		this.Round.do( this.poison, this );
+		this.Round.do( this.curse, this );
 	};
 
 	// Registers the damage and unregister callbacks.
-	this.poison = function ()
+	this.curse = function ()
 	{
 		// Compute duration: 2±1 rounds.
 		var duration = 2 + Math.round( Math.random() * 2 - 1 );
@@ -29,28 +29,28 @@ module.exports = function ()
 		// it has inmunity or it is poisoned by a skill with
 		// more duration or it is poisoned by a skill with
 		// more priority.
-		this.internalVariables.did_poison = this.target.setStatus( [ POISON_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Poison's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
+		this.internalVariables.did_curse = this.target.setStatus( [ CURSE_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Poison's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
 		// If character was poisoned by this skill then register callbacks.
-		if ( this.internalVariables.did_poison )
+		if ( this.internalVariables.did_curse )
 		{
 			// Store UUIDs to cancel callbacks in the future.
-			this.internalVariables.in_uuid = this.Round. in ( duration, this.unpoison, this, Constants.ENDROUND_EVENT );
+			this.internalVariables.in_uuid = this.Round. in ( duration, this.uncurse, this, Constants.ENDROUND_EVENT );
 			this.internalVariables.each_uuid = this.Round.each( this.damage, this, Constants.AFTER_DAMAGE_PHASE_EVENT );
 		}
 	};
 
 	// Unregisters the damage callback.
-	this.unpoison = function ()
+	this.uncurse = function ()
 	{
 		// Unpoison only if this skill did poison the character.
-		if ( this.internalVariables.did_poison )
-			this.target.unsetStatus( [ POISON_STATUD_ID ], this, false );
+		if ( this.internalVariables.did_curse )
+			this.target.unsetStatus( [ CURSE_STATUS_ID ], this, false );
 	};
 
 	// Performs some damage.
 	this.damage = function ()
 	{
-		this.target.damage( 100, this );
+		this.target.damage( 700, this );
 	};
 
 	// Cancels the effects produced by this skill.
@@ -68,12 +68,12 @@ module.exports = function ()
 	this.cancel = function ( reasons )
 	{
 		// Unpoison only if this skill did poison the character.
-		if ( this.internalVariables.did_poison )
+		if ( this.internalVariables.did_curse )
 		{
 			// In this case this is trivial but if this skill
 			// affected more than one altered status this
 			// won't be so trivial.
-			if ( reasons.indexOf( POISON_STATUS_ID ) > -1 )
+			if ( reasons.indexOf( CURSE_STATUS_ID ) > -1 )
 			{
 				this.Round.cancel( this.internalVariables.in_uuid );
 				this.Round.uneach( this.internalVariables.each_uuid );

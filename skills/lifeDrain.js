@@ -8,11 +8,13 @@
 // - Round:       Round API.
 // - accuracy:    Accuracy of the skill (0...1).
 // - multiTarget: Whether this skill is a multi target skill or not.
+
 var Constants = require( '../vendor/constants.js' );
 
 module.exports = function ()
 {
-	this.type = Constants.PHYSICAL;
+	this.type = Constants.MAGICAL;
+	var percentageHealed = 0.5;
 	// Initialization, called when a skill is used.
 	this.init = function ()
 	{
@@ -20,8 +22,9 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
-		this.target.damage( 100, this );
+		var damageDone = this.target.damage( 3500, this );
+		this.caller.heal(damageDone*percentageHealed, Constants.ACTUALHP_STAT_ID);
 	};
 	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID ];
+	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.SILENCE_STATUS_ID ];
 };

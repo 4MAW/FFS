@@ -35,11 +35,11 @@ var get_skills = function ()
 	for ( var piece in Constants.ARMOR_ELEMENTS )
 	{
 		if ( sets[ Constants.ARMOR_ELEMENTS[ piece ] ] === undefined )
-			sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ] = {
-				set: Constants.ARMOR_ELEMENTS[ piece ].armorSet,
+			sets[ this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet.id ] = {
+				set: this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet,
 				amount: 0
 			};
-		sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ].amount++;
+		sets[ this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet.id ].amount++;
 	}
 
 	for ( var set in sets )
@@ -108,9 +108,27 @@ var stats = function ()
 var get_stat = function ( id )
 {
 	var v = this.stats();
-	if ( v[ id ] === undefined )
-		return 0;
-	return v[ id ];
+
+	switch(id)
+	{
+	case (v[ id ] === undefined && id == Constants.ACTUALHP_STAT_ID):
+	  this._stats[id] = this._stats[Constants.HP_STAT_ID];
+	  return this._stats[id];
+	  break;
+	case (v[ id ] === undefined && id == Constants.ACTUALMP_STAT_ID):
+	  this._stats[id] = this._stats[Constants.MP_STAT_ID];
+	  return this._stats[id];
+	  break;
+	case (v[ id ] === undefined && id == Constants.ACTUALKI_STAT_ID):
+	  this._stats[id] = this._stats[Constants.KI_STAT_ID];
+	  return this._stats[id];
+	  break;
+	case (v[ id ] === undefined):
+	  return 1;
+	  break;
+	default:
+	  return v[id];
+	}
 };
 
 /**
@@ -148,6 +166,13 @@ var alterStat = function ( amount, id, skill )
 
 	// Notify round.
 	Round.notifyChanges( [ c ], skill );
+
+	// If status was not altered or the priority is lower than the new one's...
+	if ( this.buffs[ id ] === undefined )
+	{
+		this.buffs[ id ] = { skill: skill };
+	}
+
 };
 
 /**
@@ -259,12 +284,20 @@ var unset_status = function ( statuses, skill, override )
 // Similar to set_status but changing character's class.
 var change_class = function () {};
 
+// Gets character's armor type
+var getArmorType = function (defType) {
+	if(defType == Constants.PHYSICAL)
+		return this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.phyFactor;
+	else 
+		return this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.magFactor;
+};
+
 /**
  * Damages the player given the amount of damage, the type and the element of the hit.
  * @param  {integer}     amount  Base amount of health points to decrease.
  * @param  {CalledSkill} skill Skill that performes this damage.
  */
-var damage = function ( amount, skill )
+var _damage = function ( amount, skill, id )
 {
 	// @TODO Take into account the type of damage and the element.
 	var type = skill.type;
@@ -287,7 +320,7 @@ var damage = function ( amount, skill )
 		resMulti = ( Math.random() <= probability_damage_resisted ) ? resMulti = 1 : resMulti = 0;
 		var magical_multiplier = ( caster.getStat( Constants.INT_STAT_ID ) + amount + Math.max( 0, eleDmg - eleDef ) ) / this.getStat( Constants.MEN_STAT_ID );
 		if ( !isFinite( magical_multiplier ) ) magical_multiplier = 0;
-		actual_damage = ( Math.max( 0.8, magical_multiplier ) * caster.getStat( Constants.INT_STAT_ID ) * this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.magFactor ) * critMulti * resMulti * resistencias;
+		actual_damage = ( Math.max( 0.8, magical_multiplier ) * caster.getStat( Constants.INT_STAT_ID ) * this.getArmorType(Constants.MAGICAL) * critMulti * resMulti * resistencias;
 	}
 	else
 	{
@@ -295,13 +328,13 @@ var damage = function ( amount, skill )
 		evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
 		var physical_multiplier = ( caster.getStat( Constants.STR_STAT_ID ) + amount ) / this.getStat( Constants.DEF_STAT_ID );
 		if ( !isFinite( physical_multiplier ) ) physical_multiplier = 0;
-		actual_damage = ( Math.max( 0.8, physical_multiplier ) * caster.getStat( Constants.STR_STAT_ID ) * this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.phyFactor ) * critMulti * evaMulti * resistencias;
+		actual_damage = ( Math.max( 0.8, physical_multiplier ) * caster.getStat( Constants.STR_STAT_ID ) * this.getArmorType(Constants.PHYSICAL) * critMulti * evaMulti * resistencias;
 	}
 
 	actual_damage = Math.round( actual_damage ); // Damage should be an integer!
-	actual_damage = Math.min( this.class.stats[ Constants.HEALTH_STAT_ID ], actual_damage ); // Don't do more damage than player can stand.
+	actual_damage = Math.min( this._stats[ id ], actual_damage ); // Don't do more damage than player can stand.
 
-	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
+	this._stats[ id ] -= actual_damage;
 
 	Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_DEALED, actual_damage );
 
@@ -316,12 +349,32 @@ var damage = function ( amount, skill )
 		Statistics.increaseStatistic( Constants.STATISTIC_CHARACTERS_DIE, 1 );
 
 	// Get change object.
-	var c = new Change( this, "stat", Constants.HEALTH_STAT_ID, "-" + actual_damage );
+	var c = new Change( this, "stat", id, "-" + actual_damage );
 	// Notify round.
 	Round.notifyChanges( [ c ], skill );
 
 	return actual_damage;
 };
+
+var damage = function (amount, skill){
+	this._damage(amount, skill, Constants.ACTUALHP_STAT_ID);
+}
+
+var consumeMP = function (amount, skill){
+	this._damage(amount, skill, Constants.ACTUALMP_STAT_ID);
+}
+
+var consumeKI = function (amount, skill){
+	this._damage(amount, skill, Constants.ACTUALKI_STAT_ID);
+}
+
+var realDamage = function (amount, id){
+	this._stats[ id ] -= amount;
+}
+
+var heal = function( amount, id ){
+	this._stats[ id ] += amount;
+}
 
 /**
  * Returns whether a skill can be performed by this player or not (due to altered status).
@@ -355,11 +408,11 @@ var get_passive_skills = function ()
 	for ( var piece in Constants.ARMOR_ELEMENTS )
 	{
 		if ( sets[ Constants.ARMOR_ELEMENTS[ piece ] ] === undefined )
-			sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ] = {
-				set: Constants.ARMOR_ELEMENTS[ piece ].armorSet,
+			sets[ this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet.id ] = {
+				set: this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet,
 				amount: 0
 			};
-		sets[ Constants.ARMOR_ELEMENTS[ piece ].armorSet.id ].amount++;
+		sets[ this[ Constants.ARMOR_ELEMENTS[ piece ] ].armorSet.id ].amount++;
 	}
 
 	for ( var set in sets )
@@ -611,6 +664,8 @@ module.exports = function ( db_source )
 			// Data structures.
 
 			character.altered_statuses = {};
+			character.buffs = {};
+			character.debuffs = {};
 
 			// Here we will assign methods to the character.
 			for ( var j in INSTANCE_METHODS )
