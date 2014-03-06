@@ -186,7 +186,7 @@
 	"name": "Fiddle",
 	"definition": "fiddle.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": 2,
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
