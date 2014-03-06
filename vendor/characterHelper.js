@@ -429,7 +429,7 @@ var _damage = function ( amount, skill, id )
 		var probability_accuracy = skill.accuracy - ( 1 - Math.min( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ), 1 ) );
 		var probability_damage_resisted = ( skill.accuracy > 1 ) ? 0 : probability_accuracy || 0;
 
-		probability_damage_resisted = 0; // @TODO Remove, but currently hardcoded to do some damage.
+		//probability_damage_resisted = 0; // @TODO Remove, but currently hardcoded to do some damage.
 
 		var resMulti = ( Math.random() <= probability_damage_resisted ) ? 0 : 1;
 		var magical_multiplier = ( caster.getStat( Constants.INT_STAT_ID ) + amount + Math.max( 0, eleDmg - eleDef ) ) / this.getStat( Constants.MEN_STAT_ID );
@@ -441,7 +441,7 @@ var _damage = function ( amount, skill, id )
 		var probability_damage_evaded = ( skill.accuracy > 1 ) ? 0 : this.getStat( Constants.EVS_STAT_ID ) / skill.accuracy;
 		var evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
 
-		evaMulti = 1; // @TODO Remove, but currently hardcoded to do some damage.
+		//evaMulti = 1; // @TODO Remove, but currently hardcoded to do some damage.
 
 		var physical_multiplier = ( caster.getStat( Constants.STR_STAT_ID ) + amount ) / this.getStat( Constants.DEF_STAT_ID );
 		if ( !isFinite( physical_multiplier ) ) physical_multiplier = 0;
@@ -614,6 +614,7 @@ var toJSON = function ()
 	for ( var i in this )
 		if ( typeof this[ i ] !== 'function' )
 			ret[ i ] = this[ i ];
+	delete ret._stat_alterations;
 	delete ret.altered_statuses;
 	ret.stats = this.stats();
 	ret.alive = this.alive();
