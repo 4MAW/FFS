@@ -13,5 +13,5 @@
 	"password": "demo",
 	"gamesPlayed": 0,
 	"gamesWon": 0,
-	"teams": [ "00000002", "00000003" ]
+	"teams": [ "00000002" ]
 } ]
