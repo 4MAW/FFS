@@ -292,4 +292,18 @@
 		"amount": 1,
 		"stat": "00000020"
 	}
+},
+{
+	"id": "00000022",
+	"name": "Purify",
+	"definition": "purify.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
 } ]
