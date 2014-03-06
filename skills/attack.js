@@ -9,9 +9,11 @@
 // - accuracy:    Accuracy of the skill (0...1).
 // - multiTarget: Whether this skill is a multi target skill or not.
 
+var Constants = require( '../vendor/constants.js' );
+
 module.exports = function ()
 {
-	this.type = "physical";
+	this.type = Constants.PHYSICAL;
 	// Initialization, called when a skill is used.
 	this.init = function ()
 	{
@@ -22,5 +24,5 @@ module.exports = function ()
 		this.target.damage( 100, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ "paralysis" ];
+	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID ];
 };
