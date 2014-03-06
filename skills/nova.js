@@ -1,6 +1,8 @@
+var Constants = require( '../vendor/constants.js' );
+
 module.exports = function ()
 {
-	this.type = "magical";
+	this.type = Constants.MAGICAL;
 	this.element = "fire";
 	// Initialization, called when a skill is used.
 	this.init = function ()
@@ -9,9 +11,10 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
+		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		for ( var i in this.targets )
 			this.targets[ i ].damage( 1000, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ "paralysis", "mutis" ];
+	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.SILENCE_STATUS_ID ];
 };

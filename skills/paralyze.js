@@ -4,10 +4,10 @@ var Constants = require( '../vendor/constants.js' );
 // Definition.
 module.exports = function ()
 {
-	this.type = "magical";
+	this.type = Constants.MAGICAL;
 	this.internalVariables = {};
 	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ "paralysis", "mutis" ];
+	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.SILENCE_STATUS_ID ];
 	// Initialization, called when a skill is used.
 	this.init = function ()
 	{
@@ -19,7 +19,8 @@ module.exports = function ()
 		var duration = 2 + Math.round( Math.random() * 2 - 1 );
 		duration = 3; // Just to make the tests deterministic.
 		// Store whether character was paralyzed or not.
-		this.internalVariables.did_paralyze = this.target.setStatus( [ "paralysis" ], this, this.Round.currentRound() + duration )[ 0 ];
+		this.caller.realDamage( this.cost.amount, this.cost.stat );
+		this.internalVariables.did_paralyze = this.target.setStatus( [ Constants.PARALYSIS_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ];
 		// If character was paralyzed by this skill then register unregister callback.
 		if ( this.internalVariables.did_paralyze )
 		{
@@ -32,13 +33,13 @@ module.exports = function ()
 	{
 		// Unpoison only if this skill did poison the character.
 		if ( this.internalVariables.did_paralyze )
-			this.target.unsetStatus( [ "paralysis" ], this, false );
+			this.target.unsetStatus( [ Constants.PARALYSIS_STATUS_ID ], this, false );
 	};
 	// Cancels the effects produced by this skill.
 	this.cancel = function ( reasons )
 	{
 		// Unparalyses only if this skill did paralyze the character.
-		if ( this.internalVariables.did_paralyze && reasons.indexOf( "paralysis" ) > -1 )
+		if ( this.internalVariables.did_paralyze && reasons.indexOf( Constants.PARALYSIS_STATUS_ID ) > -1 )
 			this.Round.cancel( this.internalVariables.in_uuid );
 	};
 };
