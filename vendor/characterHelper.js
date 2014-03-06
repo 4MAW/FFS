@@ -493,6 +493,10 @@ var damage = function ( amount, skill )
 var consumeMP = function ( amount, skill )
 {
 	this.realDamage( amount, Constants.ACTUALMP_STAT_ID );
+	// Get change object.
+	var c = new Change( this, "stat", Constants.ACTUALMP_STAT_ID, "-" + amount );
+	// Notify round.
+	Round.notifyChanges( [ c ], skill );
 };
 
 /**
@@ -503,11 +507,17 @@ var consumeMP = function ( amount, skill )
 var consumeKI = function ( amount, skill )
 {
 	this.realDamage( amount, Constants.ACTUALKI_STAT_ID );
+	// Get change object.
+	var c = new Change( this, "stat", Constants.ACTUALKI_STAT_ID, "-" + amount );
+	// Notify round.
+	Round.notifyChanges( [ c ], skill );
 };
 
 /**
  * Allows dealing direct damage to a stat without passing through
  * damage algorithms.
+ *
+ * @note   This WILL NOT be notified to the round API.
  *
  * @param  {number} amount Amount to reduce given stat.
  * @param  {string} id     ID of stat to reduce.
