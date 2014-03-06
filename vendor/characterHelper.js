@@ -434,7 +434,7 @@ var _damage = function ( amount, skill, id )
 	}
 	else
 	{
-		// Just to allow altering Ki and Mana.
+		// Just to allow altering skills to skip damage algorithms.
 		actual_damage = amount;
 	}
 
@@ -492,7 +492,7 @@ var damage = function ( amount, skill )
  */
 var consumeMP = function ( amount, skill )
 {
-	_damage.apply( this, amount, skill, Constants.ACTUALMP_STAT_ID );
+	this.realDamage( amount, Constants.ACTUALMP_STAT_ID );
 };
 
 /**
@@ -502,19 +502,37 @@ var consumeMP = function ( amount, skill )
  */
 var consumeKI = function ( amount, skill )
 {
-	_damage.apply( this, amount, skill, Constants.ACTUALKI_STAT_ID );
+	this.realDamage( amount, Constants.ACTUALKI_STAT_ID );
+};
+
+/**
+ * Allows dealing direct damage to a stat without passing through
+ * damage algorithms.
+ *
+ * @param  {number} amount Amount to reduce given stat.
+ * @param  {string} id     ID of stat to reduce.
+ */
+var realDamage = function ( amount, id )
+{
+	var actual_damage = Math.round( amount ); // Damage should be an integer!
+	// Don't do more damage than character can stand.
+	var maximum_damage_allowed = this.getStat( id ) - this.getMinimumValueOfRangedStat( id );
+	actual_damage = Math.min( maximum_damage_allowed, this._stats[ id ], actual_damage );
+	// Don't do less negativa damage (heal more) than allowed.
+	var maximum_healed_allowed = this.getMaximumValueOfRangedStat( id ) - this.getStat( id );
+	actual_damage = Math.max( maximum_healed_allowed, this._stats[ id ], actual_damage );
+	// Actually change stat.
+	this._stats[ id ] -= actual_damage;
 };
 
 /**
  * Returns whether a skill can be performed by this player or not (due to altered status).
- * @todo   Implement rules to check skill cost.
  * @param  {SkillDefinition} skill Skill to be checked.
  * @return {boolean}               Whether this character can perform this skill or not.
  */
 var can_perform_action = function ( skill )
 {
-	return this.alive() && !this.hasStatus( skill.blockedBy );
-	//&& this.getStat(skill.cost.stat) < skill.cost.amount;
+	return this.alive() && !this.hasStatus( skill.blockedBy ) && this.getStat( skill.cost.stat ) >= skill.cost.amount;
 };
 
 /**
