@@ -261,6 +261,22 @@ var alter_stat = function ( amount, id, skill )
  */
 var clear_stat = function ( id, boons )
 {
+	if ( this._stat_alterations[ id ] !== undefined )
+		for ( var uuid in this._stat_alterations[ id ] )
+			if ( this._stat_alterations[ id ][ uuid ].boon === boons )
+				this._stat_alterations[ id ][ uuid ].skill.cancel();
+};
+
+/**
+ * Cleans any change affecting any stat.
+ * This will only affect skills registered as
+ * boons if boons = true. Otherwise it will
+ * only affect skills registered as debuffs.
+ *
+ * @param  {boolean} boons Whether boons or debuffs should be removed.
+ */
+var clear_all_stats = function ( boons )
+{
 	for ( var i in this._stat_alterations )
 		for ( var uuid in this._stat_alterations[ i ] )
 			if ( this._stat_alterations[ i ][ uuid ].boon === boons )
@@ -636,6 +652,8 @@ var INSTANCE_METHODS = {
 	getMinimumValueOfRangedStat: get_minimum_value_of_ranged_stat,
 	getMaximumValueOfRangedStat: get_maximum_value_of_ranged_stat,
 	alterStat: alter_stat,
+	clearStat: clear_stat,
+	clearAllStats: clear_all_stats,
 	clientObject: clientObject,
 	getArmorType: get_armor_type,
 	getArmorDefenseFactorAgainst: get_armor_defense_factor_against,
