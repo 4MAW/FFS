@@ -24,7 +24,7 @@ module.exports = function ()
 	{
 		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		var damageDone = this.target.damage( 3500, this );
-		this.caller.damage( damageDone * percentageHealed );
+		this.caller.damage( damageDone * percentageHealed, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
 	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.SILENCE_STATUS_ID ];
