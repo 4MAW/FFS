@@ -26,8 +26,8 @@ module.exports = function ()
 
 		if ( this.internalVariables.did_fiddle1 && this.internalVariables.did_fiddle2 )
 		{
-			var statAux1 = this.targets[ 0 ].get_stat( Constants.DEF_STAT_ID );
-			var statAux2 = this.targets[ 1 ].get_stat( Constants.DEF_STAT_ID );
+			var statAux1 = this.targets[ 0 ].getStat( Constants.DEF_STAT_ID );
+			var statAux2 = this.targets[ 1 ].getStat( Constants.DEF_STAT_ID );
 
 			this.internalVariables.diff1 = statAux1 - statAux2;
 			this.internalVariables.diff2 = statAux2 - statAux1;
