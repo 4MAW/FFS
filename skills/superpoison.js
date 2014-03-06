@@ -45,7 +45,7 @@ module.exports = function ()
 	{
 		// Unpoison only if this skill did poison the character.
 		if ( this.internalVariables.did_poison )
-			this.target.unsetStatus( [ Constants.POISON_STATUD_ID ], this, false );
+			this.target.unsetStatus( [ Constants.POISON_STATUS_ID ], this, false );
 	};
 
 	// Performs some damage.
