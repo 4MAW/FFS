@@ -491,7 +491,7 @@ var _damage = function ( amount, skill, id )
  */
 var damage = function ( amount, skill )
 {
-	_damage.apply( this, amount, skill, Constants.ACTUALHP_STAT_ID );
+	return _damage.apply( this, amount, skill, Constants.ACTUALHP_STAT_ID );
 };
 
 /**
