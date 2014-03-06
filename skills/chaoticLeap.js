@@ -22,11 +22,8 @@ module.exports = function ()
 	this.damage = function ()
 	{
 		this.caller.realDamage( this.cost.amount, this.cost.stat );
-		// WTF? Daño en función de la fuerza? Es intencionado?
-		// En cualquier caso, si esto se salta la defensa la skill no debería de
-		// tener tipo de daño, ya que el tipo es para elegir el algoritmo, y si
-		// no hay algoritmo...
-		this.target.damage( this.caller.getStat( Constants.STR_STAT_ID ) * 0.6, this );
+		this.caller.realDamage( this.caller.getStat( Constants.ACTUALHP_STAT_ID ) / 2, Constants.ACTUALHP_STAT_ID );
+		this.target.damage( 3500, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
 	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.BOUND_STATUS_ID ];
