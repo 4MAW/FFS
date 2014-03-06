@@ -377,12 +377,21 @@ var unset_status = function ( statuses, skill, override )
 var change_class = function () {};
 
 /**
+ * Gets character armor's type.
+ * @return {ArmorType} This character armor's type.
+ */
+var getArmorType = function ()
+{
+	return this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type;
+};
+
+/**
  * Gets character's armor defense factor agains given type of damage.
  * @param  {string} defType Type of damage.
  * @return {number}         Defense factor of this character's armor
  *                          against given type of damage.
  */
-var getArmorType = function ( defType )
+var get_armor_defense_factor_against = function ( defType )
 {
 	if ( defType == Constants.PHYSICAL )
 		return this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.phyFactor;
@@ -621,6 +630,7 @@ var INSTANCE_METHODS = {
 	doSkill: doSkill,
 	clientObject: clientObject,
 	getArmorType: getArmorType,
+	getArmorDefenseFactorAgainst: get_armor_defense_factor_against,
 	// API
 	canPerformAction: can_perform_action,
 	damage: damage,
