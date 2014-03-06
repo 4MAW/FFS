@@ -104,7 +104,7 @@
 	"name": "Dark Bolt",
 	"definition": "darkBolt.js",
 	"passive": false,
-	"multiTarget": true,
+	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost" : {"amount": 1, "stat": "00000020"}
@@ -164,7 +164,7 @@
 	"name": "Life Drain",
 	"definition": "lifeDrain.js",
 	"passive": false,
-	"multiTarget": true,
+	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost" : {"amount": 1, "stat": "00000020"}
@@ -184,7 +184,7 @@
 	"name": "Power Shoot",
 	"definition": "powerShoot.js",
 	"passive": false,
-	"multiTarget": true,
+	"multiTarget": false,
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost" : {"amount": 1, "stat": "00000020"}

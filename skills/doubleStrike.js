@@ -22,7 +22,8 @@ module.exports = function ()
 	this.damage = function ()
 	{
 		this.caller.realDamage(this.cost.amount, this.cost.stat);
-		this.target.damage( 4000, this );
+		for(var i in this.targets)
+		this.targets[i].damage( 0.6*Constants.STR_STAT_ID, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
 	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.BOUND_STATUS_ID ];

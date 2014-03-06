@@ -12,7 +12,7 @@ module.exports = function ()
 	this.damage = function ()
 	{
 		this.caller.realDamage(this.cost.amount, this.cost.stat);
-		this.targets.damage( 2500, this );
+		this.target.damage( 2500, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
 	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.SILENCE_STATUS_ID ];

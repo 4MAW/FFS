@@ -59,32 +59,19 @@ var stats = function(){
  */
 var initStats = function ()
 {
-	
-	console.log('pre');
-console.log( this );
-console.log( 'ESTO ES EL THIS \n ________________________ +\n\n\n' + this.class );
-console.log( 'ESTO ES EL THIS.CLASS.STATS \n ________________________ +\n\n\n' + this.class.stats );
-console.log( 'ESTO ES EL THIS.CLASS.STATS JSON \n ________________________ +\n\n\n' + JSON.stringify( this.class.stats ) );
 	var returnStats = JSON.parse( JSON.stringify( this.class.stats ) ); // We don't want to alter base stats.
-	console.log('re');
-	console.log(this.class.stats);
-	console.log(JSON.stringify( this.class.stats ));
 	var stat, stat_id, stat_value; // To prevent redefining these variables in each loop.
 
 	for ( var weap in this.weapons )
 	{
-		console.log('yolo1-1');
 		for ( stat in this.weapons[ weap ].weapon.stats )
 		{
-			console.log('yolo1-2');
 			stat_id = this.weapons[ weap ].weapon.stats[ stat ].stat.id;
 			stat_value = this.weapons[ weap ].weapon.stats[ stat ].value;
 			if ( returnStats[ stat_id ] === undefined ) returnStats[ stat_id ] = 0;
 			returnStats[ stat_id ] += stat_value;
 		}
 	}
-
-	console.log('yolo2');
 
 	for ( var piece in Constants.ARMOR_ELEMENTS )
 	{
@@ -96,8 +83,6 @@ console.log( 'ESTO ES EL THIS.CLASS.STATS JSON \n ________________________ +\n\n
 			returnStats[ stat_id ] += stat_value;
 		}
 	}
-
-	console.log('yolo3');
 
 	for ( var acc in this.accessories )
 	{
@@ -113,8 +98,6 @@ console.log( 'ESTO ES EL THIS.CLASS.STATS JSON \n ________________________ +\n\n
 
 		}
 	}
-
-	console.log('yolo4');
 
 	return returnStats;
 };
@@ -478,6 +461,7 @@ var INSTANCE_METHODS = {
 	alterStat: alterStat,
 	doSkill: doSkill,
 	clientObject: clientObject,
+	getArmorType: getArmorType,
 	// API
 	canPerformAction: can_perform_action,
 	damage: damage,
@@ -696,7 +680,7 @@ module.exports = function ( db_source )
 			// Here we will assign methods to the character.
 			for ( var j in INSTANCE_METHODS )
 				character[ j ] = INSTANCE_METHODS[ j ];
-			
+
 			character._stats = character.initStats();
 			defer.resolve( character );
 		} ).fail( defer.reject );

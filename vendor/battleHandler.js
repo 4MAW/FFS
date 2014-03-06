@@ -314,9 +314,11 @@ module.exports = function ( endpoint )
 					for ( var _p in players )
 					{
 						var characters_alive = 0;
-						for ( var _c in players[ _p ].team.characters )
+						for ( var _c in players[ _p ].team.characters ){
 							if ( players[ _p ].team.characters[ _c ].alive() )
 								characters_alive++;
+							console.log(characters_alive);
+						}
 						if ( characters_alive === 0 )
 							loser = _p;
 					}

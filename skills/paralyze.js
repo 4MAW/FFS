@@ -20,7 +20,7 @@ module.exports = function ()
 		duration = 3; // Just to make the tests deterministic.
 		// Store whether character was paralyzed or not.
 		this.caller.realDamage(this.cost.amount, this.cost.stat);
-		this.internalVariables.did_paralyze = this.target.setStatus( [ PARALYSIS_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ];
+		this.internalVariables.did_paralyze = this.target.setStatus( [ Constants.PARALYSIS_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ];
 		// If character was paralyzed by this skill then register unregister callback.
 		if ( this.internalVariables.did_paralyze )
 		{
@@ -33,13 +33,13 @@ module.exports = function ()
 	{
 		// Unpoison only if this skill did poison the character.
 		if ( this.internalVariables.did_paralyze )
-			this.target.unsetStatus( [ PARALYSIS_STATUS_ID ], this, false );
+			this.target.unsetStatus( [ Constants.PARALYSIS_STATUS_ID ], this, false );
 	};
 	// Cancels the effects produced by this skill.
 	this.cancel = function ( reasons )
 	{
 		// Unparalyses only if this skill did paralyze the character.
-		if ( this.internalVariables.did_paralyze && reasons.indexOf( PARALYSIS_STATUS_ID ) > -1 )
+		if ( this.internalVariables.did_paralyze && reasons.indexOf( Constants.PARALYSIS_STATUS_ID ) > -1 )
 			this.Round.cancel( this.internalVariables.in_uuid );
 	};
 };

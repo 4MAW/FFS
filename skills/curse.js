@@ -30,7 +30,7 @@ module.exports = function ()
 		// more duration or it is poisoned by a skill with
 		// more priority.
 		this.caller.realDamage(this.cost.amount, this.cost.stat);
-		this.internalVariables.did_curse = this.target.setStatus( [ CURSE_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Poison's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
+		this.internalVariables.did_curse = this.target.setStatus( [ Constants.CURSE_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Poison's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
 		// If character was poisoned by this skill then register callbacks.
 		if ( this.internalVariables.did_curse )
 		{
@@ -45,7 +45,7 @@ module.exports = function ()
 	{
 		// Unpoison only if this skill did poison the character.
 		if ( this.internalVariables.did_curse )
-			this.target.unsetStatus( [ CURSE_STATUS_ID ], this, false );
+			this.target.unsetStatus( [ Constants.CURSE_STATUS_ID ], this, false );
 	};
 
 	// Performs some damage.
@@ -74,7 +74,7 @@ module.exports = function ()
 			// In this case this is trivial but if this skill
 			// affected more than one altered status this
 			// won't be so trivial.
-			if ( reasons.indexOf( CURSE_STATUS_ID ) > -1 )
+			if ( reasons.indexOf( Constants.CURSE_STATUS_ID ) > -1 )
 			{
 				this.Round.cancel( this.internalVariables.in_uuid );
 				this.Round.uneach( this.internalVariables.each_uuid );
