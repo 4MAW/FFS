@@ -6,7 +6,12 @@
 	"passive": false,
 	"multiTarget": false,
 	"accuracy": 1,
-	"criticalProbability": 1
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
 },
 {
 	"id": "00000002",
@@ -15,7 +20,12 @@
 	"passive": false,
 	"multiTarget": false,
 	"accuracy": 1,
-	"criticalProbability": 1
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
 },
 {
 	"id": "00000003",
@@ -24,7 +34,12 @@
 	"passive": false,
 	"multiTarget": false,
 	"accuracy": 1,
-	"criticalProbability": 1
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
 },
 {
 	"id": "00000004",
@@ -33,7 +48,12 @@
 	"passive": false,
 	"multiTarget": false,
 	"accuracy": 1,
-	"criticalProbability": 1
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
 },
 {
 	"id": "00000005",
@@ -42,7 +62,12 @@
 	"passive": false,
 	"multiTarget": true,
 	"accuracy": 1,
-	"criticalProbability": 1
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
 },
 {
 	"id": "00000006",
@@ -51,5 +76,220 @@
 	"passive": false,
 	"multiTarget": false,
 	"accuracy": 1,
-	"criticalProbability": 1
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000007",
+	"name": "Bomb Shoot",
+	"definition": "bombShoot.js",
+	"passive": false,
+	"multiTarget": true,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000008",
+	"name": "Chaotic Leap",
+	"definition": "chaoticLeap.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000009",
+	"name": "Cure",
+	"definition": "cure.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000010",
+	"name": "Curse",
+	"definition": "curse.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000011",
+	"name": "Dark Bolt",
+	"definition": "darkBolt.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000012",
+	"name": "Double Strike",
+	"definition": "doubleStrike.js",
+	"passive": false,
+	"multiTarget": true,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000013",
+	"name": "Drought",
+	"definition": "drought.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000014",
+	"name": "Fiddle",
+	"definition": "fiddle.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000015",
+	"name": "Gash",
+	"definition": "gash.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000016",
+	"name": "Kinetic Wave",
+	"definition": "kineticWave.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000021"
+	}
+},
+{
+	"id": "00000017",
+	"name": "Life Drain",
+	"definition": "lifeDrain.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000018",
+	"name": "Magic Missile",
+	"definition": "magicMissile.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000019",
+	"name": "Power Shoot",
+	"definition": "powerShoot.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000020",
+	"name": "Stealth",
+	"definition": "stealth.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
+},
+{
+	"id": "00000021",
+	"name": "Take Aim",
+	"definition": "takeAim.js",
+	"passive": false,
+	"multiTarget": false,
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost":
+	{
+		"amount": 1,
+		"stat": "00000020"
+	}
 } ]

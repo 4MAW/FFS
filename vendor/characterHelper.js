@@ -1,6 +1,7 @@
 // Dependencies.
 
 var Q = require( 'q' ),
+	log = require( './log.js' ),
 	model = require( '../models/model.js' ),
 	Constants = require( './constants.js' ),
 	Round = require( './roundAPI.js' ),
@@ -51,23 +52,32 @@ var get_skills = function ()
 };
 
 /**
- * Returns an array of final stats, including any modification from boons and equipment.
- * @return {Object} Object where each key is an stat ID and the value is the value for that stat.
+ * Returns the array of stats of this character.
+ * @return {Object} Array of stats.
  */
 var stats = function ()
 {
-	var returnStats = JSON.parse( JSON.stringify( this.class.stats ) ); // We don't want to alter base stats.
+	return JSON.parse( JSON.stringify( this._stats ) ); // We return a copy, not the actual one.
+};
 
+/**
+ * Initializes internal stats array.
+ */
+var init_stats = function ()
+{
+	this._stat_alterations = {}; // Here we will store any skill affecting a stat.
+	this._stats = JSON.parse( JSON.stringify( this.class.stats ) ); // We don't want to alter base stats.
 	var stat, stat_id, stat_value; // To prevent redefining these variables in each loop.
 
 	for ( var weap in this.weapons )
 	{
-		for ( stat in this.weapons[ weap ].stats )
+		for ( stat in this.weapons[ weap ].weapon.stats )
 		{
-			stat_id = this.weapons[ weap ].stats[ stat ].stat.id;
-			stat_value = this.weapons[ weap ].stats[ stat ].value;
-			if ( returnStats[ stat_id ] === undefined ) returnStats[ stat_id ] = 0;
-			returnStats[ stat_id ] += stat_value;
+			stat_id = this.weapons[ weap ].weapon.stats[ stat ].stat.id;
+			stat_value = this.weapons[ weap ].weapon.stats[ stat ].value;
+			if ( this._stats[ stat_id ] === undefined )
+				this._stats[ stat_id ] = 0;
+			this._stats[ stat_id ] += stat_value;
 		}
 	}
 
@@ -77,8 +87,9 @@ var stats = function ()
 		{
 			stat_id = this[ Constants.ARMOR_ELEMENTS[ piece ] ].stats[ stat ].stat.id;
 			stat_value = this[ Constants.ARMOR_ELEMENTS[ piece ] ].stats[ stat ].value;
-			if ( returnStats[ stat_id ] === undefined ) returnStats[ stat_id ] = 0;
-			returnStats[ stat_id ] += stat_value;
+			if ( this._stats[ stat_id ] === undefined )
+				this._stats[ stat_id ] = 0;
+			this._stats[ stat_id ] += stat_value;
 		}
 	}
 
@@ -88,16 +99,54 @@ var stats = function ()
 		{
 			stat_id = this.accessories[ acc ].stats[ stat ].stat.id;
 			stat_value = this.accessories[ acc ].stats[ stat ].value;
-			if ( returnStats[ stat_id ] === undefined ) returnStats[ stat_id ] = 0;
+			if ( this._stats[ stat_id ] === undefined ) this._stats[ stat_id ] = 0;
 			if ( ( stat_value <= 1 ) )
-				returnStats[ stat_id ] *= 1 + stat_value;
+				this._stats[ stat_id ] *= 1 + stat_value;
 			else
-				returnStats[ stat_id ] += stat_value;
+				this._stats[ stat_id ] += stat_value;
 
 		}
 	}
+};
 
-	return returnStats;
+/**
+ * Returns the minimum value of given ranged stat.
+ * @param  {string} id ID of ranged stat whose minimum will be returned.
+ * @return {number}    Minimum value of given ranged stat.
+ */
+var getMinimumValueOfRangedStat = function ( id )
+{
+	switch ( id )
+	{
+	case Constants.ACTUALHP_STAT_ID:
+	case Constants.ACTUALMP_STAT_ID:
+	case Constants.ACTUALKI_STAT_ID:
+		return 0;
+	default:
+		log.warn( 'Trying to get minimum value of a non-ranged stat: ' + id, 'STAT' );
+		return 0;
+	}
+};
+
+/**
+ * Returns the maximum value of given ranged stat.
+ * @param  {string} id ID of ranged stat whose maximum will be returned.
+ * @return {number}    Maximum value of given ranged stat.
+ */
+var getMaximumValueOfRangedStat = function ( id )
+{
+	switch ( id )
+	{
+	case Constants.ACTUALHP_STAT_ID:
+		return this.getStat( Constants.HP_STAT_ID );
+	case Constants.ACTUALMP_STAT_ID:
+		return this.getStat( Constants.MP_STAT_ID );
+	case Constants.ACTUALKI_STAT_ID:
+		return this.getStat( Constants.KI_STAT_ID );
+	default:
+		log.warn( 'Trying to get maximum value of a non-ranged stat: ' + id, 'STAT' );
+		return 0;
+	}
 };
 
 /**
@@ -108,8 +157,26 @@ var stats = function ()
 var get_stat = function ( id )
 {
 	var v = this.stats();
+
 	if ( v[ id ] === undefined )
-		return 0;
+	{
+		switch ( id )
+		{
+		case Constants.ACTUALHP_STAT_ID:
+			this._stats[ id ] = this.getStat( Constants.HP_STAT_ID );
+			return this._stats[ id ];
+		case Constants.ACTUALMP_STAT_ID:
+			this._stats[ id ] = this.getStat( Constants.MP_STAT_ID );
+			return this._stats[ id ];
+		case Constants.ACTUALKI_STAT_ID:
+			this._stats[ id ] = this.getStat( Constants.KI_STAT_ID );
+			return this._stats[ id ];
+		default:
+			this._stats[ id ] = 1;
+			return this._stats[ id ];
+		}
+	}
+
 	return v[ id ];
 };
 
@@ -119,10 +186,86 @@ var get_stat = function ( id )
  */
 var alive = function ()
 {
-	return ( this.stats()[ Constants.HEALTH_STAT_ID ] > 0 );
+	return ( this.getStat( Constants.ACTUALHP_STAT_ID ) > 0 );
 };
 
-var alterStat = function () {};
+/**
+ * Alters a stat.
+ * @param  {Number}  amount Stat multiplier.
+ * @param {SkillDefinition} skill    Definition of skill that is setting these statuses.
+ * @param  {String}  id Stat's id.
+ */
+var alter_stat = function ( amount, id, skill )
+{
+	// If status was not altered or the priority is lower than the new one's...
+	if ( this._stats[ id ] !== undefined )
+	{
+		var c, diff = -this._stats[ id ];
+
+		if ( amount < 1 && amount > 0 )
+		{
+			var abs_value = this._stats[ id ] * ( 1 - amount );
+			// @TODO What do we want? Changing the stat from X to N% X or reducing stat by a factor of N% X?
+			// Remove «this._stats[ id ] +» to change stat TO rather than changing stat IN.
+			c = new Change( this, "stat", id, '-' + ( this._stats[ id ] + abs_value ) );
+			this._stats[ id ] *= ( 1 - amount );
+		}
+		else
+		{
+			this._stats[ id ] += amount;
+			c = new Change( this, "stat", id, amount );
+		}
+
+		diff += this._stats[ id ];
+
+		// Add given skill to the list of skills affecting given stat.
+		if ( this._stat_alterations[ id ] === undefined )
+			this._stat_alterations[ id ] = {};
+
+		// If this is the first time given instance of the skill alters given stat, act normal.
+		if ( this._stat_alterations[ id ][ skill.uuid ] === undefined )
+		{
+			// Use UUID to get the ID of this instance of the skill.
+			this._stat_alterations[ id ][ skill.uuid ] = {
+				skill: skill,
+				// @TODO Refactor this to an attribute of the model.
+				boon: ( diff > 0 ) ? true : false // If the increment is positive, boon, if it is negative, cond.
+			};
+		}
+		// If this is the second time an instance of a skill acs on a stat we assume it is cleaning
+		// the changes it previously introduced so we remove it from list.
+		else
+		{
+			delete this._stat_alterations[ id ][ skill.uuid ];
+		}
+
+		// Notify round.
+		Round.notifyChanges( [ c ], skill );
+	}
+	else
+	{
+		// @TODO What happens when the stat is undefined?
+		// I think this won't happen as everything should be initialized with initStats().
+		log.error( 'Altering undefined stat: ' + id, 'STATS' );
+	}
+};
+
+/**
+ * Cleans any change affecting given stat.
+ * This will only affect skills registered as
+ * boons if boons = true. Otherwise it will
+ * only affect skills registered as debuffs.
+ *
+ * @param  {string}  id    ID of stat to clear.
+ * @param  {boolean} boons Whether boons or debuffs should be removed.
+ */
+var clear_stat = function ( id, boons )
+{
+	for ( var i in this._stat_alterations )
+		for ( var uuid in this._stat_alterations[ i ] )
+			if ( this._stat_alterations[ i ][ uuid ].boon === boons )
+				this._stat_alterations[ i ][ uuid ].skill.cancel();
+};
 
 /**
  * Returns whether this character is affected by given altered status or not.
@@ -234,11 +377,28 @@ var unset_status = function ( statuses, skill, override )
 var change_class = function () {};
 
 /**
- * Damages the player given the amount of damage, the type and the element of the hit.
- * @param  {integer}     amount  Base amount of health points to decrease.
- * @param  {CalledSkill} skill Skill that performes this damage.
+ * Gets character's armor defense factor agains given type of damage.
+ * @param  {string} defType Type of damage.
+ * @return {number}         Defense factor of this character's armor
+ *                          against given type of damage.
  */
-var damage = function ( amount, skill )
+var getArmorType = function ( defType )
+{
+	if ( defType == Constants.PHYSICAL )
+		return this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.phyFactor;
+	else
+		return this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.magFactor;
+};
+
+/**
+ * Damages one of the character's damagable stats, given the amount of damage the skill
+ * and the id of the damage stat to damage.
+ *
+ * @param  {integer}     amount  Base amount of points to decrease.
+ * @param  {CalledSkill} skill   Skill that performes this damage.
+ * @param  {string}      id      ID of skill to damage.
+ */
+var _damage = function ( amount, skill, id )
 {
 	// @TODO Take into account the type of damage and the element.
 	var type = skill.type;
@@ -254,45 +414,61 @@ var damage = function ( amount, skill )
 
 	var criticalProbability = ( skill.criticalProbability === 0 ) ? 0 : 1 + skill.criticalProbability;
 	critMulti = ( Math.random() <= caster.getStat( Constants.CRITICAL_STAT_ID ) * criticalProbability ) ? 1.5 : 1;
+
 	if ( type === Constants.MAGICAL )
 	{
-		var probability_damage_resisted = skill.accuracy - ( 1 - Math.min( ( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ) ) || 1, 1 ) );
-		resMulti = ( Math.random() <= probability_damage_resisted ) ? resMulti = 1 : resMulti = 0;
+		var probability_accuracy = skill.accuracy - ( 1 - Math.min( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ), 1 ) );
+		var probability_damage_resisted = ( skill.accuracy > 1 ) ? 0 : probability_accuracy || 0;
+		resMulti = ( Math.random() <= probability_damage_resisted ) ? 1 : 0;
 		var magical_multiplier = ( caster.getStat( Constants.INT_STAT_ID ) + amount + Math.max( 0, eleDmg - eleDef ) ) / this.getStat( Constants.MEN_STAT_ID );
 		if ( !isFinite( magical_multiplier ) ) magical_multiplier = 0;
-		actual_damage = ( Math.max( 0.8, magical_multiplier ) * caster.getStat( Constants.INT_STAT_ID ) * this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.magFactor ) * critMulti * resMulti * resistencias;
+		actual_damage = ( Math.max( 0.8, magical_multiplier ) ) * caster.getStat( Constants.INT_STAT_ID ) * this.getArmorType( Constants.MAGICAL ) * critMulti * resMulti * resistencias;
 	}
-	else
+	else if ( type === Constants.PHYSICAL )
 	{
-		var probability_damage_evaded = this.getStat( Constants.EVS_STAT_ID ) / skill.accuracy;
+		var probability_damage_evaded = ( skill.accuracy > 1 ) ? 0 : this.getStat( Constants.EVS_STAT_ID ) / skill.accuracy;
 		evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
 		var physical_multiplier = ( caster.getStat( Constants.STR_STAT_ID ) + amount ) / this.getStat( Constants.DEF_STAT_ID );
 		if ( !isFinite( physical_multiplier ) ) physical_multiplier = 0;
-		actual_damage = ( Math.max( 0.8, physical_multiplier ) * caster.getStat( Constants.STR_STAT_ID ) * this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type.phyFactor ) * critMulti * evaMulti * resistencias;
+		actual_damage = ( Math.max( 0.8, physical_multiplier ) ) * caster.getStat( Constants.STR_STAT_ID ) * this.getArmorType( Constants.PHYSICAL ) * critMulti * evaMulti * resistencias;
+	}
+	else
+	{
+		// Just to allow altering Ki and Mana.
+		actual_damage = amount;
 	}
 
 	actual_damage = Math.round( actual_damage ); // Damage should be an integer!
-	actual_damage = Math.min( this.class.stats[ Constants.HEALTH_STAT_ID ], actual_damage ); // Don't do more damage than player can stand.
+	// Don't do more damage than character can stand.
+	var maximum_damage_allowed = this.getStat( id ) - this.getMinimumValueOfRangedStat( id );
+	actual_damage = Math.min( maximum_damage_allowed, this._stats[ id ], actual_damage );
+	// Don't do less negativa damage (heal more) than allowed.
+	var maximum_healed_allowed = this.getMaximumValueOfRangedStat( id ) - this.getStat( id );
+	actual_damage = Math.max( maximum_healed_allowed, this._stats[ id ], actual_damage );
 
-	if ( this.class.stats[ Constants.HEALTH_STAT_ID ] > 0 && this.class.stats[ Constants.HEALTH_STAT_ID ] - actual_damage === 0 )
-		Statistics.increaseStatistic( Constants.STATISTIC_TIMES_CLASS_DEFEATS_A_CHARACTER + caster.class.id, 1 );
+	// Actually apply damage.
+	this._stats[ id ] -= actual_damage;
 
-	this.class.stats[ Constants.HEALTH_STAT_ID ] -= actual_damage;
+	// Gather statistics about damages.
+	if ( id === Constants.ACTUALHP_STAT_ID )
+	{
+		Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_DEALED, actual_damage );
+		Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_BY_SKILL_PREFIX + skill.id, actual_damage );
 
-	Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_DEALED, actual_damage );
+		if ( skill.type === Constants.PHYSICAL )
+			Statistics.increaseStatistic( Constants.STATISTIC_PHYSICAL_DAMAGE_DEALED, actual_damage );
+		else
+			Statistics.increaseStatistic( Constants.STATISTIC_MAGICAL_DAMAGE_DEALED, actual_damage );
 
-	Statistics.increaseStatistic( Constants.STATISTIC_DAMAGE_BY_SKILL_PREFIX + skill.id, actual_damage );
-
-	if ( skill.type === Constants.PHYSICAL )
-		Statistics.increaseStatistic( Constants.STATISTIC_PHYSICAL_DAMAGE_DEALED, actual_damage );
-	else
-		Statistics.increaseStatistic( Constants.STATISTIC_MAGICAL_DAMAGE_DEALED, actual_damage );
-
-	if ( this.class.stats[ Constants.HEALTH_STAT_ID ] === 0 && actual_damage > 0 )
-		Statistics.increaseStatistic( Constants.STATISTIC_CHARACTERS_DIE, 1 );
+		if ( this.getStat( id ) === 0 && actual_damage > 0 )
+		{
+			Statistics.increaseStatistic( Constants.STATISTIC_TIMES_CLASS_DEFEATS_A_CHARACTER + caster.class.id, 1 );
+			Statistics.increaseStatistic( Constants.STATISTIC_CHARACTERS_DIE, 1 );
+		}
+	}
 
 	// Get change object.
-	var c = new Change( this, "stat", Constants.HEALTH_STAT_ID, "-" + actual_damage );
+	var c = new Change( this, "stat", id, "-" + actual_damage );
 	// Notify round.
 	Round.notifyChanges( [ c ], skill );
 
@@ -300,15 +476,51 @@ var damage = function ( amount, skill )
 };
 
 /**
+ * Damages character's health with given base damage and given skill.
+ * @param  {number}      amount Base amount of points to decrease.
+ * @param  {CalledSkill} skill  Skill used.
+ */
+var damage = function ( amount, skill )
+{
+	_damage.apply( this, amount, skill, Constants.ACTUALHP_STAT_ID );
+};
+
+/**
+ * Damages character's MP with given base damage and given skill.
+ * @param  {number}      amount Base amount of points to decrease.
+ * @param  {CalledSkill} skill  Skill used.
+ */
+var consumeMP = function ( amount, skill )
+{
+	_damage.apply( this, amount, skill, Constants.ACTUALMP_STAT_ID );
+};
+
+/**
+ * Damages character's KI with given base damage and given skill.
+ * @param  {number}      amount Base amount of points to decrease.
+ * @param  {CalledSkill} skill  Skill used.
+ */
+var consumeKI = function ( amount, skill )
+{
+	_damage.apply( this, amount, skill, Constants.ACTUALKI_STAT_ID );
+};
+
+/**
  * Returns whether a skill can be performed by this player or not (due to altered status).
+ * @todo   Implement rules to check skill cost.
  * @param  {SkillDefinition} skill Skill to be checked.
  * @return {boolean}               Whether this character can perform this skill or not.
  */
 var can_perform_action = function ( skill )
 {
 	return this.alive() && !this.hasStatus( skill.blockedBy );
+	//&& this.getStat(skill.cost.stat) < skill.cost.amount;
 };
 
+/**
+ * Returns an array of passive skills of this character.
+ * @return {Array} Array of passive skills of this character.
+ */
 var get_passive_skills = function ()
 {
 	var returnSkills = [];
@@ -346,8 +558,7 @@ var get_passive_skills = function ()
 	return returnSkills;
 };
 
-var doSkill = function () {};
-
+// @TODO I think this won't be needed, but that's just a though!
 var clientObject = function () {};
 
 /**
@@ -376,10 +587,12 @@ var INSTANCE_METHODS = {
 	skills: get_skills,
 	passiveSkills: get_passive_skills,
 	stats: stats,
+	initStats: initStats,
 	getStat: get_stat,
-	alterStat: alterStat,
+	alterStat: alter_stat,
 	doSkill: doSkill,
 	clientObject: clientObject,
+	getArmorType: getArmorType,
 	// API
 	canPerformAction: can_perform_action,
 	damage: damage,
@@ -387,7 +600,10 @@ var INSTANCE_METHODS = {
 	hasAllStatus: has_all_status,
 	setStatus: set_status,
 	unsetStatus: unset_status,
-	alive: alive
+	alive: alive,
+	consumeMP: consumeMP,
+	consumeKI: consumeKI,
+	heal: heal
 };
 
 // Constructor.
@@ -592,9 +808,9 @@ module.exports = function ( db_source )
 			for ( var j in INSTANCE_METHODS )
 				character[ j ] = INSTANCE_METHODS[ j ];
 
+			character.initStats();
 			defer.resolve( character );
 		} ).fail( defer.reject );
-
 	} );
 
 	return defer.promise;

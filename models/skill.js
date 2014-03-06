@@ -51,6 +51,25 @@ module.exports = {
 			type: Number,
 			max: 1,
 			min: 0
+		},
+		cost:
+		{
+			// @TODO: Add support to multi-cost skills.
+			type:
+			{
+				amount:
+				{
+					type: Number,
+					set: function ( v )
+					{
+						return Math.floor( v );
+					}
+				},
+				stat:
+				{
+					type: String
+				}
+			}
 		}
 	},
 	//join: 'type',
