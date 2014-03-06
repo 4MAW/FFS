@@ -114,7 +114,7 @@ var init_stats = function ()
  * @param  {string} id ID of ranged stat whose minimum will be returned.
  * @return {number}    Minimum value of given ranged stat.
  */
-var getMinimumValueOfRangedStat = function ( id )
+var get_minimum_value_of_ranged_stat = function ( id )
 {
 	switch ( id )
 	{
@@ -133,7 +133,7 @@ var getMinimumValueOfRangedStat = function ( id )
  * @param  {string} id ID of ranged stat whose maximum will be returned.
  * @return {number}    Maximum value of given ranged stat.
  */
-var getMaximumValueOfRangedStat = function ( id )
+var get_maximum_value_of_ranged_stat = function ( id )
 {
 	switch ( id )
 	{
@@ -380,7 +380,7 @@ var change_class = function () {};
  * Gets character armor's type.
  * @return {ArmorType} This character armor's type.
  */
-var getArmorType = function ()
+var get_armor_type = function ()
 {
 	return this[ Constants.ARMOR_ELEMENTS[ 0 ] ].type;
 };
@@ -428,18 +428,24 @@ var _damage = function ( amount, skill, id )
 	{
 		var probability_accuracy = skill.accuracy - ( 1 - Math.min( caster.getStat( Constants.INT_STAT_ID ) / this.getStat( Constants.MEN_STAT_ID ), 1 ) );
 		var probability_damage_resisted = ( skill.accuracy > 1 ) ? 0 : probability_accuracy || 0;
-		resMulti = ( Math.random() <= probability_damage_resisted ) ? 1 : 0;
+
+		probability_damage_resisted = 0; // @TODO Remove, but currently hardcoded to do some damage.
+
+		var resMulti = ( Math.random() <= probability_damage_resisted ) ? 0 : 1;
 		var magical_multiplier = ( caster.getStat( Constants.INT_STAT_ID ) + amount + Math.max( 0, eleDmg - eleDef ) ) / this.getStat( Constants.MEN_STAT_ID );
 		if ( !isFinite( magical_multiplier ) ) magical_multiplier = 0;
-		actual_damage = ( Math.max( 0.8, magical_multiplier ) ) * caster.getStat( Constants.INT_STAT_ID ) * this.getArmorType( Constants.MAGICAL ) * critMulti * resMulti * resistencias;
+		actual_damage = ( Math.max( 0.8, magical_multiplier ) ) * caster.getStat( Constants.INT_STAT_ID ) * this.getArmorDefenseFactorAgainst( Constants.MAGICAL ) * critMulti * resMulti * resistencias;
 	}
 	else if ( type === Constants.PHYSICAL )
 	{
 		var probability_damage_evaded = ( skill.accuracy > 1 ) ? 0 : this.getStat( Constants.EVS_STAT_ID ) / skill.accuracy;
-		evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
+		var evaMulti = ( Math.random() <= probability_damage_evaded ) ? 0 : 1;
+
+		evaMulti = 1; // @TODO Remove, but currently hardcoded to do some damage.
+
 		var physical_multiplier = ( caster.getStat( Constants.STR_STAT_ID ) + amount ) / this.getStat( Constants.DEF_STAT_ID );
 		if ( !isFinite( physical_multiplier ) ) physical_multiplier = 0;
-		actual_damage = ( Math.max( 0.8, physical_multiplier ) ) * caster.getStat( Constants.STR_STAT_ID ) * this.getArmorType( Constants.PHYSICAL ) * critMulti * evaMulti * resistencias;
+		actual_damage = ( Math.max( 0.8, physical_multiplier ) ) * caster.getStat( Constants.STR_STAT_ID ) * this.getArmorDefenseFactorAgainst( Constants.PHYSICAL ) * critMulti * evaMulti * resistencias;
 	}
 	else
 	{
@@ -450,10 +456,10 @@ var _damage = function ( amount, skill, id )
 	actual_damage = Math.round( actual_damage ); // Damage should be an integer!
 	// Don't do more damage than character can stand.
 	var maximum_damage_allowed = this.getStat( id ) - this.getMinimumValueOfRangedStat( id );
-	actual_damage = Math.min( maximum_damage_allowed, this._stats[ id ], actual_damage );
+	actual_damage = Math.min( maximum_damage_allowed, actual_damage );
 	// Don't do less negativa damage (heal more) than allowed.
-	var maximum_healed_allowed = this.getMaximumValueOfRangedStat( id ) - this.getStat( id );
-	actual_damage = Math.max( maximum_healed_allowed, this._stats[ id ], actual_damage );
+	var maximum_healed_allowed = -( this.getMaximumValueOfRangedStat( id ) - this.getStat( id ) );
+	actual_damage = Math.max( maximum_healed_allowed, actual_damage );
 
 	// Actually apply damage.
 	this._stats[ id ] -= actual_damage;
@@ -491,7 +497,7 @@ var _damage = function ( amount, skill, id )
  */
 var damage = function ( amount, skill )
 {
-	return _damage.apply( this, amount, skill, Constants.ACTUALHP_STAT_ID );
+	return _damage.apply( this, [ amount, skill, Constants.ACTUALHP_STAT_ID ] );
 };
 
 /**
@@ -531,15 +537,15 @@ var consumeKI = function ( amount, skill )
  * @param  {number} amount Amount to reduce given stat.
  * @param  {string} id     ID of stat to reduce.
  */
-var realDamage = function ( amount, id )
+var real_damage = function ( amount, id )
 {
 	var actual_damage = Math.round( amount ); // Damage should be an integer!
 	// Don't do more damage than character can stand.
 	var maximum_damage_allowed = this.getStat( id ) - this.getMinimumValueOfRangedStat( id );
-	actual_damage = Math.min( maximum_damage_allowed, this._stats[ id ], actual_damage );
+	actual_damage = Math.min( maximum_damage_allowed, actual_damage );
 	// Don't do less negativa damage (heal more) than allowed.
-	var maximum_healed_allowed = this.getMaximumValueOfRangedStat( id ) - this.getStat( id );
-	actual_damage = Math.max( maximum_healed_allowed, this._stats[ id ], actual_damage );
+	var maximum_healed_allowed = -( this.getMaximumValueOfRangedStat( id ) - this.getStat( id ) );
+	actual_damage = Math.max( maximum_healed_allowed, actual_damage );
 	// Actually change stat.
 	this._stats[ id ] -= actual_damage;
 };
@@ -624,24 +630,25 @@ var INSTANCE_METHODS = {
 	skills: get_skills,
 	passiveSkills: get_passive_skills,
 	stats: stats,
-	initStats: initStats,
+	initStats: init_stats,
 	getStat: get_stat,
+	getMinimumValueOfRangedStat: get_minimum_value_of_ranged_stat,
+	getMaximumValueOfRangedStat: get_maximum_value_of_ranged_stat,
 	alterStat: alter_stat,
-	doSkill: doSkill,
 	clientObject: clientObject,
-	getArmorType: getArmorType,
+	getArmorType: get_armor_type,
 	getArmorDefenseFactorAgainst: get_armor_defense_factor_against,
 	// API
 	canPerformAction: can_perform_action,
 	damage: damage,
+	realDamage: real_damage,
 	hasStatus: has_status,
 	hasAllStatus: has_all_status,
 	setStatus: set_status,
 	unsetStatus: unset_status,
 	alive: alive,
 	consumeMP: consumeMP,
-	consumeKI: consumeKI,
-	heal: heal
+	consumeKI: consumeKI
 };
 
 // Constructor.
