@@ -21,7 +21,6 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		for ( var i in this.targets )
 		// WTF? Daño en función de la fuerza? Es intencionado?
 		// En cualquier caso, si esto se salta la defensa la skill no debería de

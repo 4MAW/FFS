@@ -25,7 +25,6 @@ module.exports = function ()
 		duration = 2; // Just to make the tests deterministic.
 		// Store whether character was stealthed or not: in
 		// some cases a character won't be stealthed because
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		// YOLO MAYBE, no, en serio, de momento no sé que podría evitarlo
 		this.internalVariables.did_guard = true;
 		// Doubles class' defense base stat.

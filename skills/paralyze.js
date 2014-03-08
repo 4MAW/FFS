@@ -19,7 +19,6 @@ module.exports = function ()
 		var duration = 2 + Math.round( Math.random() * 2 - 1 );
 		duration = 3; // Just to make the tests deterministic.
 		// Store whether character was paralyzed or not.
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		this.internalVariables.did_paralyze = this.target.setStatus( [ Constants.PARALYSIS_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ];
 		// If character was paralyzed by this skill then register unregister callback.
 		if ( this.internalVariables.did_paralyze )

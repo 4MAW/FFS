@@ -19,7 +19,6 @@ module.exports = function ()
 		// Compute duration: 2±1 rounds.
 		var duration = 2 + Math.round( Math.random() * 2 - 1 );
 		duration = 3; // Just to make the tests deterministic.
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 
 		this.internalVariables.did_fiddle1 = this.targets[ 0 ].setStatus( [ Constants.FIDDLED_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ];
 		this.internalVariables.did_fiddle2 = this.targets[ 1 ].setStatus( [ Constants.FIDDLED_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ];

@@ -474,7 +474,10 @@ module.exports = function ( endpoint )
 				{
 					var castedSkill = decisions_in_order[ _d ];
 					if ( castedSkill.caller.canPerformAction( castedSkill ) )
+					{
+						castedSkill.caller.realDamage( castedSkill.cost.amount, castedSkill.cost.stat );
 						castedSkill.init();
+					}
 				}
 				defer.resolve();
 			}

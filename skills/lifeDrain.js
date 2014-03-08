@@ -22,7 +22,6 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		var damageDone = this.target.damage( 3500, this );
 		this.caller.damage( damageDone * percentageHealed, this );
 	};

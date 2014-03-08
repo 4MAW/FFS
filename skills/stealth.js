@@ -25,7 +25,6 @@ module.exports = function ()
 		duration = 1; // Just to make the tests deterministic.
 		// Store whether character was stealthed or not: in
 		// some cases a character won't be stealthed because
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		this.internalVariables.did_stealth = this.caller.setStatus( [ Constants.HIDDEN_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Stealth's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
 		// If character was stealthed by this skill then register callbacks.
 		if ( this.internalVariables.did_stealth )

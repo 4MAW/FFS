@@ -21,7 +21,6 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		this.caller.realDamage( this.caller.getStat( Constants.ACTUALHP_STAT_ID ) / 2, Constants.ACTUALHP_STAT_ID );
 		this.target.damage( 3500, this );
 	};

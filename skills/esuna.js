@@ -10,7 +10,6 @@ module.exports = function ()
 	};
 	this.heal = function ()
 	{
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		this.target.unsetStatus( [ Constants.POISON_STATUS_ID, Constants.BLIND_STATUS_ID ], this, true );
 	};
 	// Array of altered status that prevent this skill to be performed.

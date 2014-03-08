@@ -10,7 +10,6 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		if ( Constants.LIGHT_ARMOR_TYPES.indexOf( this.target.getArmorType().id ) > -1 )
 			this.target.damage( 2000, this );
 		else if ( Constants.MEDIUM_ARMOR_TYPES.indexOf( this.target.getArmorType().id ) > -1 )

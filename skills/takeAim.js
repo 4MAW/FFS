@@ -21,7 +21,6 @@ module.exports = function ()
 	};
 	this.damage = function ()
 	{
-		this.caller.realDamage( this.cost.amount, this.cost.stat );
 		this.target.damage( 2000, this );
 	};
 	// Array of altered status that prevent this skill to be performed.
