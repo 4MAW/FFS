@@ -314,6 +314,30 @@ module.exports = {
 	},
 
 	/**
+	 * Returns changes applied in previous round.
+	 *
+	 * @method previousRound
+	 * @param {Character} character Character whose action we're interested on.
+	 * @return {[RoundAction]|CalledSkill} Changes applied in previous round by
+	 *                                     any player. If a character is given
+	 *                                     only changes performed by that
+	 *                                     character are returned.
+	 */
+	"previousRound": function ( character ) {
+		if ( character === undefined )
+			return previous_round_changes;
+		else {
+			var changes = [];
+			for ( var _c in previous_round_changes ) {
+				var c = previous_round_changes[ _c ];
+				if ( c.skill.caller.id === character.id )
+					changes.push( c.skill );
+			}
+			return changes;
+		}
+	},
+
+	/**
 	 * Returns the commit (array of changes) of this round.
 	 *
 	 * @method changes
