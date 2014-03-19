@@ -8,6 +8,7 @@
 // - Round:       Round API.
 // - accuracy:    Accuracy of the skill (0...1).
 // - multiTarget: Whether this skill is a multi target skill or not.
+// - roundNumber: Number of round when this skill was used.
 
 module.exports = function () {
 

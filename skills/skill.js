@@ -14,7 +14,7 @@ module.exports = {
 	 * @param  {Character}   caller  Character casting the skill.
 	 * @param  {[Character]} targets Array of targets of the skill. If only one target, array of one item.
 	 * @param  {string}      skillID ID of skill being casted
-	 * @return {CalledSkil}          CalledSkill object representing this instance of skill.
+	 * @return {CalledSkill}          CalledSkill object representing this instance of skill.
 	 */
 	cast: function ( caller, targets, skillID ) {
 		var casted = new module.exports[ skillID ]();
@@ -135,14 +135,69 @@ model.Skill.find( {}, function ( err, docs ) {
 			if ( module.exports[ filename ] !== undefined ) {
 				// Perform injections.
 				var proto = {
+					/**
+					 * ID of skill being used.
+					 *
+					 * @property id
+					 * @type {string}
+					 */
 					id: docs[ i ].id,
+					/**
+					 * Name of skill being used.
+					 *
+					 * @property name
+					 * @type {string}
+					 */
 					name: docs[ i ].name,
+					/**
+					 * Type of multi-target offered by skill being used.
+					 *
+					 * @property multiTarget
+					 * @type {string}
+					 */
 					multiTarget: docs[ i ].multiTarget,
+					/**
+					 * Accuracy of skill being used.
+					 *
+					 * @property accuracy
+					 * @type {number}
+					 */
 					accuracy: docs[ i ].accuracy,
+					/**
+					 * Critical probablity of skill being used.
+					 *
+					 * @property criticalProbability
+					 * @type {number}
+					 */
 					criticalProbability: docs[ i ].criticalProbability,
+					/**
+					 * Cost of skill being used.
+					 *
+					 * @property cost
+					 * @type {SkillCost}
+					 */
 					cost: docs[ i ].cost,
+					/**
+					 * Altered statutes that might block skill being used.
+					 *
+					 * @property blockedBy
+					 * @type {[Status]}
+					 */
 					blockedBy: docs[ i ].blockedBy,
+					/**
+					 * Direct access to RoundAPI.
+					 *
+					 * @property Round
+					 * @type {RoundAPI}
+					 */
 					Round: Round,
+					/**
+					 * Number of round when this skill was used.
+					 *
+					 * @property roundNumber
+					 * @type {integer}
+					 */
+					roundNumber: Round.currentRound(),
 					toJSON: to_json_skill
 				};
 				module.exports[ filename ].prototype = proto;
