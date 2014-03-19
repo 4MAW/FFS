@@ -4,6 +4,13 @@ var Field = require( '../vendor/fieldAPI.js' );
 module.exports = {
 	/**
 	 * Returns a CalledSkill given caller, target(s) and skill ID.
+	 * A CalledSkill is a unique instantiation of a skill. Each time a skill
+	 * is used a new CalledSkill is created to represent that time the skill
+	 * was used.
+	 *
+	 * @class CalledSkill
+	 * @constructor
+	 *
 	 * @param  {Character}   caller  Character casting the skill.
 	 * @param  {[Character]} targets Array of targets of the skill. If only one target, array of one item.
 	 * @param  {string}      skillID ID of skill being casted
@@ -11,7 +18,32 @@ module.exports = {
 	 */
 	cast: function ( caller, targets, skillID ) {
 		var casted = new module.exports[ skillID ]();
+
+		/**
+		 * Character that used this skill.
+		 *
+		 * @property caller
+		 * @type {Character}
+		 */
 		casted.caller = caller;
+
+		/**
+		 * When skill is a single-target skill, target who will suffer the
+		 * effects of this skill.
+		 *
+		 * @property target
+		 * @type {Character}
+		 */
+		// casted.target;
+
+		/**
+		 * When skill is a multi-target skill, array of targets who will suffer
+		 * the effects of this skill. Most important character is the first one.
+		 *
+		 * @property targets
+		 * @type {[Character]}
+		 */
+		// casted.targets;
 
 		switch ( casted.multiTarget ) {
 		case Constants.TARGET_SINGLE:

@@ -1,11 +1,3 @@
-/**
- * RoundAPI offers a lot of helper methods to add tasks to be performed
- * in the future, cancel enqueued tasks and easily manage any change that
- * should be notified to players.
- *
- * @class RoundAPI
- */
-
 // Dependencies.
 var crypt = require( './crypt.js' ),
 	Q = require( 'q' ),
@@ -36,13 +28,38 @@ ema.on( 'CHANGE', function ( data ) {
 	var skill = data.skill;
 
 	var i = 0;
-	for ( i = 0; i < current_round_changes.length; i++ ) // Foreach loop resets index after completion.
+	// Foreach loop resets index after completion.
+	for ( i = 0; i < current_round_changes.length; i++ )
 		if ( current_round_changes[ i ].uuid === skill.uuid ) break;
 
 	if ( current_round_changes[ i ] === undefined )
+	/**
+	 * A RoundAction is a representation of an action performed by a
+	 * character at some round.
+	 *
+	 * @class RoundAction
+	 */
 		current_round_changes[ i ] = {
+			/**
+			 * UUID of the skill used.
+			 *
+			 * @property uuid
+			 * @type {string}
+			 */
 			uuid: skill.uuid,
+			/**
+			 * Actual representation of the skill used.
+			 *
+			 * @property skill
+			 * @type {CalledSkill}
+			 */
 			skill: skill,
+			/**
+			 * Array of changes introduced by called skill.
+			 *
+			 * @property changes
+			 * @type {[Change]}
+			 */
 			changes: []
 		};
 
@@ -61,10 +78,14 @@ ema.on( 'COMMIT_ENVIRONMENT', function () {
 
 	for ( var c in current_round_changes ) {
 		var action = current_round_changes[ c ];
-		console.log( 'Action ' + c + ' (' + action.uuid.substring( 0, 5 ) + '):' );
+		console.log(
+			'Action ' + c + ' (' +
+			action.uuid.substring( 0, 5 ) + '):' );
 		for ( var i in action.changes ) {
 			var change = action.changes[ i ];
-			console.log( '\tChange ' + change.change + ' ' + change.item.key + ' ' + change.item.value );
+			console.log(
+				'\tChange ' + change.change + ' ' +
+				change.item.key + ' ' + change.item.value );
 		}
 	}
 
@@ -73,6 +94,14 @@ ema.on( 'COMMIT_ENVIRONMENT', function () {
 
 	current_round_changes = [];
 } );
+
+/**
+ * RoundAPI offers a lot of helper methods to add tasks to be performed
+ * in the future, cancel enqueued tasks and easily manage any change that
+ * should be notified to players.
+ *
+ * @class RoundAPI
+ */
 
 module.exports = {
 
@@ -123,20 +152,29 @@ module.exports = {
 			skill: tthis.id
 		} ) );
 
-		Statistics.increaseStatistic( Constants.STATISTIC_SKILLS_USED_PREFIX + tthis.id, 1 );
-		Statistics.increaseLocalComplexStatistic( Constants.STATISTIC_TIMES_SKILL_USED_IN_WON_BATTLE + tthis.id, tthis.caller.id, 1 );
+		Statistics.increaseStatistic(
+			Constants.STATISTIC_SKILLS_USED_PREFIX + tthis.id,
+			1 );
+		Statistics.increaseLocalComplexStatistic(
+			Constants.STATISTIC_TIMES_SKILL_USED_IN_WON_BATTLE + tthis.id,
+			tthis.caller.id,
+			1 );
 
-		// @TODO This should be recored in an array of actions performed this round so it can be animated by the clients.
+		// @TODO This should be recored in an array of actions performed this
+		//       round so it can be animated by the clients.
 		callback.apply( tthis );
 	},
 	/**
 	 * Performs given callback N rounds after current round.
 	 *
 	 * @method in
-	 * @param  {[type]}   rounds   Amount of rounds that will pass before running the callback, including current round.
+	 * @param  {[type]}   rounds   Amount of rounds that will pass before
+	 *                             running the callback, including current
+	 *                             round.
 	 * @param  {Function} callback Callback to run.
 	 * @param  {Object}   tthis    Object to be used as caller of callback.
-	 * @param  {string}   phase    Round phase when given callback should be run.
+	 * @param  {string}   phase    Round phase when given callback should be
+	 *                             run.
 	 * @return {string}            UUID of registered callback.
 	 */
 	"in": function ( rounds, callback, tthis, phase ) {
@@ -146,7 +184,8 @@ module.exports = {
 			callbacks_once[ rounds ][ phase ] = {};
 		var uuid = crypt.nonce();
 		var defer = Q.defer();
-		// @TODO This should be recored in an array of actions performed this round so it can be animated by the clients.
+		// @TODO This should be recored in an array of actions performed this
+		//       round so it can be animated by the clients.
 		// Probably we would use something like:
 		// callbacks_once[ rounds ][ phase ][ uuid ] = defer.promise.then( ··· callback ··· ).then( log_action ).fail( log_action_failed );
 		for ( var i = 0; i < rounds; i++ )
@@ -173,8 +212,10 @@ module.exports = {
 	 * @method each
 	 * @param  {Function} callback Callback to run.
 	 * @param  {Object}   tthis    Object to be used as caller of callback.
-	 * @param  {string}   phase    Round phase when given callback should be run.
-	 * @return {string}            UUID of callback, to be used as identifier to unregister the callback later.
+	 * @param  {string}   phase    Round phase when given callback should be
+	 *                             run.
+	 * @return {string}            UUID of callback, to be used as identifier to
+	 *                             unregister the callback later.
 	 */
 	"each": function ( callback, tthis, phase ) {
 		if ( callbacks_each[ phase ] === undefined )
@@ -206,52 +247,58 @@ module.exports = {
 	 */
 
 	/**
-	 * Finishes current round, removing elements from array and increasing counter.
+	 * Finishes current round, removing elements from array and increasing
+	 * counter.
 	 *
 	 * @method finishRound
-	 * @return {Object} Object with the actions performed by each player, indicating the order and the results.
+	 * @return {Object} Object with the actions performed by each player,
+	 *                  indicating the order and the results.
 	 */
 	"finishRound": function () {
 		callbacks_once.shift();
 		current_round++;
 		ema.emit( 'COMMIT_ENVIRONMENT' );
-
-		// @TODO This method should return the results of this round so they can be sent to players.
-		//return everything_done_and_the_results;
 	},
 	/**
 	 * Performs callbacks of given phase for current round.
 	 *
 	 * @method performPhaseCallback
 	 * @param  {string}  phase Phase whose callbacks will be performed.
-	 * @return {Promise}       Promise about performing the callbacks of given phase.
+	 * @return {Promise}       Promise about performing the callbacks of given
+	 *                         phase.
 	 */
 	"performPhaseCallbacks": function ( phase ) {
 
 		// We want to wait until all callbacks have been executed.
 		var promises = [];
+		var cbo = callbacks_once[ 0 ];
 
 		// If there are callbacks added to this round and this phase...
-		if ( callbacks_once[ 0 ] !== undefined && callbacks_once[ 0 ][  phase ] !== undefined ) {
-			for ( var uuid in callbacks_once[ 0 ][ phase ] ) {
-				// This defer will be resolved when the callback has been executed.
+		if ( cbo !== undefined && cbo[ phase ] !== undefined ) {
+			for ( var uuid in cbo[ phase ] ) {
+				// This defer will be resolved when the callback has been
+				// executed.
 				var defer = Q.defer();
 				promises.push( defer.promise );
 				// Maybe a callback is not executed because it's cancelled.
 				// That's ok, we won't wait for it but we want to use Q.all
 				// and a rejected defer will break the wait, so we resolve
 				// the defer to use Q.all without any other change.
-				callbacks_once[ 0 ][ phase ][ uuid ].then( defer.resolve ).fail( defer.resolve );
+				cbo[ phase ][ uuid ]
+					.then( defer.resolve )
+					.fail( defer.resolve );
 				// Resolve the defer so the skill is executed.
-				// If the skill was cancelled the defer would be already rejected
-				// and this will be equivalent to noop.
+				// If the skill was cancelled the defer would be already
+				// rejected and this will be equivalent to noop.
 				callback_defers[ uuid ].resolve();
 			}
 		}
 
 		if ( callbacks_each[ phase ] !== undefined )
 			for ( var i in callbacks_each[ phase ] )
-				callbacks_each[ phase ][ i ].callback.apply( callbacks_each[ phase ][ i ]._this );
+				callbacks_each[ phase ][ i ]
+					.callback
+					.apply( callbacks_each[ phase ][ i ]._this );
 
 		return Q.all( promises );
 	},
