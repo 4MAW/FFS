@@ -10,35 +10,26 @@ var Q = require( 'q' ),
 
 // Tests.
 
-describe( "Round Skill API", function ()
-{
+describe( "Round Skill API", function () {
 
 	var character, initial_health, other_character;
 
 	// Load a character and initialize a helper.
-	before( function ( done )
-	{
-		Q.all( [ model.ready, Skill.ready ] ).then( function ()
-		{
-			model.Character.find(
-			{
+	before( function ( done ) {
+		Q.all( [ model.ready, Skill.ready ] ).then( function () {
+			model.Character.find( {
 				id: "00000001"
-			}, function ( err, docs )
-			{
+			}, function ( err, docs ) {
 				assert.ifError( err );
 				assert.notEqual( docs.length, 0 );
-				Character( docs[ 0 ] ).then( function ( c )
-				{
+				Character( docs[ 0 ] ).then( function ( c ) {
 					character = c;
-					model.Character.find(
-					{
+					model.Character.find( {
 						id: "00000002"
-					}, function ( err, docs )
-					{
+					}, function ( err, docs ) {
 						assert.ifError( err );
 						assert.notEqual( docs.length, 0 );
-						Character( docs[ 0 ] ).then( function ( c )
-						{
+						Character( docs[ 0 ] ).then( function ( c ) {
 							other_character = c;
 							done();
 						} );
@@ -50,8 +41,7 @@ describe( "Round Skill API", function ()
 
 	var poison, esuna, paralyze;
 
-	before( function ( done )
-	{
+	before( function ( done ) {
 		// Poison skill.
 		poison = Skill.cast( character, [ character ], "00000004" );
 
@@ -75,32 +65,27 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "Character can use Poison", function ( done )
-	{
+	it( "Character can use Poison", function ( done ) {
 		assert.ok( character.canPerformAction( poison ) );
 		done();
 	} );
 
-	it( "Character can use Esuna", function ( done )
-	{
+	it( "Character can use Esuna", function ( done ) {
 		assert.ok( character.canPerformAction( esuna ) );
 		done();
 	} );
 
-	it( "Character can use Paralyze", function ( done )
-	{
+	it( "Character can use Paralyze", function ( done ) {
 		assert.ok( character.canPerformAction( paralyze ) );
 		done();
 	} );
 
-	it( "Character can use Attack", function ( done )
-	{
+	it( "Character can use Attack", function ( done ) {
 		assert.ok( character.canPerformAction( attack ) );
 		done();
 	} );
 
-	it( "After character uses poison it is hurt", function ( done )
-	{
+	it( "After character uses poison it is hurt", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.strictEqual( original_health, initial_health );
 
@@ -141,8 +126,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "After character uses esuna it is not hurt any more", function ( done )
-	{
+	it( "After character uses esuna it is not hurt any more", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -177,8 +161,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "After character uses poison again it is hurt", function ( done )
-	{
+	it( "After character uses poison again it is hurt", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -219,8 +202,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "After character uses paralyze it is hurt by poison", function ( done )
-	{
+	it( "After character uses paralyze it is hurt by poison", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -263,8 +245,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "When character is paralyzed it can't use esuna so it is hurt by poison", function ( done )
-	{
+	it( "When character is paralyzed it can't use esuna so it is hurt by poison", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -301,8 +282,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "Poison should expire after 2 rounds", function ( done )
-	{
+	it( "Poison should expire after 2 rounds", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -337,8 +317,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "Magically remove paralysis (we are merciful gods)", function ( done )
-	{
+	it( "Magically remove paralysis (we are merciful gods)", function ( done ) {
 		character.unsetStatus( [ Constants.PARALYSIS_STATUS_ID ], null, true );
 		assert( poison.caller.canPerformAction( superpoison ) );
 		// We are GODS and don't introduce any perceptable change in the round.
@@ -347,8 +326,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "After character uses poison it is hurt", function ( done )
-	{
+	it( "After character uses poison it is hurt", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 
 		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
@@ -388,8 +366,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "After character uses superpoison it is hurt by superpoison and previous poison is removed", function ( done )
-	{
+	it( "After character uses superpoison it is hurt by superpoison and previous poison is removed", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 
 		Round.performPhaseCallbacks( Constants.BEFORE_ORDER_PHASE_EVENT );
@@ -431,8 +408,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "Character should be hurt by superpoison", function ( done )
-	{
+	it( "Character should be hurt by superpoison", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -471,8 +447,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "Character should be hurt by superpoison (again)", function ( done )
-	{
+	it( "Character should be hurt by superpoison (again)", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -511,8 +486,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "Superpoison should expire after 2 rounds", function ( done )
-	{
+	it( "Superpoison should expire after 2 rounds", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -549,8 +523,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "Character should damage target when using Attack during damage phase", function ( done )
-	{
+	it( "Character should damage target when using Attack during damage phase", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
 
@@ -592,8 +565,7 @@ describe( "Round Skill API", function ()
 		done();
 	} );
 
-	it( "Character should damage multiple targets when using Nova during damage phase", function ( done )
-	{
+	it( "Character should damage multiple targets when using Nova during damage phase", function ( done ) {
 		var original_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		var other_character_health = other_character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		assert.notEqual( original_health, 0 );
