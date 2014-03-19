@@ -1,3 +1,11 @@
+/**
+ * RoundAPI offers a lot of helper methods to add tasks to be performed
+ * in the future, cancel enqueued tasks and easily manage any change that
+ * should be notified to players.
+ *
+ * @class RoundAPI
+ */
+
 // Dependencies.
 var crypt = require( './crypt.js' ),
 	Q = require( 'q' ),
@@ -78,6 +86,8 @@ module.exports = {
 
 	/**
 	 * Notifies that given skill produced given changes in the environment.
+	 *
+	 * @method notifyChanges
 	 * @param  {[Change]}    changes Array of changes due to given skill.
 	 * @param  {CalledSkill} skill   Skill performed.
 	 */
@@ -98,6 +108,8 @@ module.exports = {
 
 	/**
 	 * Performs given callback in this round.
+	 *
+	 * @method do
 	 * @param  {Function} callback Callback to run.
 	 * @param  {Object}   tthis    Object to be used as caller of callback.
 	 * @return {Promise}           Promise about performing given action.
@@ -119,6 +131,8 @@ module.exports = {
 	},
 	/**
 	 * Performs given callback N rounds after current round.
+	 *
+	 * @method in
 	 * @param  {[type]}   rounds   Amount of rounds that will pass before running the callback, including current round.
 	 * @param  {Function} callback Callback to run.
 	 * @param  {Object}   tthis    Object to be used as caller of callback.
@@ -146,6 +160,8 @@ module.exports = {
 	},
 	/**
 	 * Cancels a callback enqueued to be performed in a future round.
+	 *
+	 * @method cancel
 	 * @param  {string} callback_uuid UUID of callback to be cancelled.
 	 */
 	"cancel": function ( callback_uuid ) {
@@ -153,6 +169,8 @@ module.exports = {
 	},
 	/**
 	 * Registers a callback so it is performed every round at given phase.
+	 *
+	 * @method each
 	 * @param  {Function} callback Callback to run.
 	 * @param  {Object}   tthis    Object to be used as caller of callback.
 	 * @param  {string}   phase    Round phase when given callback should be run.
@@ -170,6 +188,8 @@ module.exports = {
 	},
 	/**
 	 * Unregisters a callback that otherwise would be performed each round.
+	 *
+	 * @method uneach
 	 * @param  {string} uuid UUID of callback to unregister.
 	 */
 	"uneach": function ( uuid ) {
@@ -187,6 +207,8 @@ module.exports = {
 
 	/**
 	 * Finishes current round, removing elements from array and increasing counter.
+	 *
+	 * @method finishRound
 	 * @return {Object} Object with the actions performed by each player, indicating the order and the results.
 	 */
 	"finishRound": function () {
@@ -199,6 +221,8 @@ module.exports = {
 	},
 	/**
 	 * Performs callbacks of given phase for current round.
+	 *
+	 * @method performPhaseCallback
 	 * @param  {string}  phase Phase whose callbacks will be performed.
 	 * @return {Promise}       Promise about performing the callbacks of given phase.
 	 */
@@ -234,6 +258,8 @@ module.exports = {
 
 	/**
 	 * Returns current round's number.
+	 *
+	 * @method currentRound
 	 * @return {integer} Current round's number.
 	 */
 	"currentRound": function () {
@@ -242,6 +268,8 @@ module.exports = {
 
 	/**
 	 * Returns the commit (array of changes) of this round.
+	 *
+	 * @method changes
 	 * @return {Commit} Changes of this round.
 	 */
 	"changes": function () {
