@@ -9,4 +9,10 @@ db:
 run:
 	npm start
 
+doc:
+	npm sun-script doc
+
+doc-server:
+	npm run-script doc-server
+
 .PHONY: test, db, run
