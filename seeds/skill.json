@@ -306,4 +306,18 @@
 	},
 	"defaultTeam": "own",
 	"blockedBy": [ "00000001", "00000003" ]
+}, {
+	"id": "00000023",
+	"name": "Copy",
+	"definition": "copy.js",
+	"passive": false,
+	"multiTarget": "single",
+	"accuracy": 1,
+	"criticalProbability": 1,
+	"cost": {
+		"amount": 1,
+		"stat": "00000020"
+	},
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 } ]
