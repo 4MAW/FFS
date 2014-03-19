@@ -23,6 +23,9 @@ var current_round = 0;
 // Store current round's changes.
 var current_round_changes = [];
 
+// Store previous round's changes.
+var previous_round_changes = [];
+
 ema.on( 'CHANGE', function ( data ) {
 	var changes = data.changes;
 	var skill = data.skill;
@@ -92,6 +95,7 @@ ema.on( 'COMMIT_ENVIRONMENT', function () {
 	console.log( 'Clean' );
 	/**/
 
+	previous_round_changes = current_round_changes;
 	current_round_changes = [];
 } );
 
