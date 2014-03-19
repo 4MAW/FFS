@@ -52,6 +52,29 @@ var get_skills = function ()
 };
 
 /**
+ * Returns whether this character can use given skill or not.
+ * @param  {string}  skill Skill ID to check.
+ * @return {Boolean}       True if character has skill available.
+ */
+var has_skill_available = function ( skill ) {
+	var sk = this.skills();
+	for ( var i in sk )
+		if ( sk.id === skill ) return true;
+	return false;
+};
+
+/**
+ * Returns whether this character is in given team or not.
+ * @param  {Team}    team Array of characters forming team.
+ * @return {Boolean}      True if character is in given team.
+ */
+var is_in_team = function ( team ) {
+	for ( var c in team.characters )
+		if ( team.characters[ c ].id === this.id ) return true;
+	return false;
+};
+
+/**
  * Returns the array of stats of this character.
  * @return {Object} Array of stats.
  */
@@ -645,6 +668,8 @@ var toJSON = function ()
 var INSTANCE_METHODS = {
 	toJSON: toJSON,
 	skills: get_skills,
+	skillAvailable: has_skill_available,
+	isInTeam: is_in_team,
 	passiveSkills: get_passive_skills,
 	stats: stats,
 	initStats: init_stats,
