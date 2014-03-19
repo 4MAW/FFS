@@ -393,6 +393,7 @@ module.exports = function ( endpoint )
 				// @TODO Use a faster algorithm.
 
 				var added = {};
+				var casters = {};
 
 				while ( decisions_in_order.length < decisions[ 0 ].length + decisions[ 1 ].length )
 				{
@@ -416,10 +417,15 @@ module.exports = function ( endpoint )
 							}
 						}
 					}
-					added[ local_index._p + '_' + local_index._c ] = true;
-
 					var d = decisions[ local_index._p ][ local_index._c ];
 					var caster = characters[ d.character ];
+
+					// Don't store this action if the caster has already
+					// performed an action.
+					if ( casters[ caster.id ] !== undefined ) continue;
+					casters[ caster.id ] = true;
+
+					added[ local_index._p + '_' + local_index._c ] = true;
 
 					var targets = [];
 					for ( var j in d.targets )
