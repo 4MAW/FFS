@@ -318,14 +318,16 @@ module.exports = {
 	},
 
 	/**
-	 * Returns changes applied in previous round.
+	 * Returns changes applied in previous round or skill used by given
+	 * character in previous round (if any character is given).
 	 *
 	 * @method previousRound
-	 * @param {Character} character Character whose action we're interested on.
+	 * @param {Character} character        Optional. Character whose action
+	 *                                     we're interested on.
 	 * @return {[RoundAction]|CalledSkill} Changes applied in previous round by
 	 *                                     any player. If a character is given
-	 *                                     only changes performed by that
-	 *                                     character are returned. If no action
+	 *                                     only the skill performed by that
+	 *                                     character is returned. If no skill
 	 *                                     was performed null is returned.
 	 */
 	"previousRound": function ( character ) {
@@ -343,12 +345,29 @@ module.exports = {
 	},
 
 	/**
-	 * Returns the commit (array of changes) of this round.
+	 * Returns the array of changes of this round or skill used by given
+	 * character in this round (if any character is given).
 	 *
 	 * @method changes
-	 * @return {Commit} Changes of this round.
+	 * @param {Character} character        Character whose action we're
+	 *                                     interested on.
+	 * @return {[RoundAction]|CalledSkill} Changes applied in this round by any
+	 *                                     player. If a character is given only
+	 *                                     the skill performed by that character
+	 *                                     is returned. If no skill was
+	 *                                     performed null is returned.
 	 */
-	"changes": function () {
-		return current_round_changes;
+	"changes": function ( character ) {
+		if ( character === undefined )
+			return current_round_changes;
+		else {
+			for ( var _c in current_round_changes ) {
+				var c = current_round_changes[ _c ];
+				if ( c.skill.caller.id === character.id &&
+					c.skill.roundNumber === current_round )
+					return c.skill;
+			}
+		}
+		return null;
 	}
 };
