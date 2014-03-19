@@ -1,22 +1,17 @@
 // Model definition.
 
 module.exports = {
-	schema:
-	{
-		id:
-		{
+	schema: {
+		id: {
 			type: String,
-			index:
-			{
+			index: {
 				unique: true,
 				dropDups: true
 			}
 		},
-		name:
-		{
+		name: {
 			type: String,
-			index:
-			{
+			index: {
 				unique: true,
 				dropDups: true
 			}
@@ -28,60 +23,47 @@ module.exports = {
 			ref: 'SkillType'
 		},
 		*/
-		definition:
-		{
+		definition: {
 			type: String
 		},
-		passive:
-		{
+		passive: {
 			type: Boolean
 		},
 		multiTarget: {
 			type: String,
 			enum: [ 'single', '2', 'fixedRow', 'fixedCol', 'adjacentRow', 'adjacentCol', 'adjacentBoth', 'area', 'all' ]
 		},
-		accuracy:
-		{
+		accuracy: {
 			type: Number,
 			max: 1,
 			min: 0
 		},
-		criticalProbability:
-		{
+		criticalProbability: {
 			type: Number,
 			max: 1,
 			min: 0
 		},
-		cost:
-		{
+		cost: {
 			// @TODO: Add support to multi-cost skills.
-			type:
-			{
-				amount:
-				{
+			type: {
+				amount: {
 					type: Number,
-					set: function ( v )
-					{
+					set: function ( v ) {
 						return Math.floor( v );
 					}
 				},
-				stat:
-				{
+				stat: {
 					type: String
 				}
 			}
 		}
 	},
 	//join: 'type',
-	statics:
-	{},
-	set:
-	{
+	statics: {},
+	set: {
 		// To prevent returning values used only in the backend, like the list of published issues.
-		'toJSON':
-		{
-			transform: function ( doc, ret, options )
-			{
+		'toJSON': {
+			transform: function ( doc, ret, options ) {
 				delete ret.definition;
 				delete ret._id;
 				delete ret.__v;

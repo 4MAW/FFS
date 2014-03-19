@@ -23,8 +23,7 @@ var current_round = 0;
 // Store current round's changes.
 var current_round_changes = [];
 
-ema.on( 'CHANGE', function ( data )
-{
+ema.on( 'CHANGE', function ( data ) {
 	var changes = data.changes;
 	var skill = data.skill;
 
@@ -43,8 +42,7 @@ ema.on( 'CHANGE', function ( data )
 		current_round_changes[ i ].changes.push( changes[ j ] );
 } );
 
-ema.on( 'COMMIT_ENVIRONMENT', function ()
-{
+ema.on( 'COMMIT_ENVIRONMENT', function () {
 
 	/*
 	 * THIS IS JUST TO MAKE DEBUG EASIER.
@@ -53,12 +51,10 @@ ema.on( 'COMMIT_ENVIRONMENT', function ()
 	/**/
 	console.log( 'Send' );
 
-	for ( var c in current_round_changes )
-	{
+	for ( var c in current_round_changes ) {
 		var action = current_round_changes[ c ];
 		console.log( 'Action ' + c + ' (' + action.uuid.substring( 0, 5 ) + '):' );
-		for ( var i in action.changes )
-		{
+		for ( var i in action.changes ) {
 			var change = action.changes[ i ];
 			console.log( '\tChange ' + change.change + ' ' + change.item.key + ' ' + change.item.value );
 		}
@@ -85,10 +81,8 @@ module.exports = {
 	 * @param  {[Change]}    changes Array of changes due to given skill.
 	 * @param  {CalledSkill} skill   Skill performed.
 	 */
-	notifyChanges: function ( changes, skill )
-	{
-		ema.emit( 'CHANGE',
-		{
+	notifyChanges: function ( changes, skill ) {
+		ema.emit( 'CHANGE', {
 			changes: changes,
 			skill: skill
 		} );
@@ -108,12 +102,10 @@ module.exports = {
 	 * @param  {Object}   tthis    Object to be used as caller of callback.
 	 * @return {Promise}           Promise about performing given action.
 	 */
-	"do": function ( callback, tthis )
-	{
+	"do": function ( callback, tthis ) {
 		// To be able to tell apart different instantiations of a skill.
 		tthis.round = this.currentRound();
-		tthis.uuid = crypt.hash( JSON.stringify(
-		{
+		tthis.uuid = crypt.hash( JSON.stringify( {
 			caller: tthis.caller.id,
 			round: tthis.round,
 			skill: tthis.id
@@ -133,8 +125,7 @@ module.exports = {
 	 * @param  {string}   phase    Round phase when given callback should be run.
 	 * @return {string}            UUID of registered callback.
 	 */
-	"in": function ( rounds, callback, tthis, phase )
-	{
+	"in": function ( rounds, callback, tthis, phase ) {
 		if ( callbacks_once[ rounds ] === undefined )
 			callbacks_once[ rounds ] = {};
 		if ( callbacks_once[ rounds ][ phase ] === undefined )
@@ -147,8 +138,7 @@ module.exports = {
 		for ( var i = 0; i < rounds; i++ )
 			if ( callbacks_once[ i ] === undefined )
 				callbacks_once[ i ] = {};
-		callbacks_once[ rounds ][ phase ][ uuid ] = defer.promise.then( function ()
-		{
+		callbacks_once[ rounds ][ phase ][ uuid ] = defer.promise.then( function () {
 			callback.apply( tthis );
 		} );
 		callback_defers[ uuid ] = defer;
@@ -158,8 +148,7 @@ module.exports = {
 	 * Cancels a callback enqueued to be performed in a future round.
 	 * @param  {string} callback_uuid UUID of callback to be cancelled.
 	 */
-	"cancel": function ( callback_uuid )
-	{
+	"cancel": function ( callback_uuid ) {
 		callback_defers[ callback_uuid ].reject();
 	},
 	/**
@@ -169,8 +158,7 @@ module.exports = {
 	 * @param  {string}   phase    Round phase when given callback should be run.
 	 * @return {string}            UUID of callback, to be used as identifier to unregister the callback later.
 	 */
-	"each": function ( callback, tthis, phase )
-	{
+	"each": function ( callback, tthis, phase ) {
 		if ( callbacks_each[ phase ] === undefined )
 			callbacks_each[ phase ] = {};
 		var uuid = crypt.nonce();
@@ -184,8 +172,7 @@ module.exports = {
 	 * Unregisters a callback that otherwise would be performed each round.
 	 * @param  {string} uuid UUID of callback to unregister.
 	 */
-	"uneach": function ( uuid )
-	{
+	"uneach": function ( uuid ) {
 		for ( var p in callbacks_each )
 			delete callbacks_each[ p ][ uuid ];
 	},
@@ -202,8 +189,7 @@ module.exports = {
 	 * Finishes current round, removing elements from array and increasing counter.
 	 * @return {Object} Object with the actions performed by each player, indicating the order and the results.
 	 */
-	"finishRound": function ()
-	{
+	"finishRound": function () {
 		callbacks_once.shift();
 		current_round++;
 		ema.emit( 'COMMIT_ENVIRONMENT' );
@@ -216,17 +202,14 @@ module.exports = {
 	 * @param  {string}  phase Phase whose callbacks will be performed.
 	 * @return {Promise}       Promise about performing the callbacks of given phase.
 	 */
-	"performPhaseCallbacks": function ( phase )
-	{
+	"performPhaseCallbacks": function ( phase ) {
 
 		// We want to wait until all callbacks have been executed.
 		var promises = [];
 
 		// If there are callbacks added to this round and this phase...
-		if ( callbacks_once[ 0 ] !== undefined && callbacks_once[ 0 ][  phase ] !== undefined )
-		{
-			for ( var uuid in callbacks_once[ 0 ][ phase ] )
-			{
+		if ( callbacks_once[ 0 ] !== undefined && callbacks_once[ 0 ][  phase ] !== undefined ) {
+			for ( var uuid in callbacks_once[ 0 ][ phase ] ) {
 				// This defer will be resolved when the callback has been executed.
 				var defer = Q.defer();
 				promises.push( defer.promise );
@@ -253,8 +236,7 @@ module.exports = {
 	 * Returns current round's number.
 	 * @return {integer} Current round's number.
 	 */
-	"currentRound": function ()
-	{
+	"currentRound": function () {
 		return current_round;
 	},
 
@@ -262,8 +244,7 @@ module.exports = {
 	 * Returns the commit (array of changes) of this round.
 	 * @return {Commit} Changes of this round.
 	 */
-	"changes": function ()
-	{
+	"changes": function () {
 		return current_round_changes;
 	}
 };

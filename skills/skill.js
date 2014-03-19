@@ -9,8 +9,7 @@ module.exports = {
 	 * @param  {string}      skillID ID of skill being casted
 	 * @return {CalledSkil}          CalledSkill object representing this instance of skill.
 	 */
-	cast: function ( caller, targets, skillID )
-	{
+	cast: function ( caller, targets, skillID ) {
 		var casted = new module.exports[ skillID ]();
 		casted.caller = caller;
 
@@ -72,8 +71,7 @@ for ( var _f in files )
 	if ( /.*\.js$/.test( files[ _f ] ) && files[ _f ] !== path.basename( __filename ) )
 		dependencies.push( path.resolve( controllers_path, files[ _f ] ) );
 
-for ( var _d in dependencies )
-{
+for ( var _d in dependencies ) {
 	var filename = path.basename( dependencies[ _d ], '.js' );
 	filename = filename.charAt( 0 ).toUpperCase() + filename.slice( 1 );
 	module.exports[ filename ] = require( path.resolve( dependencies[ _d ] ) );
@@ -83,17 +81,13 @@ for ( var _d in dependencies )
 
 // Load skills from database.
 
-model.Skill.find(
-{}, function ( err, docs )
-{
+model.Skill.find( {}, function ( err, docs ) {
 	if ( err )
 		defer.reject( err );
-	else
-	{
+	else {
 		var filename;
 
-		var to_json_skill = function ()
-		{
+		var to_json_skill = function () {
 			var ret = {};
 			for ( var j in this )
 				if ( typeof this[ j ] !== 'function' )
@@ -103,12 +97,10 @@ model.Skill.find(
 			return ret;
 		};
 
-		for ( var i in docs )
-		{
+		for ( var i in docs ) {
 			filename = path.basename( docs[ i ].definition, '.js' );
 			filename = filename.charAt( 0 ).toUpperCase() + filename.slice( 1 );
-			if ( module.exports[ filename ] !== undefined )
-			{
+			if ( module.exports[ filename ] !== undefined ) {
 				// Perform injections.
 				var proto = {
 					id: docs[ i ].id,
@@ -123,14 +115,12 @@ model.Skill.find(
 				module.exports[ filename ].prototype = proto;
 				// Allow direct access by skill ID.
 				module.exports[ docs[ i ].id ] = module.exports[  filename ];
-			}
-			else
+			} else
 				log.warn( "Dependency " + filename + " (" + docs[ i ].definition + ") not found!", "SKILL" );
 		}
 
 		// Log orphan skills, for debug's sake.
-		for ( var j in dependencies )
-		{
+		for ( var j in dependencies ) {
 			filename = path.basename( dependencies[ j ], '.js' );
 			filename = filename.charAt( 0 ).toUpperCase() + filename.slice( 1 );
 			if ( module.exports[ filename ].prototype === undefined )

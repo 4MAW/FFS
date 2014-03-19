@@ -1,5 +1,4 @@
-[
-{
+[ {
 	"id": "00000001",
 	"name": "Direct Attack",
 	"definition": "attack.js",
@@ -7,13 +6,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000002",
 	"name": "Super poison",
 	"definition": "superpoison.js",
@@ -21,13 +18,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000003",
 	"name": "Esuna",
 	"definition": "esuna.js",
@@ -35,13 +30,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000004",
 	"name": "Poison",
 	"definition": "poison.js",
@@ -49,13 +42,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000005",
 	"name": "Doge Nova",
 	"definition": "nova.js",
@@ -63,13 +54,11 @@
 	"multiTarget": "area",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000006",
 	"name": "Paralyze",
 	"definition": "paralyze.js",
@@ -77,13 +66,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000007",
 	"name": "Bomb Shoot",
 	"definition": "bombShoot.js",
@@ -91,13 +78,11 @@
 	"multiTarget": "area",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000008",
 	"name": "Chaotic Leap",
 	"definition": "chaoticLeap.js",
@@ -105,13 +90,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000009",
 	"name": "Cure",
 	"definition": "cure.js",
@@ -119,13 +102,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000010",
 	"name": "Curse",
 	"definition": "curse.js",
@@ -133,13 +114,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000011",
 	"name": "Dark Bolt",
 	"definition": "darkBolt.js",
@@ -147,13 +126,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000012",
 	"name": "Double Strike",
 	"definition": "doubleStrike.js",
@@ -161,13 +138,11 @@
 	"multiTarget": "area",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000013",
 	"name": "Drought",
 	"definition": "drought.js",
@@ -175,13 +150,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000014",
 	"name": "Fiddle",
 	"definition": "fiddle.js",
@@ -189,13 +162,11 @@
 	"multiTarget": "2",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000015",
 	"name": "Gash",
 	"definition": "gash.js",
@@ -203,13 +174,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000016",
 	"name": "Kinetic Wave",
 	"definition": "kineticWave.js",
@@ -217,13 +186,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000021"
 	}
-},
-{
+}, {
 	"id": "00000017",
 	"name": "Life Drain",
 	"definition": "lifeDrain.js",
@@ -231,13 +198,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000018",
 	"name": "Magic Missile",
 	"definition": "magicMissile.js",
@@ -245,13 +210,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000019",
 	"name": "Power Shoot",
 	"definition": "powerShoot.js",
@@ -259,13 +222,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000020",
 	"name": "Stealth",
 	"definition": "stealth.js",
@@ -273,13 +234,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000021",
 	"name": "Take Aim",
 	"definition": "takeAim.js",
@@ -287,13 +246,11 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
-},
-{
+}, {
 	"id": "00000022",
 	"name": "Purify",
 	"definition": "purify.js",
@@ -301,8 +258,7 @@
 	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
-	"cost":
-	{
+	"cost": {
 		"amount": 1,
 		"stat": "00000020"
 	}
