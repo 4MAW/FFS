@@ -3,23 +3,18 @@ var Constants = require( '../vendor/constants.js' );
 
 // Definition.
 
-module.exports = function ()
-{
+module.exports = function () {
 	this.type = Constants.PHYSICAL;
 	// Here we will store UUIDs of callbacks registered by this skill.
 	this.internalVariables = {};
-	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ Constants.PARALYSYS_STATUS_ID, Constants.BOUND_STATUS_ID ];
 
 	// Initialization, called when a skill is used.
-	this.init = function ()
-	{
+	this.init = function () {
 		this.Round.do( this.guard, this );
 	};
 
 	// Registers the duration and unregister callbacks.
-	this.guard = function ()
-	{
+	this.guard = function () {
 		// Compute duration: 2±1 rounds.
 		var duration = 2 + Math.round( Math.random() * 2 - 1 );
 		duration = 2; // Just to make the tests deterministic.
@@ -30,16 +25,14 @@ module.exports = function ()
 		// Doubles class' defense base stat.
 		this.target.alterStat( this.target.class.stats[ Constants.DEF_STAT_ID ], Constants.DEF_STAT_ID, this ); // Stealth's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
 		// If character was stealthed by this skill then register callbacks.
-		if ( this.internalVariables.did_guard )
-		{
+		if ( this.internalVariables.did_guard ) {
 			// Store UUIDs to cancel callbacks in the future.
 			this.internalVariables.in_uuid = this.Round. in ( duration, this.unguard, this, Constants.ENDROUND_EVENT );
 		}
 	};
 
 	// Unregisters the stealth callback.
-	this.unguard = function ()
-	{
+	this.unguard = function () {
 		// Unstealth only if this skill did stealth the character.
 		if ( this.internalVariables.did_guard )
 			this.target.alterStat( -this.target.class.stats[ Constants.DEF_STAT_ID ], Constants.DEF_STAT_ID, this );
@@ -57,11 +50,9 @@ module.exports = function ()
 	// heals "blind" altered status you should affect
 	// the poison damage triggered by this skill, even
 	// if blind status was triggered also by this skill.
-	this.cancel = function ( reasons )
-	{
+	this.cancel = function ( reasons ) {
 		// Unstealth only if this skill did stealth the character.
-		if ( this.internalVariables.did_guard )
-		{
+		if ( this.internalVariables.did_guard ) {
 			this.Round.cancel( this.internalVariables.in_uuid );
 		}
 	};

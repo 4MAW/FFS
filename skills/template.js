@@ -9,8 +9,7 @@
 // - accuracy:    Accuracy of the skill (0...1).
 // - multiTarget: Whether this skill is a multi target skill or not.
 
-module.exports = function ()
-{
+module.exports = function () {
 
 	/*
 	 *
@@ -94,13 +93,6 @@ module.exports = function ()
 	 */
 	this.element = "poison";
 
-	/**
-	 * Array of altered statuses that would prevent caller from using this skill.
-	 * @type {[string]}
-	 * @required
-	 */
-	this.blockedBy = [ "paralysis" ];
-
 	/*
 	 *
 	 *  Required methods.
@@ -112,8 +104,7 @@ module.exports = function ()
 	 * This method should register any repeatable action or enqueue damage.
 	 * This method MUST NOT alter the environment DIRECTLY.
 	 */
-	this.init = function ()
-	{
+	this.init = function () {
 		// Use Round.do to inflict damage this round at the appropriate time.
 		// Parameters:
 		// - callback that performs damage.
@@ -142,8 +133,7 @@ module.exports = function ()
 	 *                          damage triggered by this skill, even if blind
 	 *                          status was triggered also by this skill.
 	 */
-	this.cancel = function ( reasons )
-	{
+	this.cancel = function ( reasons ) {
 		// Empty implementation for this template.
 	};
 
@@ -156,8 +146,7 @@ module.exports = function ()
 	/**
 	 * Optional. Method that alters the environment, dealing damage to target.
 	 */
-	this.damage = function ()
-	{
+	this.damage = function () {
 		// Damage target.
 		// Parameters:
 		// - base damage.

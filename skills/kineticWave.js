@@ -11,22 +11,17 @@
 
 var Constants = require( '../vendor/constants.js' );
 
-module.exports = function ()
-{
+module.exports = function () {
 	this.type = Constants.PHYSICAL;
 	// Initialization, called when a skill is used.
-	this.init = function ()
-	{
+	this.init = function () {
 		this.Round.do( this.damage, this );
 	};
-	this.damage = function ()
-	{
+	this.damage = function () {
 		// WTF? Daño en función de la fuerza? Es intencionado?
 		// En cualquier caso, si esto se salta la defensa la skill no debería de
 		// tener tipo de daño, ya que el tipo es para elegir el algoritmo, y si
 		// no hay algoritmo...
 		this.target.damage( this.caller.getStat( Constants.STR_STAT_ID ) * 0.6, this );
 	};
-	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.BOUND_STATUS_ID ];
 };

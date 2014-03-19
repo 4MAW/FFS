@@ -3,23 +3,18 @@ var Constants = require( '../vendor/constants.js' );
 
 // Definition.
 
-module.exports = function ()
-{
+module.exports = function () {
 	this.type = Constants.PHYSICAL;
 	// Here we will store UUIDs of callbacks registered by this skill.
 	this.internalVariables = {};
-	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.BOUND_STATUS_ID ];
 
 	// Initialization, called when a skill is used.
-	this.init = function ()
-	{
+	this.init = function () {
 		this.Round.do( this.stealth, this );
 	};
 
 	// Registers the duration and unregister callbacks.
-	this.stealth = function ()
-	{
+	this.stealth = function () {
 		// Compute duration: 2±1 rounds.
 		var duration = 1 + Math.round( Math.random() * 2 - 1 );
 		duration = 1; // Just to make the tests deterministic.
@@ -27,16 +22,14 @@ module.exports = function ()
 		// some cases a character won't be stealthed because
 		this.internalVariables.did_stealth = this.caller.setStatus( [ Constants.HIDDEN_STATUS_ID ], this, this.Round.currentRound() + duration )[ 0 ]; // Stealth's priority will be the round number where it ends. This could be modified to be a linear combination of duration and damage, for instance.
 		// If character was stealthed by this skill then register callbacks.
-		if ( this.internalVariables.did_stealth )
-		{
+		if ( this.internalVariables.did_stealth ) {
 			// Store UUIDs to cancel callbacks in the future.
 			this.internalVariables.in_uuid = this.Round. in ( duration, this.unstealth, this, Constants.ENDROUND_EVENT );
 		}
 	};
 
 	// Unregisters the stealth callback.
-	this.unstealth = function ()
-	{
+	this.unstealth = function () {
 		// Unstealth only if this skill did stealth the character.
 		if ( this.internalVariables.did_stealth )
 			this.caller.unsetStatus( [ Constants.HIDDEN_STATUS_ID ], this, false );
@@ -54,16 +47,13 @@ module.exports = function ()
 	// heals "blind" altered status you should affect
 	// the poison damage triggered by this skill, even
 	// if blind status was triggered also by this skill.
-	this.cancel = function ( reasons )
-	{
+	this.cancel = function ( reasons ) {
 		// Unstealth only if this skill did stealth the character.
-		if ( this.internalVariables.did_stealth )
-		{
+		if ( this.internalVariables.did_stealth ) {
 			// In this case this is trivial but if this skill
 			// affected more than one altered status this
 			// won't be so trivial.
-			if ( reasons.indexOf( Constants.HIDDEN_STATUS_ID ) > -1 )
-			{
+			if ( reasons.indexOf( Constants.HIDDEN_STATUS_ID ) > -1 ) {
 				this.Round.cancel( this.internalVariables.in_uuid );
 			}
 		}

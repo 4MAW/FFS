@@ -11,16 +11,13 @@
 
 var Constants = require( '../vendor/constants.js' );
 
-module.exports = function ()
-{
+module.exports = function () {
 	this.type = Constants.PHYSICAL;
 	// Initialization, called when a skill is used.
-	this.init = function ()
-	{
+	this.init = function () {
 		this.Round.do( this.damage, this );
 	};
-	this.damage = function ()
-	{
+	this.damage = function () {
 		for ( var i in this.targets )
 		// WTF? Daño en función de la fuerza? Es intencionado?
 		// En cualquier caso, si esto se salta la defensa la skill no debería de
@@ -28,6 +25,4 @@ module.exports = function ()
 		// no hay algoritmo...
 			this.targets[ i ].damage( 0.6 * Constants.STR_STAT_ID, this );
 	};
-	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.BOUND_STATUS_ID ];
 };

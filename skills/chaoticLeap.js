@@ -21,6 +21,4 @@ module.exports = function () {
 		this.caller.realDamage( this.caller.getStat( Constants.ACTUALHP_STAT_ID ) / 2, Constants.ACTUALHP_STAT_ID, this );
 		this.target.damage( 3500, this );
 	};
-	// Array of altered status that prevent this skill to be performed.
-	this.blockedBy = [ Constants.PARALYSIS_STATUS_ID, Constants.BOUND_STATUS_ID ];
 };
