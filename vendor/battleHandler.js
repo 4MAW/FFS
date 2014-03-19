@@ -241,10 +241,28 @@ module.exports = function ( endpoint ) {
 		var handle_decision = function ( _p ) {
 			return function ( decision ) {
 				players[ _p ].socket.removeAllListeners( Constants.DECISION_MADE_EVENT );
-				// @TODO Add a verification step to prevent hackers to use unavailable skills.
-				log.warn( 'Server should check that given decisions can be performed by character' );
-				decisions[ _p ] = decision;
+
+				var filtered_decisions = [];
+
+				for ( var _c in decision ) {
+
+					var caster = characters[ decision[ _c ].character ];
+					var skill = decision[ _c ].skill;
+
+					if ( !caster.isInTeam( players[ _p ].team ) ) {
+						// @TODO Store hacking attempt.
+						log.warn( 'A player tried to use a non-available character!' );
+					} else if ( !caster.skillAvailable( skill ) ) {
+						// @TODO Store hacking attempt.
+						log.warn( 'A player tried to use a non-available skill!' );
+					} else {
+						filtered_decisions.push( decision[ _c ] );
+					}
+				}
+
+				decisions[ _p ] = filtered_decisions;
 				decisions_received++;
+
 				if ( decisions_received === 2 ) ev.emit( 'all_decisions_received' );
 			};
 		};
@@ -368,6 +386,8 @@ module.exports = function ( endpoint ) {
 
 					// Don't store this action if the caster has already
 					// performed an action.
+					// @TODO Store hacking attempts.
+					log.warn( 'A player tried to twice the same character' );
 					if ( casters[ caster.id ] !== undefined ) continue;
 					casters[ caster.id ] = true;
 
