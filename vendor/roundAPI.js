@@ -325,20 +325,21 @@ module.exports = {
 	 * @return {[RoundAction]|CalledSkill} Changes applied in previous round by
 	 *                                     any player. If a character is given
 	 *                                     only changes performed by that
-	 *                                     character are returned.
+	 *                                     character are returned. If no action
+	 *                                     was performed null is returned.
 	 */
 	"previousRound": function ( character ) {
 		if ( character === undefined )
 			return previous_round_changes;
 		else {
-			var changes = [];
 			for ( var _c in previous_round_changes ) {
 				var c = previous_round_changes[ _c ];
-				if ( c.skill.caller.id === character.id )
-					changes.push( c.skill );
+				if ( c.skill.caller.id === character.id &&
+					c.skill.roundNumber === current_round - 1 )
+					return c.skill;
 			}
-			return changes;
 		}
+		return null;
 	},
 
 	/**
