@@ -551,7 +551,10 @@ var real_damage = function ( amount, id, skill ) {
  * @return {boolean}               Whether this character can perform this skill or not.
  */
 var can_perform_action = function ( skill ) {
-	return this.alive() && !this.hasStatus( skill.blockedBy ) && this.getStat( skill.cost.stat ) >= skill.cost.amount;
+	var blocked_by_ids = [];
+	for ( var i = 0; i < skill.blockedBy.length; i++ )
+		blocked_by_ids.push( skill.blockedBy[ i ].id );
+	return this.alive() && !this.hasStatus( blocked_by_ids ) && this.getStat( skill.cost.stat ) >= skill.cost.amount;
 };
 
 /**
