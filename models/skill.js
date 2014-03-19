@@ -36,9 +36,9 @@ module.exports = {
 		{
 			type: Boolean
 		},
-		multiTarget:
-		{
-			type: Boolean
+		multiTarget: {
+			type: String,
+			enum: [ 'single', '2', 'fixedRow', 'fixedCol', 'adjacentRow', 'adjacentCol', 'adjacentBoth', 'area', 'all' ]
 		},
 		accuracy:
 		{

@@ -1,3 +1,6 @@
+var Constants = require( '../vendor/constants.js' );
+var Field = require( '../vendor/fieldAPI.js' );
+
 module.exports = {
 	/**
 	 * Returns a CalledSkill given caller, target(s) and skill ID.
@@ -10,10 +13,37 @@ module.exports = {
 	{
 		var casted = new module.exports[ skillID ]();
 		casted.caller = caller;
-		if ( casted.multiTarget )
-			casted.targets = targets;
-		else
+
+		switch ( casted.multiTarget ) {
+		case Constants.TARGET_SINGLE:
 			casted.target = targets[ 0 ];
+			break;
+		case Constants.TARGET_TWO:
+			casted.targets = [ targets[ 0 ], targets[ 1 ] ];
+			break;
+		case Constants.TARGET_FIXED_ROW:
+			casted.targets = Field.sameRow( targets[ 0 ] );
+			break;
+		case Constants.TARGET_FIXED_COL:
+			casted.targets = targets;
+			break;
+		case Constants.TARGET_ADJACENT_ROW:
+			casted.targets = targets;
+			break;
+		case Constants.TARGET_ADJACENT_COL:
+			casted.targets = targets;
+			break;
+		case Constants.TARGET_ADJACENT_BOTH:
+			casted.targets = targets;
+			break;
+		case Constants.TARGET_AREA:
+			casted.targets = Field.sameArea( targets[ 0 ] );
+			break;
+		case Constants.TARGET_ALL:
+			casted.targets = Field.all();
+			break;
+		}
+
 		return casted;
 	}
 };

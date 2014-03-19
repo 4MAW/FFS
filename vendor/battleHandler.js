@@ -9,6 +9,7 @@ var Q = require( 'q' ),
 	Skills = require( '../skills/skill.js' ),
 	Character = require( './characterHelper.js' ),
 	Round = require( './roundAPI.js' ),
+	Field = require( './fieldAPI.js' ),
 	Statistics = require( './statistics.js' );
 
 module.exports = function ( endpoint ) {
@@ -170,6 +171,8 @@ module.exports = function ( endpoint ) {
 					Character( docs[ 0 ] ).then( function ( c ) {
 						room.players[ p ].team.characters[ i ] = c;
 						room.characters[ c.id ] = c;
+						// @TODO Add character to proper field.
+						Field.addCharacter( p, 0, c );
 						defer.resolve();
 					} );
 				}
@@ -386,9 +389,11 @@ module.exports = function ( endpoint ) {
 
 					// Don't store this action if the caster has already
 					// performed an action.
-					// @TODO Store hacking attempts.
-					log.warn( 'A player tried to twice the same character' );
-					if ( casters[ caster.id ] !== undefined ) continue;
+					if ( casters[ caster.id ] !== undefined ) {
+						// @TODO Store hacking attempts.
+						log.warn( 'A player tried to twice the same character' );
+						continue;
+					}
 					casters[ caster.id ] = true;
 
 					added[ local_index._p + '_' + local_index._c ] = true;

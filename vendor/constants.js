@@ -100,5 +100,14 @@ module.exports = {
 	STATISTIC_ROUNDS_CLASS_PLAYED: "times_class_plays_round_",
 	STATISTIC_CHARACTERS_DIE: "characters_dead",
 	PHYSICAL: "physical",
-	MAGICAL: "magical"
+	MAGICAL: "magical",
+	TARGET_SINGLE: "single",
+	TARGET_TWO: "2",
+	TARGET_FIXED_ROW: "fixedRow",
+	TARGET_FIXED_COL: "fixedCol",
+	TARGET_ADJACENT_ROW: "adjacentRow",
+	TARGET_ADJACENT_COL: "adjacentCol",
+	TARGET_ADJACENT_BOTH: "adjacentBoth",
+	TARGET_AREA: "area",
+	TARGET_ALL: "all"
 };

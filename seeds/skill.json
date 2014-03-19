@@ -4,7 +4,7 @@
 	"name": "Direct Attack",
 	"definition": "attack.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -18,7 +18,7 @@
 	"name": "Super poison",
 	"definition": "superpoison.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -32,7 +32,7 @@
 	"name": "Esuna",
 	"definition": "esuna.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -46,7 +46,7 @@
 	"name": "Poison",
 	"definition": "poison.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -60,7 +60,7 @@
 	"name": "Doge Nova",
 	"definition": "nova.js",
 	"passive": false,
-	"multiTarget": true,
+	"multiTarget": "area",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -74,7 +74,7 @@
 	"name": "Paralyze",
 	"definition": "paralyze.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -88,7 +88,7 @@
 	"name": "Bomb Shoot",
 	"definition": "bombShoot.js",
 	"passive": false,
-	"multiTarget": true,
+	"multiTarget": "area",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -102,7 +102,7 @@
 	"name": "Chaotic Leap",
 	"definition": "chaoticLeap.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -116,7 +116,7 @@
 	"name": "Cure",
 	"definition": "cure.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -130,7 +130,7 @@
 	"name": "Curse",
 	"definition": "curse.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -144,7 +144,7 @@
 	"name": "Dark Bolt",
 	"definition": "darkBolt.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -158,7 +158,7 @@
 	"name": "Double Strike",
 	"definition": "doubleStrike.js",
 	"passive": false,
-	"multiTarget": true,
+	"multiTarget": "area",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -172,7 +172,7 @@
 	"name": "Drought",
 	"definition": "drought.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -186,7 +186,7 @@
 	"name": "Fiddle",
 	"definition": "fiddle.js",
 	"passive": false,
-	"multiTarget": 2,
+	"multiTarget": "2",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -200,7 +200,7 @@
 	"name": "Gash",
 	"definition": "gash.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -214,7 +214,7 @@
 	"name": "Kinetic Wave",
 	"definition": "kineticWave.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -228,7 +228,7 @@
 	"name": "Life Drain",
 	"definition": "lifeDrain.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -242,7 +242,7 @@
 	"name": "Magic Missile",
 	"definition": "magicMissile.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -256,7 +256,7 @@
 	"name": "Power Shoot",
 	"definition": "powerShoot.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -270,7 +270,7 @@
 	"name": "Stealth",
 	"definition": "stealth.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -284,7 +284,7 @@
 	"name": "Take Aim",
 	"definition": "takeAim.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
@@ -298,7 +298,7 @@
 	"name": "Purify",
 	"definition": "purify.js",
 	"passive": false,
-	"multiTarget": false,
+	"multiTarget": "single",
 	"accuracy": 1,
 	"criticalProbability": 1,
 	"cost":
