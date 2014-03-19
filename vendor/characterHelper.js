@@ -57,7 +57,7 @@ var get_skills = function () {
 var has_skill_available = function ( skill ) {
 	var sk = this.skills();
 	for ( var i in sk )
-		if ( sk.id === skill ) return true;
+		if ( sk[ i ].id === skill ) return true;
 	return false;
 };
 
@@ -520,12 +520,14 @@ var consumeKI = function ( amount, skill ) {
  * Allows dealing direct damage to a stat without passing through
  * damage algorithms.
  *
- * @note   This WILL NOT be notified to the round API.
+ * @note   This WILL NOT be notified to the round API if no skill is provided.
  *
  * @param  {number} amount Amount to reduce given stat.
  * @param  {string} id     ID of stat to reduce.
+ * @param  {Skill} [skill] Optional. Skill performing the damage. If it is
+ *                         given then Round API will be notified.
  */
-var real_damage = function ( amount, id ) {
+var real_damage = function ( amount, id, skill ) {
 	var actual_damage = Math.round( amount ); // Damage should be an integer!
 	// Don't do more damage than character can stand.
 	var maximum_damage_allowed = this.getStat( id ) - this.getMinimumValueOfRangedStat( id );
@@ -535,6 +537,12 @@ var real_damage = function ( amount, id ) {
 	actual_damage = Math.max( maximum_healed_allowed, actual_damage );
 	// Actually change stat.
 	this._stats[ id ] -= actual_damage;
+	if ( skill !== undefined ) {
+		// Get change object.
+		var c = new Change( this, "stat", id, "-" + actual_damage );
+		// Notify round.
+		Round.notifyChanges( [ c ], skill );
+	}
 };
 
 /**
