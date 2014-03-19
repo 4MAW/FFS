@@ -33,6 +33,10 @@ module.exports = {
 			type: String,
 			enum: [ 'single', '2', 'fixedRow', 'fixedCol', 'adjacentRow', 'adjacentCol', 'adjacentBoth', 'area', 'all' ]
 		},
+		defaultTeam: {
+			type: String,
+			enum: [ 'own', 'enemy' ]
+		},
 		accuracy: {
 			type: Number,
 			max: 1,

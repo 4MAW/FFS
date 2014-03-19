@@ -9,7 +9,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000002",
 	"name": "Super poison",
@@ -21,7 +22,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000003",
 	"name": "Esuna",
@@ -33,7 +35,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "own"
 }, {
 	"id": "00000004",
 	"name": "Poison",
@@ -45,7 +48,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000005",
 	"name": "Doge Nova",
@@ -57,7 +61,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000006",
 	"name": "Paralyze",
@@ -69,7 +74,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000007",
 	"name": "Bomb Shoot",
@@ -81,7 +87,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000008",
 	"name": "Chaotic Leap",
@@ -93,7 +100,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000009",
 	"name": "Cure",
@@ -105,7 +113,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "own"
 }, {
 	"id": "00000010",
 	"name": "Curse",
@@ -117,7 +126,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000011",
 	"name": "Dark Bolt",
@@ -129,7 +139,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000012",
 	"name": "Double Strike",
@@ -141,7 +152,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000013",
 	"name": "Drought",
@@ -153,7 +165,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000014",
 	"name": "Fiddle",
@@ -165,7 +178,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000015",
 	"name": "Gash",
@@ -177,7 +191,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000016",
 	"name": "Kinetic Wave",
@@ -189,7 +204,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000021"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000017",
 	"name": "Life Drain",
@@ -201,7 +217,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000018",
 	"name": "Magic Missile",
@@ -213,7 +230,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000019",
 	"name": "Power Shoot",
@@ -225,7 +243,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000020",
 	"name": "Stealth",
@@ -237,7 +256,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000021",
 	"name": "Take Aim",
@@ -249,7 +269,8 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "enemy"
 }, {
 	"id": "00000022",
 	"name": "Purify",
@@ -261,5 +282,6 @@
 	"cost": {
 		"amount": 1,
 		"stat": "00000020"
-	}
+	},
+	"defaultTeam": "own"
 } ]
