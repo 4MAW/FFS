@@ -28,14 +28,15 @@ var get_characters_in_same_area = function ( character ) {
 	var field = -1;
 	for ( var f in fields )
 		for ( var r in fields[ f ] )
-			if ( fields[ f ][ r ].id === character.id ) {
-				field = 1;
-				break;
-			}
+			for ( var c in fields[ f ][ r ] )
+				if ( fields[ f ][ r ][ c ].id === character.id ) {
+					field = 1;
+					break;
+				}
 	if ( field > -1 ) {
 		var ret = [];
-		for ( var c in fields[ field ] )
-			ret.concat( fields[ field ][ c ] );
+		for ( var k in fields[ field ] )
+			ret = ret.concat( fields[ field ][ k ] );
 		return ret;
 	}
 	return [];
@@ -49,7 +50,7 @@ var get_all_characters = function () {
 	var ret = [];
 	for ( var f in fields )
 		for ( var r in fields[ f ] )
-			ret.concat( fields[ f ][ r ] );
+			ret = ret.concat( fields[ f ][ r ] );
 	return ret;
 };
 
