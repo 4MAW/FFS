@@ -109,6 +109,7 @@ model.Skill.find( {}, function ( err, docs ) {
 					accuracy: docs[ i ].accuracy,
 					criticalProbability: docs[ i ].criticalProbability,
 					cost: docs[ i ].cost,
+					blockedBy: docs[ i ].blockedBy,
 					Round: Round,
 					toJSON: to_json_skill
 				};
