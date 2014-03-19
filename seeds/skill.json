@@ -10,7 +10,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000003" ]
 }, {
 	"id": "00000002",
 	"name": "Super poison",
@@ -23,7 +24,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000003",
 	"name": "Esuna",
@@ -36,7 +38,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "own"
+	"defaultTeam": "own",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000004",
 	"name": "Poison",
@@ -49,7 +52,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000005",
 	"name": "Doge Nova",
@@ -62,7 +66,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000006",
 	"name": "Paralyze",
@@ -75,7 +80,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000007",
 	"name": "Bomb Shoot",
@@ -88,7 +94,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000008",
 	"name": "Chaotic Leap",
@@ -101,7 +108,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000009",
 	"name": "Cure",
@@ -114,7 +122,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "own"
+	"defaultTeam": "own",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000010",
 	"name": "Curse",
@@ -127,7 +136,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000011",
 	"name": "Dark Bolt",
@@ -140,7 +150,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000012",
 	"name": "Double Strike",
@@ -153,7 +164,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000013",
 	"name": "Drought",
@@ -166,7 +178,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000014",
 	"name": "Fiddle",
@@ -179,7 +192,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000015",
 	"name": "Gash",
@@ -192,7 +206,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000016",
 	"name": "Kinetic Wave",
@@ -205,7 +220,8 @@
 		"amount": 1,
 		"stat": "00000021"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000017",
 	"name": "Life Drain",
@@ -218,7 +234,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000018",
 	"name": "Magic Missile",
@@ -231,7 +248,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000001", "00000003" ]
 }, {
 	"id": "00000019",
 	"name": "Power Shoot",
@@ -244,7 +262,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000020",
 	"name": "Stealth",
@@ -257,7 +276,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000021",
 	"name": "Take Aim",
@@ -270,7 +290,8 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "enemy"
+	"defaultTeam": "enemy",
+	"blockedBy": [ "00000002", "00000003" ]
 }, {
 	"id": "00000022",
 	"name": "Purify",
@@ -283,5 +304,6 @@
 		"amount": 1,
 		"stat": "00000020"
 	},
-	"defaultTeam": "own"
+	"defaultTeam": "own",
+	"blockedBy": [ "00000001", "00000003" ]
 } ]
