@@ -124,7 +124,7 @@ for ( var _d in dependencies ) {
 
 // Load skills from database.
 
-model.Skill.find( {}, function ( err, docs ) {
+model.Skill.find().populate( model.Skill.join ).exec( function ( err, docs ) {
 	if ( err )
 		defer.reject( err );
 	else {
