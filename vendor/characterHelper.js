@@ -838,6 +838,7 @@ var toJSON = function () {
 			ret[ i ] = this[ i ];
 	delete ret._stat_alterations;
 	delete ret.altered_statuses;
+	delete ret.Round;
 	ret.stats = this.stats();
 	ret.alive = this.alive();
 	ret.skills = this.skills();

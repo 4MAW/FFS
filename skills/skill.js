@@ -170,6 +170,9 @@ model.Skill.find().populate( model.Skill.join ).exec( function ( err, docs ) {
 					ret[ j ] = this[ j ];
 			ret.id = this.id;
 			ret.name = this.name;
+			delete ret.Round;
+			delete ret.Battle;
+			delete ret.Field;
 			return ret;
 		};
 

@@ -16,6 +16,8 @@ var Q = require( 'q' ),
 
 module.exports = function ( endpoint ) {
 
+	var that = this;
+
 	/**
 	 * Returns the RoundAPI of this battle.
 	 *
@@ -194,7 +196,7 @@ module.exports = function ( endpoint ) {
 				if ( err ) defer.reject( err );
 				else if ( docs.length === 0 ) defer.reject( Constants.ERROR_CHARACTER_NOT_FOUND );
 				else {
-					Character( docs[ 0 ], this ).then( function ( c ) {
+					Character( docs[ 0 ], that ).then( function ( c ) {
 						room.players[ p ].team.characters[ i ] = c;
 						room.characters[ c.id ] = c;
 						// @TODO Add character to proper field.
