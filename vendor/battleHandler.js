@@ -9,10 +9,36 @@ var Q = require( 'q' ),
 	Skills = require( '../skills/skill.js' ),
 	Character = require( './characterHelper.js' ),
 	Round = require( './roundAPI.js' ),
-	Field = new require( './fieldAPI.js' )(),
+	Round = new Round(),
+	Field = require( './fieldAPI.js' ),
+	Field = new Field(),
 	Statistics = require( './statistics.js' );
 
 module.exports = function ( endpoint ) {
+
+	/**
+	 * Returns the RoundAPI of this battle.
+	 *
+	 * @method getRoundAPI
+	 * @public
+	 *
+	 * @return {RoundAPI} RoundAPI instance of this battle.
+	 */
+	this.getRoundAPI = function () {
+		return Round;
+	};
+
+	/**
+	 * Returns the FieldAPI of this battle.
+	 *
+	 * @method getFieldAPI
+	 * @method public
+	 *
+	 * @return {Field} Field instance of this battle.
+	 */
+	this.getFieldAPI = function () {
+		return Field;
+	};
 
 	// Waiting queue socket.
 	// - New players arrive to waiting queue.
@@ -168,7 +194,7 @@ module.exports = function ( endpoint ) {
 				if ( err ) defer.reject( err );
 				else if ( docs.length === 0 ) defer.reject( Constants.ERROR_CHARACTER_NOT_FOUND );
 				else {
-					Character( docs[ 0 ] ).then( function ( c ) {
+					Character( docs[ 0 ], this ).then( function ( c ) {
 						room.players[ p ].team.characters[ i ] = c;
 						room.characters[ c.id ] = c;
 						// @TODO Add character to proper field.
@@ -402,7 +428,7 @@ module.exports = function ( endpoint ) {
 					for ( var j in d.targets )
 						targets.push( characters[ d.targets[ j ] ] );
 
-					var calledSkill = Skills.cast( caster, targets, d.skill );
+					var calledSkill = Skills.cast( caster, targets, d.skill, this );
 					decisions_in_order.push( calledSkill );
 				}
 

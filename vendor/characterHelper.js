@@ -11,7 +11,6 @@ var Q = require( 'q' ),
 	log = require( './log.js' ),
 	model = require( '../models/model.js' ),
 	Constants = require( './constants.js' ),
-	Round = require( './roundAPI.js' ),
 	Statistics = require( './statistics.js' ),
 	Change = require( './change.js' );
 
@@ -313,7 +312,7 @@ var alter_stat = function ( amount, id, skill ) {
 		}
 
 		// Notify round.
-		Round.notifyChanges( [ c ], skill );
+		this.Round.notifyChanges( [ c ], skill );
 	} else {
 		// @TODO What happens when the stat is undefined?
 		// I think this won't happen as everything should be initialized with
@@ -440,7 +439,7 @@ var set_status = function ( statuses, skill, priority ) {
 		}
 	}
 	// Notify round.
-	Round.notifyChanges( changes, skill );
+	this.Round.notifyChanges( changes, skill );
 
 	return affected;
 };
@@ -484,7 +483,7 @@ var unset_status = function ( statuses, skill, override ) {
 	// This SHOULD NOT HAPPEN in deployment, but it happens in testing.
 	if ( skill !== null ) {
 		// Notify round.
-		Round.notifyChanges( changes, skill );
+		this.Round.notifyChanges( changes, skill );
 	}
 };
 
@@ -665,7 +664,7 @@ var _damage = function ( amount, skill, id ) {
 	// Get change object.
 	var c = new Change( this, "stat", id, "-" + actual_damage );
 	// Notify round.
-	Round.notifyChanges( [ c ], skill );
+	this.Round.notifyChanges( [ c ], skill );
 
 	return actual_damage;
 };
@@ -702,7 +701,7 @@ var consumeMP = function ( amount, skill ) {
 		"-" + amount
 	);
 	// Notify round.
-	Round.notifyChanges( [ c ], skill );
+	this.Round.notifyChanges( [ c ], skill );
 };
 
 /**
@@ -724,7 +723,7 @@ var consumeKI = function ( amount, skill ) {
 		"-" + amount
 	);
 	// Notify round.
-	Round.notifyChanges( [ c ], skill );
+	this.Round.notifyChanges( [ c ], skill );
 };
 
 /**
@@ -758,7 +757,7 @@ var real_damage = function ( amount, id, skill ) {
 		// Get change object.
 		var c = new Change( this, "stat", id, "-" + actual_damage );
 		// Notify round.
-		Round.notifyChanges( [ c ], skill );
+		this.Round.notifyChanges( [ c ], skill );
 	}
 };
 
@@ -863,7 +862,6 @@ var INSTANCE_METHODS = {
 	alterStat: alter_stat,
 	clearStat: clear_stat,
 	clearAllStats: clear_all_stats,
-	clientObject: clientObject,
 	getArmorType: get_armor_type,
 	getArmorDefenseFactorAgainst: get_armor_defense_factor_against,
 	// API
@@ -885,12 +883,16 @@ var INSTANCE_METHODS = {
  * @class CharacterHelper
  * @constructor
  *
- * @param  {Character} db_source Character object as returned by model methods.
- * @return {Promise}     Promise that will be resolved giving a character object
- *                       featuring helper methods without needing database
- *                       access to process anything.
+ * @async
+ *
+ * @param  {Character}     db_source Character object as returned by model.
+ * @param  {BattleHandler} Battle    Battle Handler where this character fights.
+ * @return {Promise}                 Promise that will be resolved giving a
+ *                                   character object featuring helper methods
+ *                                   without needing database access to process
+ *                                   anything.
  */
-module.exports = function ( db_source ) {
+module.exports = function ( db_source, Battle ) {
 	var defer = Q.defer();
 
 	// Promises about having loaded references.
@@ -902,6 +904,8 @@ module.exports = function ( db_source ) {
 	var source = JSON.parse( JSON.stringify( db_source ) );
 
 	var character = {};
+
+	character.Round = Battle.getRoundAPI();
 
 	for ( var i in source )
 		character[ i ] = source[ i ];
@@ -1111,6 +1115,8 @@ module.exports = function ( db_source ) {
 
 			// Transform character to a standard Javascript object.
 			character = JSON.parse( JSON.stringify( character ) );
+
+			character.Round = Battle.getRoundAPI();
 
 			// Data structures.
 

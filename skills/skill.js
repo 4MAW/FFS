@@ -1,5 +1,12 @@
-var Constants = require( '../vendor/constants.js' );
-var Field = require( '../vendor/fieldAPI.js' );
+// Dependencies.
+
+var Constants = require( '../vendor/constants.js' ),
+	Q = require( 'q' ),
+	path = require( 'path' ),
+	fs = require( 'fs' ),
+	model = require( '../models/model.js' ),
+	log = require( '../vendor/log.js' ),
+	controllers_path = path.resolve( __dirname );
 
 module.exports = {
 	/**
@@ -17,14 +24,16 @@ module.exports = {
 	 * @todo Implement adjacent_col targets.
 	 * @todo Implement adjacent_both targets.
 	 *
-	 * @param  {Character}   caller  Character casting the skill.
-	 * @param  {[Character]} targets Array of targets of the skill. If only one
-	 *                               target, array of one item.
-	 * @param  {string}      skillID ID of skill being casted
-	 * @return {CalledSkill}         CalledSkill object representing this
-	 *                               instance of skill.
+	 * @param  {Character}      caller  Character casting the skill.
+	 * @param  {[Character]}    targets Array of targets of the skill. If only
+	 *                                  one target, array of one item.
+	 * @param  {string}         skillID ID of skill being casted.
+	 * @param  {BattleHandler}  Battle  Battle handler of battle where this
+	 *                                  skill is being used.
+	 * @return {CalledSkill}            CalledSkill object representing this
+	 *                                  instance of skill.
 	 */
-	cast: function ( caller, targets, skillID ) {
+	cast: function ( caller, targets, skillID, Battle ) {
 		var casted = new module.exports[ skillID ]();
 
 		/**
@@ -53,6 +62,40 @@ module.exports = {
 		 */
 		// casted.targets;
 
+		// Injected attributes.
+
+		/**
+		 * Direct access to RoundAPI.
+		 *
+		 * @property Round
+		 * @type {RoundAPI}
+		 */
+		casted.Round = Battle.getRoundAPI();
+
+		/**
+		 * Direct access to the Field.
+		 *
+		 * @property Field
+		 * @type {Field}
+		 */
+		casted.Field = Battle.getFieldAPI();
+
+		/**
+		 * Direct access to the Battle Handler.
+		 *
+		 * @property Battle
+		 * @type {BattleHandler}
+		 */
+		casted.Battle = Battle;
+
+		/**
+		 * Number of round when this skill was used.
+		 *
+		 * @property roundNumber
+		 * @type {integer}
+		 */
+		casted.roundNumber = casted.Round.currentRound();
+
 		switch ( casted.multiTarget ) {
 		case Constants.TARGET_SINGLE:
 			casted.target = targets[ 0 ];
@@ -61,7 +104,7 @@ module.exports = {
 			casted.targets = [ targets[ 0 ], targets[ 1 ] ];
 			break;
 		case Constants.TARGET_FIXED_ROW:
-			casted.targets = Field.sameRow( targets[ 0 ] );
+			casted.targets = casted.Field.sameRow( targets[ 0 ] );
 			break;
 		case Constants.TARGET_FIXED_COL:
 			casted.targets = targets;
@@ -76,26 +119,16 @@ module.exports = {
 			casted.targets = targets;
 			break;
 		case Constants.TARGET_AREA:
-			casted.targets = Field.sameArea( targets[ 0 ] );
+			casted.targets = casted.Field.sameArea( targets[ 0 ] );
 			break;
 		case Constants.TARGET_ALL:
-			casted.targets = Field.all();
+			casted.targets = casted.Field.all();
 			break;
 		}
 
 		return casted;
 	}
 };
-
-// Dependencies.
-
-var Q = require( 'q' ),
-	path = require( 'path' ),
-	fs = require( 'fs' ),
-	model = require( '../models/model.js' ),
-	log = require( '../vendor/log.js' ),
-	Round = require( '../vendor/roundAPI.js' ),
-	controllers_path = path.resolve( __dirname );
 
 // Promise about loading all skills.
 var defer = Q.defer();
@@ -195,20 +228,6 @@ model.Skill.find().populate( model.Skill.join ).exec( function ( err, docs ) {
 					 * @type {[Status]}
 					 */
 					blockedBy: docs[ i ].blockedBy,
-					/**
-					 * Direct access to RoundAPI.
-					 *
-					 * @property Round
-					 * @type {RoundAPI}
-					 */
-					Round: Round,
-					/**
-					 * Number of round when this skill was used.
-					 *
-					 * @property roundNumber
-					 * @type {integer}
-					 */
-					roundNumber: Round.currentRound(),
 					toJSON: to_json_skill
 				};
 				module.exports[ filename ].prototype = proto;
