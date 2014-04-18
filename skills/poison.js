@@ -51,7 +51,7 @@ module.exports = function () {
 	// allow cancelling just the effects produced by a
 	// skill due to one altered status.
 	//
-	// For instance:  «Vómito de Molbol» will affect
+	// For instance: «Vómito de Molbol» will affect
 	// several status, one of them might be poison and
 	// other might be blind. If you cast a spell that
 	// heals "blind" altered status you should affect
