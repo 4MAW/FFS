@@ -11,10 +11,18 @@ module.exports = {
 	 * @class CalledSkill
 	 * @constructor
 	 *
+	 * @todo Implement fixed_row targets.
+	 * @todo Implement fixed_col targets.
+	 * @todo Implement adjacent_row targets.
+	 * @todo Implement adjacent_col targets.
+	 * @todo Implement adjacent_both targets.
+	 *
 	 * @param  {Character}   caller  Character casting the skill.
-	 * @param  {[Character]} targets Array of targets of the skill. If only one target, array of one item.
+	 * @param  {[Character]} targets Array of targets of the skill. If only one
+	 *                               target, array of one item.
 	 * @param  {string}      skillID ID of skill being casted
-	 * @return {CalledSkill}          CalledSkill object representing this instance of skill.
+	 * @return {CalledSkill}         CalledSkill object representing this
+	 *                               instance of skill.
 	 */
 	cast: function ( caller, targets, skillID ) {
 		var casted = new module.exports[ skillID ]();
@@ -100,7 +108,10 @@ var files = fs.readdirSync( controllers_path );
 var dependencies = [];
 
 for ( var _f in files )
-	if ( /.*\.js$/.test( files[ _f ] ) && files[ _f ] !== path.basename( __filename ) )
+	if (
+		/.*\.js$/.test( files[ _f ] ) &&
+		files[ _f ] !== path.basename( __filename )
+	)
 		dependencies.push( path.resolve( controllers_path, files[ _f ] ) );
 
 for ( var _d in dependencies ) {
@@ -204,7 +215,8 @@ model.Skill.find( {}, function ( err, docs ) {
 				// Allow direct access by skill ID.
 				module.exports[ docs[ i ].id ] = module.exports[  filename ];
 			} else
-				log.warn( "Dependency " + filename + " (" + docs[ i ].definition + ") not found!", "SKILL" );
+				log.warn( "Dependency " + filename + " (" +
+					docs[ i ].definition + ") not found!", "SKILL" );
 		}
 
 		// Log orphan skills, for debug's sake.
