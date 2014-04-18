@@ -5,6 +5,7 @@ var Q = require( 'q' ),
 	model = require( '../models/model.js' ),
 	Skill = require( '../skills/skill.js' ),
 	Round = require( '../vendor/roundAPI.js' ),
+	Round = new Round(),
 	Constants = require( '../vendor/constants.js' ),
 	Character = require( './deps/characterHelper.js' ),
 	Field = require( '../vendor/fieldAPI.js' ),
@@ -32,7 +33,7 @@ describe( "Round Skill API", function () {
 			}, function ( err, docs ) {
 				assert.ifError( err );
 				assert.notEqual( docs.length, 0 );
-				Character( docs[ 0 ] ).then( function ( c ) {
+				Character( docs[ 0 ], Battle ).then( function ( c ) {
 					character = c;
 					Field.addCharacter( 0, 0, c );
 					model.Character.find( {
@@ -40,7 +41,7 @@ describe( "Round Skill API", function () {
 					}, function ( err, docs ) {
 						assert.ifError( err );
 						assert.notEqual( docs.length, 0 );
-						Character( docs[ 0 ] ).then( function ( c ) {
+						Character( docs[ 0 ], Battle ).then( function ( c ) {
 							other_character = c;
 							Field.addCharacter( 1, 0, c );
 							done();

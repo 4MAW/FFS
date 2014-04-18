@@ -32,9 +32,11 @@ var INSTANCE_METHODS = [
 	"consumeKI"
 ];
 
-module.exports = function ( db_source ) {
+module.exports = function ( db_source, Battle ) {
 	var defer = Q.defer();
-	var promise = characterHelper.apply( characterHelper, [ db_source ] );
+	var promise = characterHelper.apply(
+		characterHelper, [ db_source, Battle ]
+	);
 
 	promise.then( function ( character ) {
 
