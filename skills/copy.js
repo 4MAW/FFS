@@ -7,7 +7,7 @@ module.exports = function () {
 	this.init = function () {
 		var targetSkill = this.Round.previousRound( this.target );
 		if ( targetSkill ) {
-			var c = Skill.cast( this.caller, [ this.target ], targetSkill.id );
+			var c = Skill.cast( this.caller, [ this.target ], targetSkill.id, this.Battle );
 			c.init();
 		}
 	};

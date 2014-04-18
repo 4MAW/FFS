@@ -9,7 +9,7 @@ var Q = require( 'q' ),
 	Skills = require( '../skills/skill.js' ),
 	Character = require( './characterHelper.js' ),
 	Round = require( './roundAPI.js' ),
-	Field = require( './fieldAPI.js' ),
+	Field = new require( './fieldAPI.js' )(),
 	Statistics = require( './statistics.js' );
 
 module.exports = function ( endpoint ) {

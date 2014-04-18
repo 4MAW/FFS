@@ -7,7 +7,16 @@ var Q = require( 'q' ),
 	Round = require( '../vendor/roundAPI.js' ),
 	Constants = require( '../vendor/constants.js' ),
 	Character = require( './deps/characterHelper.js' ),
-	Field = require( '../vendor/fieldAPI.js' );
+	Field = require( '../vendor/fieldAPI.js' ),
+	Field = new Field(),
+	Battle = {
+		"getRoundAPI": function () {
+			return Round;
+		},
+		"getFieldAPI": function () {
+			return Field;
+		}
+	};
 
 // Tests.
 
@@ -46,22 +55,22 @@ describe( "Round Skill API", function () {
 
 	before( function ( done ) {
 		// Poison skill.
-		poison = Skill.cast( character, [ character ], "00000004" );
+		poison = Skill.cast( character, [ character ], "00000004", Battle );
 
 		// Poison skill.
-		superpoison = Skill.cast( character, [ character ], "00000002" );
+		superpoison = Skill.cast( character, [ character ], "00000002", Battle );
 
 		// Esuna skill.
-		esuna = Skill.cast( character, [ character ], "00000003" );
+		esuna = Skill.cast( character, [ character ], "00000003", Battle );
 
 		// Attack skill.
-		attack = Skill.cast( character, [ character ], "00000001" );
+		attack = Skill.cast( character, [ character ], "00000001", Battle );
 
 		// Nova skill.
-		nova = Skill.cast( character, [ character, other_character ], "00000005" );
+		nova = Skill.cast( character, [ character, other_character ], "00000005", Battle );
 
 		// Paralyze skill.
-		paralyze = Skill.cast( character, [ character ], "00000006" );
+		paralyze = Skill.cast( character, [ character ], "00000006", Battle );
 
 		initial_health = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 
