@@ -6,6 +6,13 @@
  */
 module.exports = function () {
 
+	/**
+	 * Internal storage for the field.
+	 *
+	 * @property fields
+	 * @private
+	 * @type {Array}
+	 */
 	this.fields = [
 		[
 			[]
