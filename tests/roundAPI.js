@@ -6,7 +6,8 @@ var Q = require( 'q' ),
 	Skill = require( '../skills/skill.js' ),
 	Round = require( '../vendor/roundAPI.js' ),
 	Constants = require( '../vendor/constants.js' ),
-	Character = require( '../vendor/characterHelper.js' );
+	Character = require( './deps/characterHelper.js' ),
+	Field = require( '../vendor/fieldAPI.js' );
 
 // Tests.
 
@@ -24,6 +25,7 @@ describe( "Round Skill API", function () {
 				assert.notEqual( docs.length, 0 );
 				Character( docs[ 0 ] ).then( function ( c ) {
 					character = c;
+					Field.addCharacter( 0, 0, c );
 					model.Character.find( {
 						id: "00000002"
 					}, function ( err, docs ) {
@@ -31,6 +33,7 @@ describe( "Round Skill API", function () {
 						assert.notEqual( docs.length, 0 );
 						Character( docs[ 0 ] ).then( function ( c ) {
 							other_character = c;
+							Field.addCharacter( 1, 0, c );
 							done();
 						} );
 					} );
@@ -101,12 +104,19 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
-		// Health should have changed after running a round.
-		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 1 );
+		assert.strictEqual( delta.unsetStatus, undefined );
 
-		var diff = "" + Math.round( ( character.stats()[ Constants.ACTUALHP_STAT_ID ] - original_health ) * 10, 10 ) / 10;
+		// Health should have changed after running a round.
+		//assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
+
+		//var diff = "" + Math.round( ( character.stats()[ Constants.ACTUALHP_STAT_ID ] - original_health ) * 10, 10 ) / 10;
 
 		// Commit should include information about character being poisoned.
+		/*
 		var commit = Round.changes();
 		assert.strictEqual( commit.length, 1 );
 		assert.strictEqual( commit[ 0 ].skill.id, poison.id );
@@ -119,6 +129,7 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].change, diff );
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.key, "stat" );
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.value, Constants.ACTUALHP_STAT_ID );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -142,6 +153,13 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 0 );
+		assert.strictEqual( delta.unsetStatus, 1 );
+		assert.strictEqual( delta.setStatus, 0 );
+
+		/*
 		// Health should have changed after running a round.
 		assert.strictEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 
@@ -154,6 +172,7 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "-" );
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.POISON_STATUS_ID );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -177,6 +196,13 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 1 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 
@@ -198,6 +224,7 @@ describe( "Round Skill API", function () {
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
+		*/
 
 		done();
 	} );
@@ -218,6 +245,13 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 1 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 
@@ -238,6 +272,7 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 1 ].changes[ 0 ].change, diff );
 		assert.strictEqual( commit[ 1 ].changes[ 0 ].item.key, "stat" );
 		assert.strictEqual( commit[ 1 ].changes[ 0 ].item.value, Constants.ACTUALHP_STAT_ID );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -261,6 +296,13 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 0 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 
@@ -275,6 +317,7 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, diff );
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "stat" );
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.ACTUALHP_STAT_ID );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -298,6 +341,18 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		// Jump to next tick so backend can process changes with event emitters.
+		process.nextTick( function () {
+			// Proper methods should be called.
+			var delta = character.__times_called_delta();
+			assert.strictEqual( delta.damage, 1 );
+			assert.strictEqual( delta.unsetStatus, 1 );
+			assert.strictEqual( delta.setStatus, 0 );
+
+			done();
+		} );
+
+		/*
 		// Health should have changed after running a round.
 		assert.strictEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 
@@ -310,19 +365,17 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, "-" );
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "status" );
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.POISON_STATUS_ID );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
 
-		done();
 	} );
 
 	it( "Magically remove paralysis (we are merciful gods)", function ( done ) {
 		character.unsetStatus( [ Constants.PARALYSIS_STATUS_ID ], null, true );
 		assert( poison.caller.canPerformAction( superpoison ) );
-		// We are GODS and don't introduce any perceptable change in the round.
-		var commit = Round.changes();
-		assert.strictEqual( commit.length, 0 );
+		character.__times_called_delta();
 		done();
 	} );
 
@@ -341,9 +394,16 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 1 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
-
 		var diff = "" + Math.round( ( character.stats()[ Constants.ACTUALHP_STAT_ID ] - original_health ) * 10, 10 ) / 10;
 
 		// Commit should include information about character being poisoned.
@@ -359,6 +419,7 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].change, diff );
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.key, "stat" );
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.value, Constants.ACTUALHP_STAT_ID );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -381,6 +442,13 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 1 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
 		var diff = Math.round( ( character.stats()[ Constants.ACTUALHP_STAT_ID ] - original_health ) * 10, 10 ) / 10;
 
 		var diff_str = "" + Math.round( ( character.stats()[ Constants.ACTUALHP_STAT_ID ] - original_health ) * 10, 10 ) / 10;
@@ -401,6 +469,7 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].change, diff_str ); // Hardcoded value!
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.key, "stat" );
 		assert.strictEqual( commit[ 0 ].changes[ 1 ].item.value, Constants.ACTUALHP_STAT_ID );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -426,6 +495,13 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 0 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 
@@ -443,6 +519,7 @@ describe( "Round Skill API", function () {
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
+		*/
 
 		done();
 	} );
@@ -465,6 +542,13 @@ describe( "Round Skill API", function () {
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 0 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
 		// Health should have changed after running a round.
 		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 
@@ -479,6 +563,7 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].change, diff ); // Hardcoded value!
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.key, "stat" );
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.ACTUALHP_STAT_ID );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
@@ -494,14 +579,20 @@ describe( "Round Skill API", function () {
 		// A real server would compute order here.
 		Round.performPhaseCallbacks( Constants.AFTER_ORDER_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.BEFORE_DAMAGE_PHASE_EVENT );
-		// For each action to be performed (in order)...
-		if ( poison.caller.canPerformAction( esuna ) )
-		// Before damage event, but this is special and should be handled in a way I have not clear yet.
-			esuna.init(); // Won't do anything as player is still paralyzed.
-		// After damage event, but this is special and should be handled in a way I have not clear yet.
 		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
 		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
+		process.nextTick( function () {
+			// Proper methods should be called.
+			var delta = character.__times_called_delta();
+			assert.strictEqual( delta.damage, 1 );
+			assert.strictEqual( delta.setStatus, 0 );
+			assert.strictEqual( delta.unsetStatus, 1 );
+
+			done();
+		} );
+
+		/*
 		// Health should have changed after running a round.
 		assert.strictEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 
@@ -516,11 +607,10 @@ describe( "Round Skill API", function () {
 		assert.strictEqual( commit[ 0 ].changes[ 0 ].item.value, Constants.POISON_STATUS_ID );
 		assert.strictEqual( commit[ 1 ].skill.id, esuna.id );
 		assert.strictEqual( commit[ 1 ].changes.length, 0 );
+		*/
 
 		// Finishes this round, returning the summary of actions that happened during the round.
 		Round.finishRound();
-
-		done();
 	} );
 
 	it( "Character should damage target when using Attack during damage phase", function ( done ) {
@@ -538,11 +628,19 @@ describe( "Round Skill API", function () {
 		// Before damage event, but this is special and should be handled in a way I have not clear yet.
 			attack.init(); // Won't do anything as player is still paralyzed.
 		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 0 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
 		// Damage should have been done.
 		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 		var after_damage_phase = character.stats()[ Constants.ACTUALHP_STAT_ID ];
-		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
-		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
 		// No more damage should be done.
 		assert.strictEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], after_damage_phase );
@@ -559,6 +657,7 @@ describe( "Round Skill API", function () {
 
 		var hit = parseInt( commit[ 0 ].changes[ 0 ].change.substring( 1 ), 10 );
 		assert.strictEqual( after_damage_phase, original_health - hit );
+		*/
 
 		Round.finishRound();
 
@@ -580,15 +679,24 @@ describe( "Round Skill API", function () {
 		// For each action to be performed (in order)...
 		if ( poison.caller.canPerformAction( nova ) )
 		// Before damage event, but this is special and should be handled in a way I have not clear yet.
-			nova.init(); // Won't do anything as player is still paralyzed.
+			nova.init();
 		// After damage event, but this is special and should be handled in a way I have not clear yet.
+		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
+		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
+
+		// Proper methods should be called.
+		var delta = character.__times_called_delta();
+		assert.strictEqual( delta.damage, 1 );
+		assert.strictEqual( delta.setStatus, 0 );
+		assert.strictEqual( delta.unsetStatus, 0 );
+
+		/*
+
 		// Damage should have been done.
 		assert.notEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], original_health );
 		assert.notEqual( other_character.stats()[ Constants.ACTUALHP_STAT_ID ], other_character_health );
 		var after_damage_phase = character.stats()[ Constants.ACTUALHP_STAT_ID ];
 		var other_after_damage_phase = other_character.stats()[ Constants.ACTUALHP_STAT_ID ];
-		Round.performPhaseCallbacks( Constants.AFTER_DAMAGE_PHASE_EVENT );
-		Round.performPhaseCallbacks( Constants.ENDROUND_EVENT );
 
 		// No more damage should be done.
 		assert.strictEqual( character.stats()[ Constants.ACTUALHP_STAT_ID ], after_damage_phase );
@@ -613,6 +721,8 @@ describe( "Round Skill API", function () {
 
 		var other_hit = parseInt( commit[ 0 ].changes[ 1 ].change.substring( 1 ), 10 );
 		assert.strictEqual( other_after_damage_phase, other_character_health - other_hit );
+
+		*/
 
 		Round.finishRound();
 
