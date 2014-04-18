@@ -22,7 +22,7 @@ var get_characters_in_same_row = function ( character ) {
 /**
  * Returns the list of characters in the same area as given one.
  * @param  {Character} character Character whose area-mates will be returned.
- * @return {[Character]}           Characters in the same area as given one.
+ * @return {[Character]}         Characters in the same area as given one.
  */
 var get_characters_in_same_area = function ( character ) {
 	var field = -1;
@@ -30,7 +30,7 @@ var get_characters_in_same_area = function ( character ) {
 		for ( var r in fields[ f ] )
 			for ( var c in fields[ f ][ r ] )
 				if ( fields[ f ][ r ][ c ].id === character.id ) {
-					field = 1;
+					field = f;
 					break;
 				}
 	if ( field > -1 ) {
