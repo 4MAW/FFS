@@ -1,7 +1,6 @@
 // Dependencies.
 
-if ( typeof process.env.NODE_ENV !== "undefined" && process.env.NODE_ENV === 'production' )
-{
+if ( typeof process.env.NODE_ENV !== "undefined" && process.env.NODE_ENV === 'production' ) {
 	require( 'newrelic' );
 	log.status( 'New Relic loaded' );
 }
@@ -23,18 +22,16 @@ var socket = require( 'socket.io' ),
 	port = config.port,
 	app = express(),
 	server = http.createServer( app ),
-	io = socket.listen( server,
-	{
+	io = socket.listen( server, {
 		'sync disconnect on unload': true
 	} ),
-	battleHandler = new require( './vendor/battleHandler.js' )( io.sockets );
+	waitingRoom = new require( './vendor/waitingRoom.js' )( io.sockets );
 
 io.set( 'log level', 1 ); // Reduce log level.
 
 // Wait for model initialization before continuing.
 
-Q.all( [ model.ready, skill.ready ] ).then( function ()
-{
+Q.all( [ model.ready, skill.ready ] ).then( function () {
 	// App Middlewares.
 
 	app.use( express.json() );
@@ -78,28 +75,24 @@ Q.all( [ model.ready, skill.ready ] ).then( function ()
 	app.get( '/team/:id', controller.Team.getBy( 'id', 'id' ) );
 	app.get( '/player/:id/teams', controller.Team.getByPlayerUsername( 'id' ) );
 
-	app.get( '/', function ( req, res )
-	{
+	app.get( '/', function ( req, res ) {
 		res.send( 200 );
 	} );
 
 	// Server startup and shutdown.
 
-	server.listen( port, function ()
-	{
+	server.listen( port, function () {
 		log.success( 'Listening on port ' + ( '' + port ).underline, 'START' );
 	} );
 
 	// This handler is triggered when you use Control-C on the terminal.
-	process.on( 'SIGINT', function ()
-	{
+	process.on( 'SIGINT', function () {
 		console.log(); // Just to break line.
 		log.status( 'Shutting down', 'EXIT' );
 		process.exit();
 	} );
 
-} ).fail( function ( err )
-{
+} ).fail( function ( err ) {
 	log.error( err, 'INIT' );
 	process.exit( -1 );
 } );
