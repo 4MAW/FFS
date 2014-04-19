@@ -137,8 +137,10 @@ module.exports = function ( endpoint ) {
 				wqindex.room = new_room_id;
 				rooms[ new_room_id ].players.push( wqi );
 				rooms[ new_room_id ].players.push( wqindex );
+				console.log( waiting.queue.length );
 				waiting.queue.splice( i, 1 );
-				waiting.queue.splice( index, 1 );
+				waiting.queue.splice( index - 1, 1 );
+				console.log( waiting.queue.length );
 				endpoint. in ( new_room_id ).emit( Constants.MATCH_FOUND_EVENT );
 				waiting.ev.emit( 'match_ready', new_room_id );
 			}

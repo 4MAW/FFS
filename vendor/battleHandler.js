@@ -271,12 +271,12 @@ module.exports = function ( room, endpoint ) {
 
 					if ( loser === -1 ) {
 						// Next round.
-						setTimeout( function () {
-							that.endpoint. in ( that.room.room_id ).emit(
-								Constants.DECISIONS_PHASE_START_EVENT
-							);
-							ev.emit( 'decision_phase_start', that.room.room_id );
-						}, 1000 );
+						//setTimeout( function () {
+						that.endpoint. in ( that.room.room_id ).emit(
+							Constants.DECISIONS_PHASE_START_EVENT
+						);
+						ev.emit( 'decision_phase_start', that.room.room_id );
+						//}, 1000 );
 					} else {
 						log.success(
 							players[ ( loser === 0 ) ? 1 : 0 ].player.username +
