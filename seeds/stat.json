@@ -1,109 +1,85 @@
-[
-{
+[ {
 	"id": "00000001",
 	"name": "Health"
-},
-{
+}, {
 	"id": "00000002",
 	"name": "Mana"
-},
-{
+}, {
 	"id": "00000003",
 	"name": "Ki"
-},
-{
+}, {
 	"id": "00000004",
 	"name": "Strength"
-},
-{
+}, {
 	"id": "00000005",
 	"name": "Defense"
-},
-{
+}, {
 	"id": "00000006",
 	"name": "Intelligence"
-},
-{
+}, {
 	"id": "00000007",
 	"name": "Mentality"
-},
-{
+}, {
 	"id": "00000008",
 	"name": "Speed"
-},
-{
+}, {
 	"id": "00000009",
 	"name": "Evasion"
-},
-{
+}, {
 	"id": "00000010",
 	"name": "Critical"
-},
-{
+}, {
+	"id": "00000028",
+	"name": "Accuracy"
+}, {
 	"id": "00000011",
 	"name": "Fire"
-},
-{
+}, {
 	"id": "00000012",
 	"name": "Water"
-},
-{
+}, {
 	"id": "00000013",
 	"name": "Ice"
-},
-{
+}, {
 	"id": "00000014",
 	"name": "Lightning"
-},
-{
+}, {
 	"id": "00000015",
 	"name": "Earth"
-},
-{
+}, {
 	"id": "00000016",
 	"name": "Wind"
-},
-{
+}, {
 	"id": "00000017",
 	"name": "Sacred"
-},
-{
+}, {
 	"id": "00000018",
 	"name": "Dark"
-},
-{
+}, {
 	"id": "00000019",
 	"name": "Silence"
-},
-{
+}, {
 	"id": "00000020",
 	"name": "Bound"
-},
-{
+}, {
 	"id": "00000021",
 	"name": "Paralysis"
-},
-{
+}, {
 	"id": "00000022",
 	"name": "Charm"
-},
-{
+}, {
 	"id": "00000023",
 	"name": "Confusion"
-},
-{
+}, {
 	"id": "00000024",
 	"name": "Knockback"
-},
-{
+}, {
 	"id": "00000025",
 	"name": "Stun"
-},
-{
+}, {
 	"id": "00000026",
 	"name": "Polymorph"
-},
-{
+}, {
 	"id": "00000027",
 	"name": "Blind"
 } ]
